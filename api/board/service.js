@@ -8,3 +8,12 @@ exports.getBoards = async (category) => {
     throw new Error(err);
   }
 };
+
+exports.getBoard = async (id) => {
+  try {
+    const data = await Board.findOne({ where: { id } });
+    return data;
+  } catch (error) {
+    throw new Error(err);
+  }
+};
