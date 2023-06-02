@@ -1,0 +1,50 @@
+const Sequelize = require('sequelize');
+
+class Board extends Sequelize.Model {
+  static initiate(sequelize) {
+    Board.init(
+      {
+        id: {
+          type: Sequelize.UUID,
+          primaryKey: true,
+          defaultValue: Sequelize.UUIDV4,
+          allowNull: false,
+        },
+        category: {
+          type: Sequelize.ENUM('free', 'knowledge', 'study', 'question'),
+          allowNull: false,
+          defaultValue: 'free',
+        },
+        title: {
+          type: Sequelize.STRING(100),
+          allowNull: false,
+        },
+        content: {
+          type: Sequelize.STRING(500),
+          allowNull: true,
+        },
+        view_cnt: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          defaultValue: 0,
+        },
+      },
+      {
+        sequelize,
+        timestamps: true,
+        underscored: true,
+        modelName: 'Board',
+        tableName: 'boards',
+        paranoid: false,
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
+      }
+    );
+  }
+
+  static associate(db) {
+    // db.Board.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'id' });
+  }
+}
+
+module.exports = Board;
