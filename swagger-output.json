@@ -134,7 +134,7 @@
       }
     },
     "/info": {
-      "post": {
+      "get": {
         "tags": [
           "admins"
         ],
@@ -161,6 +161,57 @@
                         "type": "string",
                         "example": "uuid"
                       },
+                      "name": {
+                        "type": "string",
+                        "example": "관리자"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "admin"
+                      },
+                      "password": {
+                        "type": "string",
+                        "example": "1234"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/": {
+      "patch": {
+        "tags": [
+          "admins"
+        ],
+        "description": "관리자 정보 수정",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "관리자 정보 수정 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
                       "name": {
                         "type": "string",
                         "example": "관리자"

@@ -74,5 +74,24 @@ router.get(
             }
   } */
 );
+router.patch(
+  '/',
+  loginRequired,
+  asyncHandler(adminController.setAdmin)
+  //  #swagger.description = '관리자 정보 수정'
+  //  #swagger.tags = ['admins']
+  /*  #swagger.responses[201] = {
+            description: '관리자 정보 수정 성공',
+            schema: {
+                data: [
+                  {
+                    name: '관리자',
+                    email: 'admin',
+                    password: '1234', 
+                  }
+                ]
+            }
+  } */
+);
 
 module.exports = router;
