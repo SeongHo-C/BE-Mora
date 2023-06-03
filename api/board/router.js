@@ -32,8 +32,9 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
+const upload2 = multer();
+router.post('/', upload2.none(), setBoard);
 router.post('/img', upload.single('img'), afterUploadImage);
-router.post('/', setBoard);
 router.get('/:category', getBoards);
 router.get('/detail/:id', getBoard);
 

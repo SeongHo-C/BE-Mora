@@ -44,7 +44,9 @@ class Board extends Sequelize.Model {
 
   static associate(db) {
     // db.Board.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'id' });
-    db.Board.belongsToMany(db.Hashtag, { through: 'board_hashtag' });
+    db.Board.belongsToMany(db.Hashtag, {
+      through: 'board_hashtag',
+    });
   }
 }
 
