@@ -75,6 +75,14 @@ const adminService = {
 
     return admin;
   },
+
+  async deleteAdmin(email) {
+    const deleteCount = await Admin.destroy({ where: { email: email } });
+    if (deleteCount < 1) {
+      throw new Error(`${email} 관리자 탈퇴 처리에 실패하였습니다.`);
+    }
+    return deleteCount;
+  },
 };
 
 module.exports = adminService;

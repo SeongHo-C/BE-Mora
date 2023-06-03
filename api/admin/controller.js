@@ -29,6 +29,12 @@ const adminController = {
     const admin = await adminService.setAdmin(req.currentId, toUpdate);
     res.status(201).json(admin);
   },
+
+  async deleteAdmin(req, res) {
+    const { email } = req.body;
+    const deletedResult = await adminService.deleteAdmin(email);
+    res.status(201).json(deletedResult);
+  },
 };
 
 module.exports = adminController;
