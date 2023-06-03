@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Admin = require('./model');
+const { Op } = require('sequelize');
 
 const adminService = {
   async addAdmin(adminInfo) {
@@ -48,9 +49,46 @@ const adminService = {
     return admin;
   },
 
-  async getAdmins() {
-    const admins = await Admin.findAll();
+  async getAdmins(adminInfo) {
+    const admins = await Admin.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: `%${adminInfo}%` } },
+          { email: { [Op.like]: `%${adminInfo}%` } },
+        ],
+      },
+    });
     return admins;
+  },
+
+  async setAdmin(email, toUpdate) {
+    const { name, password } = toUpdate;
+    let admin = await Admin.findAll({ where: { email: email } });
+    if (!admin) {
+      throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
+    }
+
+    const newPasswordHash = await bcrypt.hash(password, 10);
+
+    admin = Admin.update(
+      {
+        name: name,
+        password: newPasswordHash,
+      },
+      {
+        where: { email: email },
+      }
+    );
+
+    return admin;
+  },
+
+  async deleteAdmin(email) {
+    const deleteCount = await Admin.destroy({ where: { email: email } });
+    if (deleteCount < 1) {
+      throw new Error(`${email} 관리자 탈퇴 처리에 실패하였습니다.`);
+    }
+    return deleteCount;
   },
 };
 
