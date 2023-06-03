@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Admin = require('./model');
+const { Op } = require('sequelize');
 
 const adminService = {
   async addAdmin(adminInfo) {
@@ -48,14 +49,21 @@ const adminService = {
     return admin;
   },
 
-  async getAdmins() {
-    const admins = await Admin.findAll();
+  async getAdmins(adminInfo) {
+    const admins = await Admin.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: `%${adminInfo}%` } },
+          { email: { [Op.like]: `%${adminInfo}%` } },
+        ],
+      },
+    });
     return admins;
   },
 
-  async setAdmin(id, toUpdate) {
-    const { name, email, password } = toUpdate;
-    let admin = await Admin.findOne({ where: { id: id } });
+  async setAdmin(email, toUpdate) {
+    const { name, password } = toUpdate;
+    let admin = await Admin.findAll({ where: { email: email } });
     if (!admin) {
       throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
     }
@@ -65,11 +73,10 @@ const adminService = {
     admin = Admin.update(
       {
         name: name,
-        email: email,
         password: newPasswordHash,
       },
       {
-        where: { id: id },
+        where: { email: email },
       }
     );
 
