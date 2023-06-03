@@ -46,4 +46,43 @@ router.get(
   } */
 );
 
+router.patch(
+  '/',
+  loginRequired,
+  asyncHandler(noticeController.setNotice)
+  //  #swagger.description = '공지 수정'
+  //  #swagger.tags = ['notices']
+  /*  #swagger.responses[201] = {
+            description: '공지 수정 성공',
+            schema: {
+                data: [
+                  {
+                    title: '수정된 공지', 
+                    content: '수정된 공지 내용', 
+                  }
+                ]
+            }
+  } */
+  /*  #swagger.responses[404] = {
+            description: '해당하는 공지가 존재하지 않을 경우',
+            schema: {
+                message: '공지 수정 처리에 실패하였습니다.'
+            }
+  } */
+);
+
+router.delete(
+  '/:id',
+  loginRequired,
+  asyncHandler(noticeController.deleteNotice)
+  //  #swagger.description = '공지 삭제'
+  //  #swagger.tags = ['notices']
+  /*  #swagger.responses[404] = {
+            description: '해당하는 공지가 존재하지 않을 경우',
+            schema: {
+                message: '공지 삭제 처리에 실패하였습니다.'
+            }
+  } */
+);
+
 module.exports = router;

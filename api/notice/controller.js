@@ -17,6 +17,23 @@ const noticeController = {
     const notices = await noticeService.getNotices(keyword);
     res.status(201).json(notices);
   },
+
+  async setNotice(req, res) {
+    const { id, title, content } = req.body;
+    const toUpdate = {
+      ...(title && { title }),
+      ...(content && { content }),
+    };
+
+    const updatedResult = await noticeService.setNotice(id, toUpdate);
+    res.status(201).json(updatedResult);
+  },
+
+  async deleteNotice(req, res) {
+    const { id } = req.params;
+    const deletedResult = await noticeService.deleteNotice(id);
+    res.status(201).json(deletedResult);
+  },
 };
 
 module.exports = noticeController;
