@@ -134,12 +134,18 @@
       }
     },
     "/info": {
-      "get": {
+      "post": {
         "tags": [
           "admins"
         ],
         "description": "관리자 정보 조회",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "201": {
             "description": "관리자 정보 조회 성공",
@@ -175,6 +181,9 @@
                 "name": "main"
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
