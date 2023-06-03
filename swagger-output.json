@@ -138,7 +138,7 @@
         "tags": [
           "admins"
         ],
-        "description": "현재 로그인한 관리자 정보 조회",
+        "description": "관리자 정보 조회",
         "parameters": [
           {
             "name": "authorization",
@@ -172,14 +172,6 @@
                       "password": {
                         "type": "string",
                         "example": "1234"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
                       }
                     }
                   }
@@ -196,76 +188,7 @@
         }
       }
     },
-    "/{adminInfo}": {
-      "get": {
-        "tags": [
-          "admins"
-        ],
-        "description": "모든 관리자 정보 조회",
-        "parameters": [
-          {
-            "name": "adminInfo",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "관리자 정보 조회 성공",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "example": "uuid"
-                      },
-                      "name": {
-                        "type": "string",
-                        "example": "관리자"
-                      },
-                      "email": {
-                        "type": "string",
-                        "example": "admin"
-                      },
-                      "password": {
-                        "type": "string",
-                        "example": "1234"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/{email}": {
+    "/": {
       "patch": {
         "tags": [
           "admins"
@@ -273,35 +196,45 @@
         "description": "관리자 정보 수정",
         "parameters": [
           {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "authorization",
             "in": "header",
             "type": "string"
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "해당하는 관리자가 존재하지 않을 경우",
+          "201": {
+            "description": "관리자 정보 수정 성공",
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "관리자 수정 처리에 실패하였습니다."
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "관리자"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "admin"
+                      },
+                      "password": {
+                        "type": "string",
+                        "example": "1234"
+                      }
+                    }
+                  }
                 }
               },
               "xml": {
                 "name": "main"
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       },
@@ -311,12 +244,6 @@
         ],
         "description": "관리자 정보 삭제",
         "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "authorization",
             "in": "header",
@@ -335,174 +262,6 @@
                 "message": {
                   "type": "string",
                   "example": "관리자 탈퇴 처리에 실패하였습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/": {
-      "post": {
-        "tags": [
-          "notices"
-        ],
-        "description": "공지 등록",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "admin_id": {
-                  "type": "string",
-                  "example": "admin"
-                },
-                "title": {
-                  "type": "string",
-                  "example": "모여라레이서 사이트 사용 안내 공지"
-                },
-                "content": {
-                  "type": "string",
-                  "example": "모여라레이서 사이트 사용 안내 내용"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "notices"
-        ],
-        "description": "공지 수정",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "공지 수정 성공",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "title": {
-                        "type": "string",
-                        "example": "수정된 공지"
-                      },
-                      "content": {
-                        "type": "string",
-                        "example": "수정된 공지 내용"
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "해당하는 공지가 존재하지 않을 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "공지 수정 처리에 실패하였습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/{keyword}": {
-      "get": {
-        "tags": [
-          "notices"
-        ],
-        "description": "공지 검색",
-        "parameters": [
-          {
-            "name": "keyword",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/{id}": {
-      "delete": {
-        "tags": [
-          "notices"
-        ],
-        "description": "공지 삭제",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "해당하는 공지가 존재하지 않을 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "공지 삭제 처리에 실패하였습니다."
                 }
               },
               "xml": {

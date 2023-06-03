@@ -30,8 +30,8 @@ class Admin extends Sequelize.Model {
         modelName: 'Admin',
         tableName: 'admins',
         peranoid: false,
-        charset: 'utf8mb4',
-        collate: 'utf8mb4_general_ci',
+        charset: 'utf8',
+        collate: 'utf8_general_ci',
       }
     );
   }

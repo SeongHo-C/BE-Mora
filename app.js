@@ -3,9 +3,7 @@ const morgan = require('morgan');
 const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const { errorHandler } = require('./middlewares');
 const adminRouter = require('./api/admin/router');
-const noticeRouter = require('./api/notice/router');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output');
@@ -48,6 +46,3 @@ app.listen(app.get('port'), () => {
 });
 
 app.use('/api/v1/admin', adminRouter);
-app.use('/api/v1/notice', noticeRouter);
-
-app.use(errorHandler);

@@ -29,7 +29,6 @@ router.post(
             }
 } */
 );
-
 router.post(
   '/login',
   asyncHandler(adminController.getAdminToken)
@@ -55,12 +54,11 @@ router.post(
             }
 } */
 );
-
 router.get(
   '/info',
   loginRequired,
   asyncHandler(adminController.getAdmin)
-  //  #swagger.description = '현재 로그인한 관리자 정보 조회'
+  //  #swagger.description = '관리자 정보 조회'
   //  #swagger.tags = ['admins']
   /*  #swagger.responses[201] = {
             description: '관리자 정보 조회 성공',
@@ -71,53 +69,33 @@ router.get(
                     name: '관리자',
                     email: 'admin',
                     password: '1234', 
-                    createdAt: '2023-06-03T16:19:06.000Z',
-                    updatedAt: '2023-06-03T16:19:06.000Z'
                   }
                 ]
             }
   } */
 );
-
-router.get(
-  '/:adminInfo',
-  loginRequired,
-  asyncHandler(adminController.getAdmins)
-  //  #swagger.description = '모든 관리자 정보 조회'
-  //  #swagger.tags = ['admins']
-  /*  #swagger.responses[201] = {
-            description: '관리자 정보 조회 성공',
-            schema: {
-                data: [
-                  {
-                    id: 'uuid', 
-                    name: '관리자',
-                    email: 'admin',
-                    password: '1234', 
-                    createdAt: '2023-06-03T16:19:06.000Z',
-                    updatedAt: '2023-06-03T16:19:06.000Z'
-                  }
-                ]
-            }
-  } */
-);
-
 router.patch(
-  '/:email',
+  '/',
   loginRequired,
   asyncHandler(adminController.setAdmin)
   //  #swagger.description = '관리자 정보 수정'
   //  #swagger.tags = ['admins']
-  /*  #swagger.responses[404] = {
-            description: '해당하는 관리자가 존재하지 않을 경우',
+  /*  #swagger.responses[201] = {
+            description: '관리자 정보 수정 성공',
             schema: {
-                message: '관리자 수정 처리에 실패하였습니다.'
+                data: [
+                  {
+                    name: '관리자',
+                    email: 'admin',
+                    password: '1234', 
+                  }
+                ]
             }
   } */
 );
 
 router.delete(
-  '/:email',
+  '/',
   loginRequired,
   asyncHandler(adminController.deleteAdmin)
   //  #swagger.description = '관리자 정보 삭제'
