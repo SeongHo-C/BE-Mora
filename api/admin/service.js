@@ -52,6 +52,37 @@ const adminService = {
     const admins = await Admin.findAll();
     return admins;
   },
+
+  async setAdmin(id, toUpdate) {
+    const { name, email, password } = toUpdate;
+    let admin = await Admin.findOne({ where: { id: id } });
+    if (!admin) {
+      throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
+    }
+
+    const newPasswordHash = await bcrypt.hash(password, 10);
+
+    admin = Admin.update(
+      {
+        name: name,
+        email: email,
+        password: newPasswordHash,
+      },
+      {
+        where: { id: id },
+      }
+    );
+
+    return admin;
+  },
+
+  async deleteAdmin(email) {
+    const deleteCount = await Admin.destroy({ where: { email: email } });
+    if (deleteCount < 1) {
+      throw new Error(`${email} 관리자 탈퇴 처리에 실패하였습니다.`);
+    }
+    return deleteCount;
+  },
 };
 
 module.exports = adminService;

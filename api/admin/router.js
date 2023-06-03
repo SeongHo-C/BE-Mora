@@ -74,5 +74,38 @@ router.get(
             }
   } */
 );
+router.patch(
+  '/',
+  loginRequired,
+  asyncHandler(adminController.setAdmin)
+  //  #swagger.description = '관리자 정보 수정'
+  //  #swagger.tags = ['admins']
+  /*  #swagger.responses[201] = {
+            description: '관리자 정보 수정 성공',
+            schema: {
+                data: [
+                  {
+                    name: '관리자',
+                    email: 'admin',
+                    password: '1234', 
+                  }
+                ]
+            }
+  } */
+);
+
+router.delete(
+  '/',
+  loginRequired,
+  asyncHandler(adminController.deleteAdmin)
+  //  #swagger.description = '관리자 정보 삭제'
+  //  #swagger.tags = ['admins']
+  /*  #swagger.responses[404] = {
+            description: '해당하는 관리자가 존재하지 않을 경우',
+            schema: {
+                message: '관리자 탈퇴 처리에 실패하였습니다.'
+            }
+  } */
+);
 
 module.exports = router;

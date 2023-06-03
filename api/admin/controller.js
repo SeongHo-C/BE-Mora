@@ -17,6 +17,24 @@ const adminController = {
     const admin = await adminService.getAdmin(req.currentId);
     res.status(201).json(admin);
   },
+
+  async setAdmin(req, res) {
+    const { name, email, password } = req.body;
+    const toUpdate = {
+      ...(name && { name }),
+      ...(email && { email }),
+      ...(password && { password }),
+    };
+
+    const admin = await adminService.setAdmin(req.currentId, toUpdate);
+    res.status(201).json(admin);
+  },
+
+  async deleteAdmin(req, res) {
+    const { email } = req.body;
+    const deletedResult = await adminService.deleteAdmin(email);
+    res.status(201).json(deletedResult);
+  },
 };
 
 module.exports = adminController;

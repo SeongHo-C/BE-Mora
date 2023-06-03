@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 class Notice extends Sequelize.Model {
   static initiate(sequelize) {
-    Admin.init(
+    Notice.init(
       {
         id: {
           type: Sequelize.UUID,
