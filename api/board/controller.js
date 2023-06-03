@@ -1,5 +1,10 @@
 const { getBoards, getBoard } = require('./service');
 
+exports.afterUploadImage = async (req, res, next) => {
+  console.log(req.file);
+  res.json({ url: `/img/${req.file.filename}` });
+};
+
 exports.getBoards = async (req, res, next) => {
   const { cateogory } = req.params;
 
