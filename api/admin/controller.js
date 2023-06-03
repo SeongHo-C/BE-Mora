@@ -18,26 +18,20 @@ const adminController = {
     res.status(201).json(admin);
   },
 
-  async getAdmins(req, res) {
-    const { adminInfo } = req.params;
-    const admins = await adminService.getAdmins(adminInfo);
-    res.status(201).json(admins);
-  },
-
   async setAdmin(req, res) {
-    const { email } = req.params;
-    const { name, password } = req.body;
+    const { name, email, password } = req.body;
     const toUpdate = {
       ...(name && { name }),
+      ...(email && { email }),
       ...(password && { password }),
     };
 
-    const admin = await adminService.setAdmin(email, toUpdate);
+    const admin = await adminService.setAdmin(req.currentId, toUpdate);
     res.status(201).json(admin);
   },
 
   async deleteAdmin(req, res) {
-    const { email } = req.params;
+    const { email } = req.body;
     const deletedResult = await adminService.deleteAdmin(email);
     res.status(201).json(deletedResult);
   },
