@@ -7,6 +7,7 @@ const { errorHandler } = require('./middlewares');
 const adminRouter = require('./api/admin/router');
 const noticeRouter = require('./api/notice/router');
 const boardRouter = require('./api/board/router');
+const userRouter = require('./api/user/router');
 const generationRouter = require('./api/generation/router');
 
 const swaggerUi = require('swagger-ui-express');
@@ -37,6 +38,7 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use('/api/v1', adminRouter);
 app.use('/api/v1', noticeRouter);
 app.use('/api/v1/board', boardRouter);
+app.use('/api/v1/user', userRouter);
 app.use('/api/v1', generationRouter);
 
 app.use(errorHandler);

@@ -5,6 +5,7 @@ const Board = require('./api/board/model');
 const Hashtag = require('./api/hashtag/model');
 
 const Admin = require('./api/admin/model');
+const User = require('./api/user/model');
 const Plan = require('./api/plan/model');
 const Notice = require('./api/notice/model');
 const Generation = require('./api/generation/model');
@@ -19,6 +20,7 @@ const sequelize = new Sequelize(
 
 db.sequelize = sequelize;
 db.Admin = Admin;
+db.User = User;
 db.Plan = Plan;
 db.Notice = Notice;
 db.Board = Board;
@@ -28,6 +30,7 @@ db.Generation = Generation;
 Board.initiate(sequelize);
 Hashtag.initiate(sequelize);
 Admin.initiate(sequelize);
+User.initiate(sequelize);
 Plan.initiate(sequelize);
 Notice.initiate(sequelize);
 Generation.initiate(sequelize);
