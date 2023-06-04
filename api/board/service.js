@@ -1,11 +1,17 @@
-const { Board } = require('./model');
-const { Hashtag } = require('../hashtag/model');
+const { Board, Hashtag } = require('../../models');
 
-exports.setBoard = async (id, category, title, content, hashtags, imgUrls) => {
+exports.setBoard = async (
+  writer,
+  category,
+  title,
+  content,
+  hashtags,
+  imgUrls
+) => {
   try {
     const board = await Board.create({
       category,
-      writer: id,
+      writer,
       title,
       content,
     });
@@ -20,7 +26,7 @@ exports.setBoard = async (id, category, title, content, hashtags, imgUrls) => {
       );
       await board.addHashtags(result.map((r) => r[0]));
     }
-  } catch (error) {
+  } catch (err) {
     throw new Error(err);
   }
 };
@@ -38,7 +44,7 @@ exports.getBoard = async (id) => {
   try {
     const data = await Board.findOne({ where: { id } });
     return data;
-  } catch (error) {
+  } catch (err) {
     throw new Error(err);
   }
 };

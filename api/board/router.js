@@ -36,7 +36,7 @@ const upload = multer({
 router.post('/img', loginRequired, upload.single('img'), afterUploadImage);
 
 const upload2 = multer();
-router.post('/', upload2.none(), setBoard);
+router.post('/', loginRequired, upload2.none(), setBoard);
 router.get('/:category', getBoards);
 router.get('/detail/:id', getBoard);
 

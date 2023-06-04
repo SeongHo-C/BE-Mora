@@ -6,13 +6,13 @@ exports.afterUploadImage = async (req, res, next) => {
 };
 
 exports.setBoard = async (req, res, next) => {
-  const { cateogory, title, content, hashtags, imgUrls } = req.body;
+  const { category, title, content, hashtags, imgUrls } = req.body;
   const writer = req.currentId;
-
+  console.log(writer, category, title, content, hashtags, imgUrls);
   try {
-    await setBoard(writer, cateogory, title, content, hashtags, imgUrls);
+    await setBoard(writer, category, title, content, hashtags, imgUrls);
     res.status(201).json('게시판 등록');
-  } catch (error) {
+  } catch (err) {
     console.error(err);
     next(err);
   }
@@ -36,7 +36,7 @@ exports.getBoard = async (req, res, next) => {
   try {
     const data = await getBoard(id);
     return res.json(data);
-  } catch (error) {
+  } catch (err) {
     console.error(err);
     next(err);
   }
