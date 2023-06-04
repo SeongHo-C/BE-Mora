@@ -50,7 +50,9 @@ exports.getUserToken = async (loginUserInfo) => {
 
   try {
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.email }, secretKey, {
+      expiresIn: '1h',
+    });
     return token;
   } catch (e) {
     throw new Error(e);
