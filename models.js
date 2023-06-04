@@ -8,6 +8,7 @@ const Admin = require('./api/admin/model');
 const User = require('./api/user/model');
 const Plan = require('./api/plan/model');
 const Notice = require('./api/notice/model');
+const Photo = require('./api/photo/model');
 
 const db = {};
 const sequelize = new Sequelize(
@@ -24,6 +25,7 @@ db.Plan = Plan;
 db.Notice = Notice;
 db.Board = Board;
 db.Hashtag = Hashtag;
+db.Photo = Photo;
 
 Board.initiate(sequelize);
 Hashtag.initiate(sequelize);
@@ -31,11 +33,13 @@ Admin.initiate(sequelize);
 User.initiate(sequelize);
 Plan.initiate(sequelize);
 Notice.initiate(sequelize);
+Photo.initiate(sequelize);
 
 Board.associate(db);
 Hashtag.associate(db);
 Admin.associate(db);
 Plan.associate(db);
 Notice.associate(db);
+Photo.associate(db);
 
 module.exports = db;

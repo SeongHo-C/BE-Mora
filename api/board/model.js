@@ -47,6 +47,7 @@ class Board extends Sequelize.Model {
     db.Board.belongsToMany(db.Hashtag, {
       through: 'board_hashtag',
     });
+    db.Board.hasMany(db.Photo, { foreignKey: 'board_id', sourceKey: 'id' });
   }
 }
 

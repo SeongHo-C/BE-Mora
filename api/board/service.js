@@ -1,4 +1,4 @@
-const { Board, Hashtag } = require('../../models');
+const { Board, Hashtag, Photo } = require('../../models');
 
 exports.setBoard = async (
   writer,
@@ -6,7 +6,7 @@ exports.setBoard = async (
   title,
   content,
   hashtags,
-  imgUrls
+  images
 ) => {
   try {
     const board = await Board.create({
@@ -25,6 +25,18 @@ exports.setBoard = async (
         })
       );
       await board.addHashtags(result.map((r) => r[0]));
+    }
+
+    if (images.length > 0) {
+      await Promise.all(
+        images.map((img) => {
+          return Photo.create({
+            board_id: board.id,
+            path: img.path,
+            origin_name: img.origin_name,
+          });
+        })
+      );
     }
   } catch (err) {
     throw new Error(err);

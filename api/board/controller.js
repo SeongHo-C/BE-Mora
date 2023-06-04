@@ -2,15 +2,15 @@ const { getBoards, getBoard, setBoard } = require('./service');
 
 exports.afterUploadImage = async (req, res, next) => {
   console.log(req.file);
-  res.json({ imageUrl: req.file.path });
+  res.json({ path: req.file.path, origin_name: req.file.originalname });
 };
 
 exports.setBoard = async (req, res, next) => {
-  const { category, title, content, hashtags, imgUrls } = req.body;
+  const { category, title, content, hashtags, images } = req.body;
   const writer = req.currentId;
-  console.log(writer, category, title, content, hashtags, imgUrls);
+
   try {
-    await setBoard(writer, category, title, content, hashtags, imgUrls);
+    await setBoard(writer, category, title, content, hashtags, images);
     res.status(201).json('게시판 등록');
   } catch (err) {
     console.error(err);
