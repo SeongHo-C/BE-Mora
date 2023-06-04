@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { loginRequired } = require('../../middlewares');
 
 const {
   getBoards,
@@ -21,20 +22,21 @@ try {
 
 const upload = multer({
   storage: multer.diskStorage({
-    destination(req, file, cb) {
-      cb(null, 'uploads/');
+    destination(req, file, done) {
+      done(null, 'uploads/');
     },
-    filename(req, file, cb) {
+    filename(req, file, done) {
       const ext = path.extname(file.originalname);
-      cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
+      done(null, path.basename(file.originalname, ext) + Date.now() + ext);
     },
   }),
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
+router.post('/img', loginRequired, upload.single('img'), afterUploadImage);
+
 const upload2 = multer();
 router.post('/', upload2.none(), setBoard);
-router.post('/img', upload.single('img'), afterUploadImage);
 router.get('/:category', getBoards);
 router.get('/detail/:id', getBoard);
 

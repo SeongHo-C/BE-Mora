@@ -15,7 +15,7 @@ dotenv.config();
 const { sequelize } = require('./models');
 
 const app = express();
-app.set('port', process.env.port || 3000);
+app.set('port', process.env.PORT || 3000);
 
 sequelize
   .sync({ force: false })
