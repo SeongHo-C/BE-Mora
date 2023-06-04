@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "More API",
-    "description": "More API with express",
+    "title": "Mora API",
+    "description": "Mora API with express",
     "version": "1.0.0"
   },
   "host": "localhost:3000",
@@ -11,7 +11,7 @@
     "http"
   ],
   "paths": {
-    "/register": {
+    "/admin/register": {
       "post": {
         "tags": [
           "admins"
@@ -74,7 +74,7 @@
         }
       }
     },
-    "/login": {
+    "/admin/login": {
       "post": {
         "tags": [
           "admins"
@@ -133,7 +133,7 @@
         }
       }
     },
-    "/info": {
+    "/admin/info": {
       "get": {
         "tags": [
           "admins"
@@ -196,7 +196,7 @@
         }
       }
     },
-    "/{adminInfo}": {
+    "/admin/{adminInfo}": {
       "get": {
         "tags": [
           "admins"
@@ -265,7 +265,7 @@
         }
       }
     },
-    "/{email}": {
+    "/admin/{email}": {
       "patch": {
         "tags": [
           "admins"
@@ -345,7 +345,7 @@
         }
       }
     },
-    "/": {
+    "/notice": {
       "post": {
         "tags": [
           "notices"
@@ -446,7 +446,7 @@
         }
       }
     },
-    "/{keyword}": {
+    "/notice/{keyword}": {
       "get": {
         "tags": [
           "notices"
@@ -472,7 +472,7 @@
         }
       }
     },
-    "/{id}": {
+    "/notice/{id}": {
       "delete": {
         "tags": [
           "notices"
@@ -503,6 +503,232 @@
                 "message": {
                   "type": "string",
                   "example": "공지 삭제 처리에 실패하였습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cateogory": {
+                  "example": "any"
+                },
+                "title": {
+                  "example": "any"
+                },
+                "content": {
+                  "example": "any"
+                },
+                "hashtags": {
+                  "example": "any"
+                },
+                "imgUrls": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/img": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/{category}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/detail/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/generation": {
+      "post": {
+        "tags": [
+          "generations"
+        ],
+        "description": "기수 등록",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "SW"
+                },
+                "phase": {
+                  "type": "string",
+                  "example": "1"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/generation/{keyword}": {
+      "get": {
+        "tags": [
+          "generations"
+        ],
+        "description": "모든 기수 정보 조회",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "기수 정보 조회 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "uuid"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "SW"
+                      },
+                      "phase": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-06-03T16:19:06.000Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-06-03T16:19:06.000Z"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/generation/{id}": {
+      "patch": {
+        "tags": [
+          "generations"
+        ],
+        "description": "기수 정보 수정",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "해당하는 기수가 존재하지 않을 경우",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "존재하지 않는 기수 입니다."
                 }
               },
               "xml": {

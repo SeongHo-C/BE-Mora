@@ -9,7 +9,6 @@ const noticeService = {
   },
 
   async getNotices(keyword) {
-    console.log('keyword:', keyword);
     const notices = await Notice.findAll({
       include: [
         {
@@ -25,7 +24,7 @@ const noticeService = {
         ],
       },
     });
-    console.log('notices:', notices);
+
     return notices;
   },
 
