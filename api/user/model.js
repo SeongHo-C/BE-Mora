@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
  * 회원 테이블
  */
 class User extends Sequelize.Model {
-  static init(sequelize) {
+  static initiate(sequelize) {
     return super.init(
       {
         id: {
@@ -36,17 +36,17 @@ class User extends Sequelize.Model {
         modelName: 'User',
         tableName: 'users',
         timestamps: false,
-        charset: 'utf8',
-        collate: 'utf8_general_ci',
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
       }
     );
   }
 
   static associate(db) {
-    //   db.User.hasOne(db.UserDetail, {
-    //     foreignKey: 'user_id',
-    //     targetKey: 'id',
-    //   });
+    db.User.hasOne(db.Profile, {
+      foreignKey: 'user_id',
+      targetKey: 'email',
+    });
   }
 }
 
