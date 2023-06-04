@@ -4,7 +4,7 @@ const noticeController = require('./controller');
 const { asyncHandler, loginRequired } = require('../../middlewares');
 
 router.post(
-  '/',
+  '/notice',
   loginRequired,
   asyncHandler(noticeController.addNotice)
   //  #swagger.description = '공지 등록'
@@ -20,7 +20,7 @@ router.post(
 );
 
 router.get(
-  '/:keyword',
+  '/notice/:keyword',
   loginRequired,
   asyncHandler(noticeController.getNotices)
   //  #swagger.description = '공지 검색'
@@ -47,7 +47,7 @@ router.get(
 );
 
 router.patch(
-  '/',
+  '/notice',
   loginRequired,
   asyncHandler(noticeController.setNotice)
   //  #swagger.description = '공지 수정'
@@ -72,7 +72,7 @@ router.patch(
 );
 
 router.delete(
-  '/:id',
+  '/notice/:id',
   loginRequired,
   asyncHandler(noticeController.deleteNotice)
   //  #swagger.description = '공지 삭제'
