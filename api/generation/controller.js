@@ -26,6 +26,12 @@ const generationController = {
     const updatedResult = await generationService.setGeneration(id, toUpdate);
     res.status(201).json(updatedResult);
   },
+
+  async deleteGeneration(req, res) {
+    const { id } = req.params;
+    const deletedResult = await generationService.deleteGeneration(id);
+    res.status(201).json(deletedResult);
+  },
 };
 
 module.exports = generationController;

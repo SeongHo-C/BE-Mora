@@ -54,4 +54,18 @@ router.patch(
   } */
 );
 
+router.delete(
+  '/generation/:id',
+  loginRequired,
+  asyncHandler(generationController.deleteGeneration)
+  //  #swagger.description = '기수 정보 삭제'
+  //  #swagger.tags = ['generations']
+  /*  #swagger.responses[404] = {
+            description: '해당하는 기수가 존재하지 않을 경우',
+            schema: {
+                message: '기수 삭제 실패'
+            }
+  } */
+);
+
 module.exports = router;
