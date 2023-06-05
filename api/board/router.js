@@ -9,6 +9,7 @@ const {
   getBoard,
   setBoard,
   deleteBoard,
+  updateBoard,
   afterUploadImage,
 } = require('./controller');
 
@@ -39,6 +40,7 @@ router.post('/img', loginRequired, upload.single('img'), afterUploadImage);
 const upload2 = multer();
 router.post('/', loginRequired, upload2.none(), setBoard);
 router.delete('/', loginRequired, upload2.none(), deleteBoard);
+router.put('/', loginRequired, upload2.none(), updateBoard);
 
 router.get('/:category', getBoards);
 router.get('/detail/:id', getBoard);
