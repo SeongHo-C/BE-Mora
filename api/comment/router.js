@@ -5,5 +5,6 @@ const commentController = require('./controller');
 const router = express.Router();
 
 router.post('/', loginRequired, commentController.setComment);
+router.patch('/', loginRequired, commentController.updateComment);
 
 module.exports = router;

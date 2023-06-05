@@ -13,4 +13,17 @@ module.exports = {
       next(err);
     }
   },
+
+  async updateComment(req, res, next) {
+    const { content, comment_id } = req.body;
+    const login_id = req.currentId;
+
+    try {
+      await commentService.updateComment(content, comment_id, login_id);
+      res.status(200).json('댓글 수정 성공');
+    } catch (err) {
+      console.error(err);
+      next(err);
+    }
+  },
 };

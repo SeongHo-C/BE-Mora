@@ -1,4 +1,5 @@
 const { Comment, Board } = require('../../models');
+const { updateComment } = require('./controller');
 
 module.exports = {
   async setComment(content, board_id, commenter) {
@@ -16,6 +17,29 @@ module.exports = {
         board_id,
         commenter,
       });
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+
+  async updateComment(content, comment_id, login_id) {
+    try {
+      const comment = await Comment.findOne({
+        where: { id: comment_id },
+      });
+
+      if (comment.commenter !== login_id) {
+        throw new Error('댓글을 작성한 사용자가 아닙니다.');
+      }
+
+      await Comment.update(
+        {
+          content,
+        },
+        {
+          where: { id: comment_id },
+        }
+      );
     } catch (err) {
       throw new Error(err);
     }
