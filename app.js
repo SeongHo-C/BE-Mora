@@ -8,6 +8,7 @@ const adminRouter = require('./api/admin/router');
 const noticeRouter = require('./api/notice/router');
 const boardRouter = require('./api/board/router');
 const userRouter = require('./api/user/router');
+const commentRouter = require('./api/comment/router');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output');
@@ -38,6 +39,7 @@ app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/notice', noticeRouter);
 app.use('/api/v1/board', boardRouter);
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/comment', commentRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
