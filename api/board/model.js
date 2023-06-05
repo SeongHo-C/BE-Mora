@@ -51,6 +51,7 @@ class Board extends Sequelize.Model {
       foreignKey: 'board_id',
       sourceKey: 'id',
       onDelete: 'cascade',
+      onUpdate: 'cascade',
     });
   }
 }

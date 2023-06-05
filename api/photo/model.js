@@ -36,6 +36,7 @@ class Photo extends Sequelize.Model {
       foreignKey: 'board_id',
       targetKey: 'id',
       onDelete: 'cascade',
+      onUpdate: 'cascade',
     });
   }
 }
