@@ -1,4 +1,4 @@
-const { getBoards, getBoard, setBoard } = require('./service');
+const { getBoards, getBoard, setBoard, deleteBoard } = require('./service');
 
 exports.afterUploadImage = async (req, res, next) => {
   console.log(req.file);
@@ -12,6 +12,19 @@ exports.setBoard = async (req, res, next) => {
   try {
     await setBoard(writer, category, title, content, hashtags, images);
     res.status(201).json('게시판 등록');
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+exports.deleteBoard = async (req, res, next) => {
+  const { board_id } = req.body;
+  const login_id = req.currentId;
+
+  try {
+    await deleteBoard(board_id, login_id);
+    res.status(201).json('삭제 완료');
   } catch (err) {
     console.error(err);
     next(err);
