@@ -31,9 +31,12 @@ class Photo extends Sequelize.Model {
       }
     );
   }
-
   static associate(db) {
-    db.Photo.belongsTo(db.User, { foreignKey: 'board_id', targetKey: 'id' });
+    db.Photo.belongsTo(db.User, {
+      foreignKey: 'board_id',
+      targetKey: 'id',
+      onDelete: 'cascade',
+    });
   }
 }
 
