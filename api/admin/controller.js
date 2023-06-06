@@ -10,18 +10,14 @@ module.exports = {
   async getAdminToken(req, res) {
     const { email, password } = req.body;
     const loginResult = await adminService.getAdminToken({ email, password });
-    res.status(201).json(loginResult);
-  },
-
-  async getAdmin(req, res) {
-    const admin = await adminService.getAdmin(req.currentId);
-    res.status(201).json(admin);
+    res.status(200).json(loginResult);
   },
 
   async getAdmins(req, res) {
-    const { adminInfo } = req.params;
-    const admins = await adminService.getAdmins(adminInfo);
-    res.status(201).json(admins);
+    const { keyword } = req.params;
+    const { page, size } = req.query;
+    const admins = await adminService.getAdmins(page, size, keyword);
+    res.status(200).json(admins);
   },
 
   async setAdmin(req, res) {
@@ -32,13 +28,13 @@ module.exports = {
       ...(password && { password }),
     };
 
-    const admin = await adminService.setAdmin(email, toUpdate);
-    res.status(201).json(admin);
+    const updatedResult = await adminService.setAdmin(email, toUpdate);
+    res.status(200).json(updatedResult);
   },
 
   async deleteAdmin(req, res) {
     const { email } = req.params;
     const deletedResult = await adminService.deleteAdmin(email);
-    res.status(201).json(deletedResult);
+    res.status(200).json(deletedResult);
   },
 };

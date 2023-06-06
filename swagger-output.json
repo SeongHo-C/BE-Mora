@@ -17,38 +17,41 @@
           "admins"
         ],
         "description": "관리자 등록",
-        "parameters": [
-          {
-            "name": "",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "관리자"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "admin"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "1234"
-                }
-              }
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "201": {
-            "description": "관리자 등록 성공",
+            "description": "관리자 회원가입 성공",
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "관리자를 생성하였습니다."
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "uuid"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "관리자"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "admin"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "1234"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2023-06-03T16:19:06.000Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2023-06-03T16:19:06.000Z"
+                    }
+                  }
                 }
               },
               "xml": {
@@ -57,13 +60,13 @@
             }
           },
           "400": {
-            "description": "body 또는 params를 입력받지 못한 경우",
+            "description": "이미 존재하는 이메일이 있는 경우",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "데이터 형식이 올바르지 않습니다."
+                  "example": "이미 존재하는 이메일입니다."
                 }
               },
               "xml": {
@@ -99,112 +102,18 @@
             }
           }
         ],
-        "responses": {
-          "201": {
-            "description": "관리자 로그인 성공",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "관리자 아이디로 로그인했습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "body 또는 params를 입력받지 못한 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "email 또는 password 입력값이 올바르지 않습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
+        "responses": {}
       }
     },
-    "/admin/info": {
+    "/admin/{keyword}": {
       "get": {
         "tags": [
           "admins"
         ],
-        "description": "현재 로그인한 관리자 정보 조회",
+        "description": "모든 관리자 정보 조회 ( 검색 범위 : 이름, 이메일 )",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "관리자 정보 조회 성공",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "example": "uuid"
-                      },
-                      "name": {
-                        "type": "string",
-                        "example": "관리자"
-                      },
-                      "email": {
-                        "type": "string",
-                        "example": "admin"
-                      },
-                      "password": {
-                        "type": "string",
-                        "example": "1234"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/admin/{adminInfo}": {
-      "get": {
-        "tags": [
-          "admins"
-        ],
-        "description": "모든 관리자 정보 조회",
-        "parameters": [
-          {
-            "name": "adminInfo",
+            "name": "keyword",
             "in": "path",
             "required": true,
             "type": "string"
@@ -216,40 +125,37 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "관리자 정보 조회 성공",
             "schema": {
               "type": "object",
               "properties": {
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "example": "uuid"
-                      },
-                      "name": {
-                        "type": "string",
-                        "example": "관리자"
-                      },
-                      "email": {
-                        "type": "string",
-                        "example": "admin"
-                      },
-                      "password": {
-                        "type": "string",
-                        "example": "1234"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
-                      }
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "uuid"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "관리자"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "admin"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "1234"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2023-06-03T16:19:06.000Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2023-06-03T16:19:06.000Z"
                     }
                   }
                 }
@@ -282,20 +188,52 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "관리자"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "해쉬화된 비밀번호"
+                }
+              }
+            }
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "해당하는 관리자가 존재하지 않을 경우",
+          "400": {
+            "description": "관리자 정보 수정 처리에 실패한 경우",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "관리자 수정 처리에 실패하였습니다."
+                  "example": "{이름} 관리자 정보 수정 처리에 실패했습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "해당 이메일이 없는 경우",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "존재하지 않는 이메일입니다."
                 }
               },
               "xml": {
@@ -324,17 +262,32 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "해당하는 관리자가 존재하지 않을 경우",
+          "400": {
+            "description": "관리자 정보 삭제 처리에 실패한 경우",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "관리자 탈퇴 처리에 실패하였습니다."
+                  "example": "{이메일} 관리자 정보 삭제 처리에 실패했습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "관리자 이메일 정보가 없는 경우",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "존재하지 않는 관리자 이메일입니다."
                 }
               },
               "xml": {
