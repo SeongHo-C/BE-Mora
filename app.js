@@ -4,13 +4,10 @@ const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const adminRouter = require('./api/admin/router');
-<<<<<<< HEAD
 const noticeRouter = require('./api/notice/router');
 const boardRouter = require('./api/board/router');
 const userRouter = require('./api/user/router');
 const commentRouter = require('./api/comment/router');
-=======
->>>>>>> 13d57296ad609e1bf7e1c87101c5babfa11faa3d
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output');
@@ -58,8 +55,4 @@ app.listen(app.get('port'), () => {
   console.log(app.get('port'), '번 포트에서 대기중');
 });
 
-<<<<<<< HEAD
 app.use(errorHandler);
-=======
-app.use('/api/v1/admin', adminRouter);
->>>>>>> 13d57296ad609e1bf7e1c87101c5babfa11faa3d
