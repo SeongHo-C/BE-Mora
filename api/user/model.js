@@ -47,6 +47,12 @@ class User extends Sequelize.Model {
       foreignKey: 'user_id',
       targetKey: 'email',
     });
+    db.User.hasMany(db.Board, { foreignKey: 'writer', sourceKey: 'id' });
+    db.User.hasMany(db.Comment, {
+      foreignKey: 'commenter',
+      sourceKey: 'id',
+      onDelete: 'cascade',
+    });
   }
 }
 
