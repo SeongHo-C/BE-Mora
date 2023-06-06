@@ -52,11 +52,11 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
+  res.status(404).json({ message: err.message });
   next();
 });
 
-app.use(errorHandler);
+// app.use(errorHandler);
 
 app.listen(app.get('port'), () => {
   console.log(app.get('port'), '번 포트에서 대기중');
