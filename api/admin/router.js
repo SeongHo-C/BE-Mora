@@ -4,7 +4,7 @@ const adminController = require('./controller');
 const { asyncHandler, loginRequired } = require('../../middlewares');
 
 router.post(
-  '/register',
+  '/admin/register',
   asyncHandler(adminController.addAdmin)
   //  #swagger.description = '관리자 등록'
   //  #swagger.tags = ['admins']
@@ -30,7 +30,7 @@ router.post(
 } */
 );
 router.post(
-  '/login',
+  '/admin/login',
   asyncHandler(adminController.getAdminToken)
   //  #swagger.description = '관리자 로그인'
   //  #swagger.tags = ['admins']
@@ -55,7 +55,7 @@ router.post(
 } */
 );
 router.get(
-  '/info',
+  '/admin/info',
   loginRequired,
   asyncHandler(adminController.getAdmin)
   //  #swagger.description = '관리자 정보 조회'
@@ -74,8 +74,9 @@ router.get(
             }
   } */
 );
-router.patch(
-  '/',
+
+router.get(
+  '/admin/:adminInfo',
   loginRequired,
   asyncHandler(adminController.setAdmin)
   //  #swagger.description = '관리자 정보 수정'
@@ -94,8 +95,22 @@ router.patch(
   } */
 );
 
+router.patch(
+  '/admin/:email',
+  loginRequired,
+  asyncHandler(adminController.setAdmin)
+  //  #swagger.description = '관리자 정보 수정'
+  //  #swagger.tags = ['admins']
+  /*  #swagger.responses[404] = {
+            description: '해당하는 관리자가 존재하지 않을 경우',
+            schema: {
+                message: '관리자 수정 처리에 실패하였습니다.'
+            }
+  } */
+);
+
 router.delete(
-  '/',
+  '/admin/:email',
   loginRequired,
   asyncHandler(adminController.deleteAdmin)
   //  #swagger.description = '관리자 정보 삭제'

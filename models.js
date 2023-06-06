@@ -10,6 +10,7 @@ const Plan = require('./api/plan/model');
 const Notice = require('./api/notice/model');
 const Photo = require('./api/photo/model');
 const Comment = require('./api/comment/model');
+const Generation = require('./api/generation/model');
 
 const db = {};
 const sequelize = new Sequelize(
@@ -28,6 +29,7 @@ db.Board = Board;
 db.Hashtag = Hashtag;
 db.Photo = Photo;
 db.Comment = Comment;
+db.Generation = Generation;
 
 Board.initiate(sequelize);
 Hashtag.initiate(sequelize);
@@ -37,6 +39,7 @@ Plan.initiate(sequelize);
 Notice.initiate(sequelize);
 Photo.initiate(sequelize);
 Comment.initiate(sequelize);
+Generation.initiate(sequelize);
 
 Board.associate(db);
 Hashtag.associate(db);
@@ -45,5 +48,6 @@ Plan.associate(db);
 Notice.associate(db);
 Photo.associate(db);
 Comment.associate(db);
+Generation.associate(db);
 
 module.exports = db;
