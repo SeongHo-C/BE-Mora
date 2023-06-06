@@ -1,6 +1,6 @@
 const generationService = require('./service');
 
-const generationController = {
+module.exports = {
   async addGeneration(req, res) {
     const { name, phase } = req.body;
     const newGeneration = await generationService.addGeneration({
@@ -33,5 +33,3 @@ const generationController = {
     res.status(201).json(deletedResult);
   },
 };
-
-module.exports = generationController;

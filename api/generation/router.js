@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const generationController = require('./controller');
-const { asyncHandler, loginRequired } = require('../../middlewares');
+const { loginRequired } = require('../../middlewares');
+const { serviceHandler } = require('../../utils');
 
 router.post(
   '/generation',
   loginRequired,
-  asyncHandler(generationController.addGeneration)
+  serviceHandler(generationController.addGeneration)
   //  #swagger.description = '기수 등록'
   //  #swagger.tags = ['generations']
   /*  #swagger.parameters[''] = {
@@ -21,7 +22,7 @@ router.post(
 router.get(
   '/generation/:keyword',
   loginRequired,
-  asyncHandler(generationController.getGenerations)
+  serviceHandler(generationController.getGenerations)
   //  #swagger.description = '모든 기수 정보 조회'
   //  #swagger.tags = ['generations']
   /*  #swagger.responses[201] = {
@@ -43,7 +44,7 @@ router.get(
 router.patch(
   '/generation/:id',
   loginRequired,
-  asyncHandler(generationController.setGeneration)
+  serviceHandler(generationController.setGeneration)
   //  #swagger.description = '기수 정보 수정'
   //  #swagger.tags = ['generations']
   /*  #swagger.responses[404] = {
@@ -57,7 +58,7 @@ router.patch(
 router.delete(
   '/generation/:id',
   loginRequired,
-  asyncHandler(generationController.deleteGeneration)
+  serviceHandler(generationController.deleteGeneration)
   //  #swagger.description = '기수 정보 삭제'
   //  #swagger.tags = ['generations']
   /*  #swagger.responses[404] = {

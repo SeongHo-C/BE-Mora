@@ -1,15 +1,18 @@
 const Notice = require('./model');
 const Admin = require('../admin/model');
 const { Op } = require('sequelize');
+const { getPagination, getPagingData } = require('../../utils');
 
-const noticeService = {
+module.exports = {
   async addNotice(noticeInfo) {
     const notice = await Notice.create(noticeInfo);
     return notice;
   },
 
-  async getNotices(keyword) {
-    const notices = await Notice.findAll({
+  async getNotices(page, size, keyword) {
+    const { limit, offset } = getPagination(page, size);
+
+    let notices = await Notice.findAndCountAll({
       include: [
         {
           model: Admin,
@@ -21,9 +24,14 @@ const noticeService = {
           { title: { [Op.like]: `%${keyword}%` } },
           { content: { [Op.like]: `%${keyword}%` } },
           { '$Admin.name$': { [Op.like]: `%${keyword}%` } },
+          { '$Admin.email$': { [Op.like]: `%${keyword}%` } },
         ],
       },
+      order: [['createdAt', 'DESC']],
+      offset,
+      limit,
     });
+    notices = getPagingData(notices, page, limit);
 
     return notices;
   },
@@ -59,5 +67,3 @@ const noticeService = {
     return deleteCount;
   },
 };
-
-module.exports = noticeService;

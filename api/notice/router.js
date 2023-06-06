@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const noticeController = require('./controller');
-const { asyncHandler, loginRequired } = require('../../middlewares');
+const { loginRequired } = require('../../middlewares');
+const { serviceHandler } = require('../../utils');
 
 router.post(
   '/notice',
   loginRequired,
-  asyncHandler(noticeController.addNotice)
+  serviceHandler(noticeController.addNotice)
   //  #swagger.description = '공지 등록'
   //  #swagger.tags = ['notices']
   /*  #swagger.parameters[''] = {
@@ -22,7 +23,7 @@ router.post(
 router.get(
   '/notice/:keyword',
   loginRequired,
-  asyncHandler(noticeController.getNotices)
+  serviceHandler(noticeController.getNotices)
   //  #swagger.description = '공지 검색'
   //  #swagger.tags = ['notices']
   /*  #swagger.responses[200] = {
@@ -49,7 +50,7 @@ router.get(
 router.patch(
   '/notice',
   loginRequired,
-  asyncHandler(noticeController.setNotice)
+  serviceHandler(noticeController.setNotice)
   //  #swagger.description = '공지 수정'
   //  #swagger.tags = ['notices']
   /*  #swagger.responses[201] = {
@@ -74,7 +75,7 @@ router.patch(
 router.delete(
   '/notice/:id',
   loginRequired,
-  asyncHandler(noticeController.deleteNotice)
+  serviceHandler(noticeController.deleteNotice)
   //  #swagger.description = '공지 삭제'
   //  #swagger.tags = ['notices']
   /*  #swagger.responses[404] = {
