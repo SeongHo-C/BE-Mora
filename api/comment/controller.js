@@ -26,4 +26,17 @@ module.exports = {
       next(err);
     }
   },
+
+  async deleteComment(req, res, next) {
+    const { comment_id } = req.body;
+    const login_id = req.currentId;
+
+    try {
+      await commentService.deleteComment(comment_id, login_id);
+      res.status(200).json('댓글 삭제 성공');
+    } catch (error) {
+      console.error(err);
+      next(err);
+    }
+  },
 };
