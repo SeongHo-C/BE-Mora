@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('./controller');
-const { asyncHandler, loginRequired } = require('../../middlewares');
+const { loginRequired } = require('../../middlewares');
+const { serviceHandler } = require('../../utils');
 
 router.post(
   '/admin/register',
-  asyncHandler(adminController.addAdmin)
+  serviceHandler(adminController.addAdmin)
   //  #swagger.description = '관리자 등록'
   //  #swagger.tags = ['admins']
   /*  #swagger.parameters[''] = {
@@ -32,7 +33,7 @@ router.post(
 
 router.post(
   '/admin/login',
-  asyncHandler(adminController.getAdminToken)
+  serviceHandler(adminController.getAdminToken)
   //  #swagger.description = '관리자 로그인'
   //  #swagger.tags = ['admins']
   /*  #swagger.parameters[''] = {
@@ -59,7 +60,7 @@ router.post(
 router.get(
   '/admin/info',
   loginRequired,
-  asyncHandler(adminController.getAdmin)
+  serviceHandler(adminController.getAdmin)
   //  #swagger.description = '현재 로그인한 관리자 정보 조회'
   //  #swagger.tags = ['admins']
   /*  #swagger.responses[201] = {
@@ -82,7 +83,7 @@ router.get(
 router.get(
   '/admin/:adminInfo',
   loginRequired,
-  asyncHandler(adminController.getAdmins)
+  serviceHandler(adminController.getAdmins)
   //  #swagger.description = '모든 관리자 정보 조회'
   //  #swagger.tags = ['admins']
   /*  #swagger.responses[201] = {
@@ -105,7 +106,7 @@ router.get(
 router.patch(
   '/admin/:email',
   loginRequired,
-  asyncHandler(adminController.setAdmin)
+  serviceHandler(adminController.setAdmin)
   //  #swagger.description = '관리자 정보 수정'
   //  #swagger.tags = ['admins']
   /*  #swagger.responses[404] = {
@@ -119,7 +120,7 @@ router.patch(
 router.delete(
   '/admin/:email',
   loginRequired,
-  asyncHandler(adminController.deleteAdmin)
+  serviceHandler(adminController.deleteAdmin)
   //  #swagger.description = '관리자 정보 삭제'
   //  #swagger.tags = ['admins']
   /*  #swagger.responses[404] = {

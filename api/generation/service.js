@@ -3,7 +3,7 @@ const Generation = require('./model');
 // const { code, message } = require('../../utils');
 const { Op } = require('sequelize');
 
-const generationService = {
+module.exports = {
   async addGeneration(generationInfo) {
     const { name, phase } = generationInfo;
     const generation = await Generation.findOne({
@@ -67,5 +67,3 @@ const generationService = {
     return deleteCount;
   },
 };
-
-module.exports = generationService;

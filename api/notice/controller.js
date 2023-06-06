@@ -1,6 +1,7 @@
 const noticeService = require('./service');
+const { getPagination, getPagingData } = require('../../utils');
 
-const noticeController = {
+module.exports = {
   async addNotice(req, res) {
     const { title, content } = req.body;
     const admin_id = req.currentId;
@@ -14,7 +15,12 @@ const noticeController = {
 
   async getNotices(req, res) {
     const { keyword } = req.params;
-    const notices = await noticeService.getNotices(keyword);
+    const { page, size } = req.query;
+    const notices = await noticeService.getNotices(page, size, keyword);
+    // await noticeService.getNotices(page, size, keyword).then((data) => {
+    //   const notices = getPagingData(data, page, limit);
+    //   res.status(201).json(notices);
+    // });
     res.status(201).json(notices);
   },
 
@@ -35,5 +41,3 @@ const noticeController = {
     res.status(201).json(deletedResult);
   },
 };
-
-module.exports = noticeController;

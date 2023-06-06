@@ -1,6 +1,6 @@
 const adminService = require('./service');
 
-const adminController = {
+module.exports = {
   async addAdmin(req, res) {
     const { name, email, password } = req.body;
     const newAdmin = await adminService.addAdmin({ name, email, password });
@@ -42,5 +42,3 @@ const adminController = {
     res.status(201).json(deletedResult);
   },
 };
-
-module.exports = adminController;

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Admin = require('./model');
 const { Op } = require('sequelize');
 
-const adminService = {
+module.exports = {
   async addAdmin(adminInfo) {
     const { name, email, password } = adminInfo;
     const admin = await Admin.findOne({ where: { email: email } });
@@ -91,5 +91,3 @@ const adminService = {
     return deleteCount;
   },
 };
-
-module.exports = adminService;
