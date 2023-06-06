@@ -17,10 +17,6 @@ module.exports = {
     const { keyword } = req.params;
     const { page, size } = req.query;
     const notices = await noticeService.getNotices(page, size, keyword);
-    // await noticeService.getNotices(page, size, keyword).then((data) => {
-    //   const notices = getPagingData(data, page, limit);
-    //   res.status(201).json(notices);
-    // });
     res.status(201).json(notices);
   },
 

@@ -10,36 +10,28 @@ module.exports = {
   },
 
   async getNotices(page, size, keyword) {
-    // console.log('1 page, size:', page, size);
     const { limit, offset } = getPagination(page, size);
-    // console.log('1 limit, offset:', limit, offset);
 
     let notices = await Notice.findAndCountAll({
-      // include: [
-      //   {
-      //     model: Admin,
-      //     attributes: ['name', 'email'],
-      //     where: {
-      //       [Op.or]: [
-      //         { name: { [Op.like]: `%${keyword}%` } },
-      //         { email: { [Op.like]: `%${keyword}%` } },
-      //       ],
-      //     },
-      //   },
-      // ],
+      include: [
+        {
+          model: Admin,
+          attributes: ['name', 'email'],
+        },
+      ],
       where: {
         [Op.or]: [
           { title: { [Op.like]: `%${keyword}%` } },
           { content: { [Op.like]: `%${keyword}%` } },
+          { '$Admin.name$': { [Op.like]: `%${keyword}%` } },
+          { '$Admin.email$': { [Op.like]: `%${keyword}%` } },
         ],
       },
       order: [['createdAt', 'DESC']],
       offset,
       limit,
     });
-    // console.log('1 notices:', notices);
     notices = getPagingData(notices, page, limit);
-    // console.log('2 notices:', notices);
 
     return notices;
   },

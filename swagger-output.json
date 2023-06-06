@@ -538,17 +538,12 @@
         "description": "",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "category": {
+                "cateogory": {
                   "example": "any"
                 },
                 "title": {
@@ -560,7 +555,7 @@
                 "hashtags": {
                   "example": "any"
                 },
-                "images": {
+                "imgUrls": {
                   "example": "any"
                 }
               }
@@ -570,84 +565,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "board_id": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "category": {
-                  "example": "any"
-                },
-                "title": {
-                  "example": "any"
-                },
-                "content": {
-                  "example": "any"
-                },
-                "hashtags": {
-                  "example": "any"
-                },
-                "images": {
-                  "example": "any"
-                },
-                "board_id": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
