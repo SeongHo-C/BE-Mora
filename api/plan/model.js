@@ -30,7 +30,7 @@ class Plan extends Sequelize.Model {
       {
         sequelize,
         timestamps: true,
-        underscored: false,
+        underscored: true,
         modelName: 'Plan',
         tableName: 'plans',
         peranoid: false,

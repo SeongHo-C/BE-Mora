@@ -22,7 +22,7 @@ class Notice extends Sequelize.Model {
       {
         sequelize,
         timestamps: true,
-        underscored: false,
+        underscored: true,
         modelName: 'Notice',
         tableName: 'notices',
         peranoid: false,
