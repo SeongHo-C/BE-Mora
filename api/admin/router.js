@@ -29,6 +29,7 @@ router.post(
             }
 } */
 );
+
 router.post(
   '/admin/login',
   asyncHandler(adminController.getAdminToken)
@@ -54,11 +55,12 @@ router.post(
             }
 } */
 );
+
 router.get(
   '/admin/info',
   loginRequired,
   asyncHandler(adminController.getAdmin)
-  //  #swagger.description = '관리자 정보 조회'
+  //  #swagger.description = '현재 로그인한 관리자 정보 조회'
   //  #swagger.tags = ['admins']
   /*  #swagger.responses[201] = {
             description: '관리자 정보 조회 성공',
@@ -69,6 +71,8 @@ router.get(
                     name: '관리자',
                     email: 'admin',
                     password: '1234', 
+                    createdAt: '2023-06-03T16:19:06.000Z',
+                    updatedAt: '2023-06-03T16:19:06.000Z'
                   }
                 ]
             }
@@ -78,17 +82,20 @@ router.get(
 router.get(
   '/admin/:adminInfo',
   loginRequired,
-  asyncHandler(adminController.setAdmin)
-  //  #swagger.description = '관리자 정보 수정'
+  asyncHandler(adminController.getAdmins)
+  //  #swagger.description = '모든 관리자 정보 조회'
   //  #swagger.tags = ['admins']
   /*  #swagger.responses[201] = {
-            description: '관리자 정보 수정 성공',
+            description: '관리자 정보 조회 성공',
             schema: {
                 data: [
                   {
+                    id: 'uuid', 
                     name: '관리자',
                     email: 'admin',
                     password: '1234', 
+                    createdAt: '2023-06-03T16:19:06.000Z',
+                    updatedAt: '2023-06-03T16:19:06.000Z'
                   }
                 ]
             }

@@ -7,11 +7,15 @@
   },
   "host": "localhost:3000",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
   "paths": {
     "/admin/register": {
       "post": {
-        "tags": ["admins"],
+        "tags": [
+          "admins"
+        ],
         "description": "관리자 등록",
         "parameters": [
           {
@@ -72,7 +76,9 @@
     },
     "/admin/login": {
       "post": {
-        "tags": ["admins"],
+        "tags": [
+          "admins"
+        ],
         "description": "관리자 로그인",
         "parameters": [
           {
@@ -129,8 +135,10 @@
     },
     "/admin/info": {
       "get": {
-        "tags": ["admins"],
-        "description": "관리자 정보 조회",
+        "tags": [
+          "admins"
+        ],
+        "description": "현재 로그인한 관리자 정보 조회",
         "parameters": [
           {
             "name": "authorization",
@@ -164,6 +172,14 @@
                       "password": {
                         "type": "string",
                         "example": "1234"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-06-03T16:19:06.000Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-06-03T16:19:06.000Z"
                       }
                     }
                   }
@@ -182,9 +198,17 @@
     },
     "/admin/{adminInfo}": {
       "get": {
-        "tags": ["admins"],
-        "description": "관리자 정보 수정",
+        "tags": [
+          "admins"
+        ],
+        "description": "모든 관리자 정보 조회",
         "parameters": [
+          {
+            "name": "adminInfo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -193,7 +217,7 @@
         ],
         "responses": {
           "201": {
-            "description": "관리자 정보 수정 성공",
+            "description": "관리자 정보 조회 성공",
             "schema": {
               "type": "object",
               "properties": {
@@ -202,6 +226,10 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "uuid"
+                      },
                       "name": {
                         "type": "string",
                         "example": "관리자"
@@ -213,6 +241,14 @@
                       "password": {
                         "type": "string",
                         "example": "1234"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-06-03T16:19:06.000Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-06-03T16:19:06.000Z"
                       }
                     }
                   }
@@ -231,7 +267,9 @@
     },
     "/admin/{email}": {
       "patch": {
-        "tags": ["admins"],
+        "tags": [
+          "admins"
+        ],
         "description": "관리자 정보 수정",
         "parameters": [
           {
@@ -268,9 +306,17 @@
         }
       },
       "delete": {
-        "tags": ["admins"],
+        "tags": [
+          "admins"
+        ],
         "description": "관리자 정보 삭제",
         "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -301,7 +347,9 @@
     },
     "/notice": {
       "post": {
-        "tags": ["notices"],
+        "tags": [
+          "notices"
+        ],
         "description": "공지 등록",
         "parameters": [
           {
@@ -338,7 +386,9 @@
         }
       },
       "patch": {
-        "tags": ["notices"],
+        "tags": [
+          "notices"
+        ],
         "description": "공지 수정",
         "parameters": [
           {
@@ -398,7 +448,9 @@
     },
     "/notice/{keyword}": {
       "get": {
-        "tags": ["notices"],
+        "tags": [
+          "notices"
+        ],
         "description": "공지 검색",
         "parameters": [
           {
@@ -422,7 +474,9 @@
     },
     "/notice/{id}": {
       "delete": {
-        "tags": ["notices"],
+        "tags": [
+          "notices"
+        ],
         "description": "공지 삭제",
         "parameters": [
           {
@@ -459,17 +513,42 @@
         }
       }
     },
+    "/img": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/": {
       "post": {
         "description": "",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "cateogory": {
+                "category": {
                   "example": "any"
                 },
                 "title": {
@@ -481,7 +560,7 @@
                 "hashtags": {
                   "example": "any"
                 },
-                "imgUrls": {
+                "images": {
                   "example": "any"
                 }
               }
@@ -491,17 +570,84 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
-      }
-    },
-    "/img": {
-      "post": {
+      },
+      "delete": {
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "board_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "example": "any"
+                },
+                "title": {
+                  "example": "any"
+                },
+                "content": {
+                  "example": "any"
+                },
+                "hashtags": {
+                  "example": "any"
+                },
+                "images": {
+                  "example": "any"
+                },
+                "board_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -544,7 +690,9 @@
     },
     "/generation": {
       "post": {
-        "tags": ["generations"],
+        "tags": [
+          "generations"
+        ],
         "description": "기수 등록",
         "parameters": [
           {
@@ -579,7 +727,9 @@
     },
     "/generation/{keyword}": {
       "get": {
-        "tags": ["generations"],
+        "tags": [
+          "generations"
+        ],
         "description": "모든 기수 정보 조회",
         "parameters": [
           {
@@ -642,7 +792,9 @@
     },
     "/generation/{id}": {
       "patch": {
-        "tags": ["generations"],
+        "tags": [
+          "generations"
+        ],
         "description": "기수 정보 수정",
         "parameters": [
           {
@@ -679,7 +831,9 @@
         }
       },
       "delete": {
-        "tags": ["generations"],
+        "tags": [
+          "generations"
+        ],
         "description": "기수 정보 삭제",
         "parameters": [
           {
