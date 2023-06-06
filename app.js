@@ -10,6 +10,7 @@ const boardRouter = require('./api/board/router');
 const userRouter = require('./api/user/router');
 const commentRouter = require('./api/comment/router');
 const generationRouter = require('./api/generation/router');
+const reportRouter = require('./api/report/router');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output');
@@ -42,6 +43,7 @@ app.use('/api/v1/board', boardRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/comment', commentRouter);
 app.use('/api/v1', generationRouter);
+app.use('/api/v1', reportRouter);
 
 app.use(errorHandler);
 

@@ -869,6 +869,90 @@
           }
         }
       }
+    },
+    "/report": {
+      "post": {
+        "tags": [
+          "reports"
+        ],
+        "description": "신고 등록",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "description": "로그인 한 유저의 신고 목록 조회",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/report/all": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "description": "모든 신고 조회",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/report/{keyword}": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "description": "신고 검색 - 신고 내용, 유저명, 유저 이메일, 게시글 제목, 게시글 내용",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
     }
   }
 }
