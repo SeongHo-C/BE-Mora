@@ -12,8 +12,13 @@ module.exports = {
 
   async getGenerations(req, res) {
     const { keyword } = req.params;
-    const generations = await generationService.getGeneraions(keyword);
-    res.status(201).json(generations);
+    const { page, size } = req.query;
+    const generations = await generationService.getGeneraions(
+      page,
+      size,
+      keyword
+    );
+    res.status(200).json(generations);
   },
 
   async setGeneration(req, res) {
@@ -24,12 +29,12 @@ module.exports = {
       ...(phase && { phase }),
     };
     const updatedResult = await generationService.setGeneration(id, toUpdate);
-    res.status(201).json(updatedResult);
+    res.status(200).json(updatedResult);
   },
 
   async deleteGeneration(req, res) {
     const { id } = req.params;
     const deletedResult = await generationService.deleteGeneration(id);
-    res.status(201).json(deletedResult);
+    res.status(200).json(deletedResult);
   },
 };

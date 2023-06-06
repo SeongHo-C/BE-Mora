@@ -22,7 +22,7 @@ class Generation extends Sequelize.Model {
       {
         sequelize,
         timestamps: true,
-        underscored: false,
+        underscored: true,
         modelName: 'Generation',
         tableName: 'generations',
         peranoid: false,
