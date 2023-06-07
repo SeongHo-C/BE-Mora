@@ -50,7 +50,7 @@ exports.getUserToken = async (loginUserInfo) => {
 
   try {
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ id: user.id }, secretKey, {
+    const token = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
       expiresIn: '1h',
     });
     return token;

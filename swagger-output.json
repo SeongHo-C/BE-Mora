@@ -7,15 +7,11 @@
   },
   "host": "localhost:3000",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "paths": {
     "/admin/register": {
       "post": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "관리자 등록",
         "parameters": [],
         "responses": {
@@ -79,9 +75,7 @@
     },
     "/admin/login": {
       "post": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "관리자 로그인",
         "parameters": [
           {
@@ -123,9 +117,7 @@
     },
     "/admin/{keyword}": {
       "get": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "모든 관리자 정보 조회 ( 검색 범위 : 이름, 이메일 )",
         "parameters": [
           {
@@ -180,18 +172,13 @@
                 "name": "main"
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
     },
     "/admin/{email}": {
       "patch": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "관리자 정보 수정",
         "parameters": [
           {
@@ -260,9 +247,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "관리자 정보 삭제",
         "parameters": [
           {
@@ -316,9 +301,7 @@
     },
     "/notice": {
       "post": {
-        "tags": [
-          "notices"
-        ],
+        "tags": ["notices"],
         "description": "공지 등록",
         "parameters": [
           {
@@ -327,16 +310,10 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       },
       "patch": {
-        "tags": [
-          "notices"
-        ],
+        "tags": ["notices"],
         "description": "공지 수정",
         "parameters": [
           {
@@ -361,9 +338,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "404": {
             "description": "공지 수정 처리에 실패한 경우",
             "schema": {
@@ -384,9 +358,7 @@
     },
     "/notice/{keyword}": {
       "get": {
-        "tags": [
-          "notices"
-        ],
+        "tags": ["notices"],
         "description": "관리자, 사용자 : 공지 검색 (검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
@@ -401,18 +373,12 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       }
     },
     "/notice/{id}": {
       "delete": {
-        "tags": [
-          "notices"
-        ],
+        "tags": ["notices"],
         "description": "공지 삭제",
         "parameters": [
           {
@@ -442,9 +408,6 @@
                 "name": "main"
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "404": {
             "description": "공지 삭제 처리에 실패한 경우",
@@ -477,9 +440,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
@@ -521,9 +481,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       },
@@ -551,9 +508,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       },
@@ -596,9 +550,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
@@ -641,9 +592,7 @@
     },
     "/generation": {
       "post": {
-        "tags": [
-          "generations"
-        ],
+        "tags": ["generations"],
         "description": "관리자 : 기수 등록",
         "parameters": [
           {
@@ -684,18 +633,13 @@
                 "name": "main"
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
     },
     "/generation/{keyword}": {
       "get": {
-        "tags": [
-          "generations"
-        ],
+        "tags": ["generations"],
         "description": "관리자, 사용자 : 모든 기수 정보 조회 (검색 범위 : name, phase)",
         "parameters": [
           {
@@ -749,18 +693,13 @@
                 "name": "main"
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
     },
     "/generation/{id}": {
       "patch": {
-        "tags": [
-          "generations"
-        ],
+        "tags": ["generations"],
         "description": "관리자 : 기수 정보 수정",
         "parameters": [
           {
@@ -791,9 +730,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "404": {
             "description": "해당하는 기수가 존재하지 않을 경우",
             "schema": {
@@ -812,9 +748,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "generations"
-        ],
+        "tags": ["generations"],
         "description": "관리자 : 기수 정보 삭제",
         "parameters": [
           {
@@ -845,9 +779,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "404": {
             "description": "해당하는 기수가 존재하지 않을 경우",
             "schema": {
@@ -868,9 +799,7 @@
     },
     "/report": {
       "post": {
-        "tags": [
-          "reports"
-        ],
+        "tags": ["reports"],
         "description": "신고 등록",
         "parameters": [
           {
@@ -879,16 +808,10 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       },
       "get": {
-        "tags": [
-          "reports"
-        ],
+        "tags": ["reports"],
         "description": "로그인 한 유저의 신고 목록 조회",
         "parameters": [
           {
@@ -897,18 +820,12 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       }
     },
     "/report/all": {
       "get": {
-        "tags": [
-          "reports"
-        ],
+        "tags": ["reports"],
         "description": "모든 신고 조회",
         "parameters": [
           {
@@ -917,18 +834,12 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       }
     },
     "/report/{keyword}": {
       "get": {
-        "tags": [
-          "reports"
-        ],
+        "tags": ["reports"],
         "description": "신고 검색 - 신고 내용, 유저명, 유저 이메일, 게시글 제목, 게시글 내용",
         "parameters": [
           {
@@ -943,11 +854,7 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       }
     }
   }

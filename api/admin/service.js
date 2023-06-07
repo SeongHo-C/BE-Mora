@@ -33,7 +33,7 @@ module.exports = {
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ id: admin.id }, secretKey);
+    const token = jwt.sign({ id: admin.id, role: 'admin' }, secretKey);
 
     return token;
   },
