@@ -50,7 +50,7 @@ app.use('/api', adminRouter);
 app.use('/api', noticeRouter);
 app.use('/api', boardRouter);
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/comment', commentRouter);
+app.use('/api', commentRouter);
 app.use('/api', generationRouter);
 app.use('/api', reportRouter);
 
