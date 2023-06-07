@@ -1,5 +1,4 @@
 const noticeService = require('./service');
-const { getPagination, getPagingData } = require('../../utils');
 
 module.exports = {
   async addNotice(req, res) {
@@ -17,7 +16,7 @@ module.exports = {
     const { keyword } = req.params;
     const { page, size } = req.query;
     const notices = await noticeService.getNotices(page, size, keyword);
-    res.status(201).json(notices);
+    res.status(200).json(notices);
   },
 
   async setNotice(req, res) {
@@ -28,12 +27,12 @@ module.exports = {
     };
 
     const updatedResult = await noticeService.setNotice(id, toUpdate);
-    res.status(201).json(updatedResult);
+    res.status(200).json(updatedResult);
   },
 
   async deleteNotice(req, res) {
     const { id } = req.params;
     const deletedResult = await noticeService.deleteNotice(id);
-    res.status(201).json(deletedResult);
+    res.status(200).json(deletedResult);
   },
 };
