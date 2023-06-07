@@ -30,20 +30,50 @@ sequelize
     console.error(err);
   });
 
-app.use(cors());
+// app.use(cors());
+// app.use(function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept'
+//   );
+//   res.header(
+//     'Access-Control-Allow-Methods',
+//     'POST, GET, PUT, PATCH, DELETE, OPTIONS'
+//   );
+//   next();
+// });
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET, OPTIONS, PUT, PATCH, POST');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   res.header('Access-Control-Allow-Credentials', 'true');
+// });
+// res.setHeader('Access-Control-Allow-origin', '*');
+// res.setHeader('Access-Control-Allow-Credentials', 'true');
+app.use(
+  cors({
+    origin: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    maxAge: 86400,
+    optionsSuccessStatus: 200,
+  })
+);
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-app.use('/api/v1', adminRouter);
-app.use('/api/v1', noticeRouter);
+app.use('/api', adminRouter);
+app.use('/api', noticeRouter);
 app.use('/api/v1/board', boardRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/comment', commentRouter);
-app.use('/api/v1', generationRouter);
-app.use('/api/v1', reportRouter);
+app.use('/api', generationRouter);
+app.use('/api', reportRouter);
 
 app.use((req, res, next) => {
   const error = new NotFoundClass(

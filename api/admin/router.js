@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('./controller');
-const { loginRequired } = require('../../middlewares');
+const { adminRequired } = require('../../middlewares');
 const { serviceHandler } = require('../../utils');
 
 router.post(
@@ -42,18 +42,17 @@ router.post(
                     password: '1234', 
                 }
   } */
-  /*  #swagger.responses[404] = {
+  /*  #swagger.responses[403] = {
             description: 'email 또는 password가 맞지 않는 경우',
             schema: {
-                message: '이메일 입력값이 올바르지 않습니다.'
-                message: '비밀번호 입력값이 올바르지 않습니다.'
+                message: '이메일 또는 비밀번호 입력값이 올바르지 않습니다.'
             }
   } */
 );
 
 router.get(
   '/admin/:keyword',
-  loginRequired,
+  adminRequired,
   serviceHandler(adminController.getAdmins)
   //  #swagger.description = '모든 관리자 정보 조회 ( 검색 범위 : 이름, 이메일 )'
   //  #swagger.tags = ['admins']
@@ -74,7 +73,7 @@ router.get(
 
 router.patch(
   '/admin/:email',
-  loginRequired,
+  adminRequired,
   serviceHandler(adminController.setAdmin)
   //  #swagger.description = '관리자 정보 수정'
   //  #swagger.tags = ['admins']
@@ -91,7 +90,7 @@ router.patch(
                 message: '{이름} 관리자 정보 수정 처리에 실패했습니다.'
             }
   } */
-  /*  #swagger.responses[404] = {
+  /*  #swagger.responses[403] = {
             description: '해당 이메일이 없는 경우',
             schema: {
                 message: '존재하지 않는 이메일입니다.'
@@ -101,7 +100,7 @@ router.patch(
 
 router.delete(
   '/admin/:email',
-  loginRequired,
+  adminRequired,
   serviceHandler(adminController.deleteAdmin)
   //  #swagger.description = '관리자 정보 삭제'
   //  #swagger.tags = ['admins']
@@ -111,7 +110,7 @@ router.delete(
                 message: '{이메일} 관리자 정보 삭제 처리에 실패했습니다.'
             }
   } */
-  /*  #swagger.responses[404] = {
+  /*  #swagger.responses[403] = {
             description: '관리자 이메일 정보가 없는 경우',
             schema: {
                 message: '존재하지 않는 관리자 이메일입니다.'
