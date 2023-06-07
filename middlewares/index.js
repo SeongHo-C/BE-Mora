@@ -7,6 +7,7 @@ const {
   InternalServerErrorClass,
 } = require('./error-format');
 const loginRequired = require('./login-required');
+const adminRequired = require('./admin-required');
 
 module.exports = {
   errorHandler,
@@ -16,4 +17,5 @@ module.exports = {
   NotFoundClass,
   InternalServerErrorClass,
   loginRequired,
+  adminRequired,
 };

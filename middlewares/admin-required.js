@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { UnauthorizedClass } = require('./error-format');
+const { UnauthorizedClass, ForbiddenClass } = require('./error-format');
 
 function loginRequired(req, res, next) {
   const userToken = req.headers['authorization']?.split(' ')[1] ?? 'null';
@@ -15,7 +15,11 @@ function loginRequired(req, res, next) {
     throw new UnauthorizedClass('정상적인 토큰이 아닙니다.');
   }
 
-  const { id } = jwtDecoded;
+  const { id, role } = jwtDecoded;
+  if (role !== 'admin') {
+    throw new ForbiddenClass('관리자만 사용할 수 있는 서비스입니다.');
+  }
+
   req.currentId = id;
 
   next();

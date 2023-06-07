@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('./controller');
-const { loginRequired } = require('../../middlewares');
+const { adminRequired } = require('../../middlewares');
 const { serviceHandler } = require('../../utils');
 
 router.post(
@@ -53,7 +53,7 @@ router.post(
 
 router.get(
   '/admin/:keyword',
-  loginRequired,
+  adminRequired,
   serviceHandler(adminController.getAdmins)
   //  #swagger.description = '모든 관리자 정보 조회 ( 검색 범위 : 이름, 이메일 )'
   //  #swagger.tags = ['admins']
@@ -74,7 +74,7 @@ router.get(
 
 router.patch(
   '/admin/:email',
-  loginRequired,
+  adminRequired,
   serviceHandler(adminController.setAdmin)
   //  #swagger.description = '관리자 정보 수정'
   //  #swagger.tags = ['admins']
@@ -101,7 +101,7 @@ router.patch(
 
 router.delete(
   '/admin/:email',
-  loginRequired,
+  adminRequired,
   serviceHandler(adminController.deleteAdmin)
   //  #swagger.description = '관리자 정보 삭제'
   //  #swagger.tags = ['admins']

@@ -164,9 +164,6 @@
                 "name": "main"
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
@@ -223,9 +220,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "404": {
             "description": "해당 이메일이 없는 경우",
             "schema": {
@@ -277,9 +271,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "404": {
             "description": "관리자 이메일 정보가 없는 경우",
             "schema": {
@@ -311,11 +302,7 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       },
       "patch": {
         "tags": [
@@ -344,9 +331,6 @@
                 "name": "main"
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "404": {
             "description": "공지 수정 처리에 실패한 경우",
@@ -385,11 +369,7 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       }
     },
     "/notice/{id}": {
@@ -427,9 +407,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "404": {
             "description": "공지 삭제 처리에 실패한 경우",
             "schema": {
@@ -461,9 +438,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
@@ -505,9 +479,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       },
@@ -535,9 +506,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       },
@@ -580,9 +548,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
@@ -668,9 +633,6 @@
                 "name": "main"
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
@@ -733,9 +695,6 @@
                 "name": "main"
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
@@ -774,9 +733,6 @@
                 "name": "main"
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "404": {
             "description": "해당하는 기수가 존재하지 않을 경우",
@@ -829,9 +785,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "404": {
             "description": "해당하는 기수가 존재하지 않을 경우",
             "schema": {
@@ -863,11 +816,7 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       },
       "get": {
         "tags": [
@@ -881,11 +830,7 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       }
     },
     "/report/all": {
@@ -901,11 +846,7 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       }
     },
     "/report/{keyword}": {
@@ -927,11 +868,7 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       }
     }
   }
