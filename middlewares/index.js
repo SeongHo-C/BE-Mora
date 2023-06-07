@@ -2,6 +2,7 @@ const errorHandler = require('./error-handler');
 const {
   BadRequestClass,
   UnauthorizedClass,
+  ForbiddenClass,
   NotFoundClass,
   InternalServerErrorClass,
 } = require('./error-format');
@@ -11,6 +12,7 @@ module.exports = {
   errorHandler,
   BadRequestClass,
   UnauthorizedClass,
+  ForbiddenClass,
   NotFoundClass,
   InternalServerErrorClass,
   loginRequired,

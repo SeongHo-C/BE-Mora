@@ -19,6 +19,12 @@ class UnauthorizedClass extends ResponseFormat {
   }
 }
 
+class ForbiddenClass extends ResponseFormat {
+  constructor(message) {
+    super(403, message);
+  }
+}
+
 class NotFoundClass extends ResponseFormat {
   constructor(message) {
     super(404, message);
@@ -34,6 +40,7 @@ class InternalServerErrorClass extends ResponseFormat {
 module.exports = {
   BadRequestClass,
   UnauthorizedClass,
+  ForbiddenClass,
   NotFoundClass,
   InternalServerErrorClass,
 };

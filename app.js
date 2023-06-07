@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const { errorHandler } = require('./middlewares');
+const { errorHandler, NotFoundClass } = require('./middlewares');
 const adminRouter = require('./api/admin/router');
 const noticeRouter = require('./api/notice/router');
 const boardRouter = require('./api/board/router');
@@ -46,17 +46,13 @@ app.use('/api/v1', generationRouter);
 app.use('/api/v1', reportRouter);
 
 app.use((req, res, next) => {
-  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
-  error.status = 404;
+  const error = new NotFoundClass(
+    `${req.method} ${req.url} 라우터가 없습니다.`
+  );
   next(error);
 });
 
-app.use((err, req, res, next) => {
-  res.status(404).json({ message: err.message });
-  next();
-});
-
-// app.use(errorHandler);
+app.use(errorHandler);
 
 app.listen(app.get('port'), () => {
   console.log(app.get('port'), '번 포트에서 대기중');
