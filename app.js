@@ -30,15 +30,26 @@ sequelize
     console.error(err);
   });
 
-app.use(cors());
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-});
+// app.use(cors());
+// app.use(function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept'
+//   );
+//   res.header(
+//     'Access-Control-Allow-Methods',
+//     'POST, GET, PUT, PATCH, DELETE, OPTIONS'
+//   );
+//   next();
+// });
+// res.setHeader('Access-Control-Allow-origin', '*');
+// res.setHeader('Access-Control-Allow-Credentials', 'true');
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
