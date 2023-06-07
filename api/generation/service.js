@@ -1,7 +1,7 @@
 const Generation = require('./model');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils');
-const { BadRequestClass, NotFoundClass } = require('../../middlewares');
+const { BadRequestClass } = require('../../middlewares');
 
 module.exports = {
   async addGeneration(generationInfo) {
@@ -57,7 +57,7 @@ module.exports = {
 
     const generation = await Generation.findOne({ where: { id: id } });
     if (!generation) {
-      throw new NotFoundClass('존재하지 않는 기수입니다.');
+      throw new BadRequestClass('존재하지 않는 기수입니다.');
     }
 
     const updateCount = Generation.update(
@@ -78,7 +78,7 @@ module.exports = {
   async deleteGeneration(id) {
     const generation = await Generation.findOne({ where: { id: id } });
     if (!generation) {
-      throw new NotFoundClass('존재하지 않는 기수입니다.');
+      throw new BadRequestClass('존재하지 않는 기수입니다.');
     }
 
     const deleteCount = await Generation.destroy({ where: { id: id } });

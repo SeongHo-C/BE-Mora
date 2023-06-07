@@ -599,26 +599,48 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "SW"
-                },
-                "phase": {
-                  "type": "string",
-                  "example": "1"
-                }
-              }
-            }
           }
         ],
         "responses": {
+          "201": {
+            "description": "기수 등록 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "uuid"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "SW"
+                      },
+                      "phase": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-06-03T16:19:06.000Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-06-03T16:19:06.000Z"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "400": {
             "description": "해당하는 기수가 존재하지 않을 경우",
             "schema": {
@@ -640,7 +662,7 @@
     "/generation/{keyword}": {
       "get": {
         "tags": ["generations"],
-        "description": "관리자, 사용자 : 모든 기수 정보 조회 (검색 범위 : name, phase)",
+        "description": "관리자 : 모든 기수 정보 조회 (검색 범위 : name, phase)",
         "parameters": [
           {
             "name": "keyword",
@@ -655,7 +677,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "기수 정보 조회 성공",
             "schema": {
               "type": "object",
@@ -716,28 +738,13 @@
         ],
         "responses": {
           "400": {
-            "description": "기수 수정 처리에 실패한 경우",
+            "description": "해당하는 기수가 존재하지 않거나 기수 수정 처리에 실패한 경우",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "기수 수정 처리에 실패했습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "404": {
-            "description": "해당하는 기수가 존재하지 않을 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "존재하지 않는 기수입니다."
+                  "example": "존재하지 않는 기수입니다. OR 기수 수정 처리에 실패했습니다."
                 }
               },
               "xml": {
@@ -765,28 +772,13 @@
         ],
         "responses": {
           "400": {
-            "description": "기수 삭제 처리에 실패한 경우",
+            "description": "해당하는 기수가 존재하지 않거나 기수 삭제 처리에 실패한 경우",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "기수 삭제 처리에 실패했습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "404": {
-            "description": "해당하는 기수가 존재하지 않을 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "존재하지 않는 기수입니다."
+                  "example": "존재하지 않는 기수입니다. OR 기수 삭제 처리에 실패했습니다."
                 }
               },
               "xml": {
