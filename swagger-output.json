@@ -102,7 +102,23 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "403": {
+            "description": "email 또는 password가 맞지 않는 경우",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "이메일 또는 비밀번호 입력값이 올바르지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       }
     },
     "/admin/{keyword}": {
@@ -226,7 +242,7 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
+          "403": {
             "description": "해당 이메일이 없는 경우",
             "schema": {
               "type": "object",
@@ -280,7 +296,7 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
+          "403": {
             "description": "관리자 이메일 정보가 없는 경우",
             "schema": {
               "type": "object",
