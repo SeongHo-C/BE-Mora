@@ -5,7 +5,7 @@ const doc = {
     title: 'Mora API',
     description: 'Mora API with express',
   },
-  host: 'localhost:3000',
+  host: process.env.SWAGGER_HOST || 'localhost:3000',
   schemes: ['http'],
 };
 
