@@ -1,15 +1,8 @@
 const { Board, Hashtag, Photo } = require('../../models');
 const { UnauthorizedClass } = require('../../middlewares');
 
-exports.setBoard = async (
-  writer,
-  category,
-  title,
-  content,
-  hashtags,
-  images
-) => {
-  try {
+module.exports = {
+  async setBoard(writer, category, title, content, hashtags, images) {
     const board = await Board.create({
       category,
       writer,
@@ -39,13 +32,9 @@ exports.setBoard = async (
         })
       );
     }
-  } catch (err) {
-    throw new Error(err);
-  }
-};
+  },
 
-exports.deleteBoard = async (board_id, login_id) => {
-  try {
+  async deleteBoard(board_id, login_id) {
     const board = await Board.findOne({
       attributes: ['writer'],
       where: { id: board_id },
@@ -60,21 +49,17 @@ exports.deleteBoard = async (board_id, login_id) => {
     await Board.destroy({
       where: { id: board_id },
     });
-  } catch (err) {
-    throw new Error(err);
-  }
-};
+  },
 
-exports.updateBoard = async (
-  category,
-  title,
-  content,
-  hashtags,
-  images,
-  board_id,
-  login_id
-) => {
-  try {
+  async updateBoard(
+    category,
+    title,
+    content,
+    hashtags,
+    images,
+    board_id,
+    login_id
+  ) {
     const board = await Board.findOne({
       where: { id: board_id },
     });
@@ -123,25 +108,5 @@ exports.updateBoard = async (
         })
       );
     }
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-exports.getBoards = async (category) => {
-  try {
-    const data = await Board.findAll({ where: { category } });
-    return data;
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-exports.getBoard = async (id) => {
-  try {
-    const data = await Board.findOne({ where: { id } });
-    return data;
-  } catch (err) {
-    throw new Error(err);
-  }
+  },
 };

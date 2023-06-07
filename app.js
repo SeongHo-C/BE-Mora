@@ -48,7 +48,7 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use('/api', adminRouter);
 app.use('/api', noticeRouter);
-app.use('/api/v1/board', boardRouter);
+app.use('/api', boardRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/comment', commentRouter);
 app.use('/api', generationRouter);
