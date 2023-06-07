@@ -102,7 +102,23 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "403": {
+            "description": "email 또는 password가 맞지 않는 경우",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "이메일 또는 비밀번호 입력값이 올바르지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       }
     },
     "/admin/{keyword}": {
@@ -220,7 +236,7 @@
               }
             }
           },
-          "404": {
+          "403": {
             "description": "해당 이메일이 없는 경우",
             "schema": {
               "type": "object",
@@ -271,7 +287,7 @@
               }
             }
           },
-          "404": {
+          "403": {
             "description": "관리자 이메일 정보가 없는 경우",
             "schema": {
               "type": "object",
@@ -302,44 +318,39 @@
             "type": "string"
           }
         ],
-        "responses": {}
-      },
-      "patch": {
-        "tags": [
-          "notices"
-        ],
-        "description": "공지 수정",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
         "responses": {
-          "400": {
-            "description": "해당하는 공지가 존재하지 않을 경우",
+          "201": {
+            "description": "공지 등록 성공",
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "존재하지 않는 공지입니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "404": {
-            "description": "공지 수정 처리에 실패한 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "{제목} 공지 수정 처리에 실패하였습니다."
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "2dfa7641-5498-44cf-9c0e-b7aea36b4e3f"
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "공지"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "공지 내용"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-06-03T15:02:55.000Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-06-03T15:02:55.000Z"
+                      }
+                    }
+                  }
                 }
               },
               "xml": {
@@ -350,12 +361,34 @@
         }
       }
     },
-    "/notice/{keyword}": {
+    "/notice/admin/{keyword}": {
       "get": {
         "tags": [
           "notices"
         ],
-        "description": "관리자, 사용자 : 공지 검색 (검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
+        "description": "관리자 : 공지 검색 (검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/notice/user/{keyword}": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "description": "사용자 : 공지 검색 (검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
             "name": "keyword",
@@ -373,6 +406,42 @@
       }
     },
     "/notice/{id}": {
+      "patch": {
+        "tags": [
+          "notices"
+        ],
+        "description": "공지 수정",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "해당하는 공지가 존재하지 않거나 수정 처리에 실패한 경우",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "존재하지 않는 공지입니다. OR {제목} 공지 수정 처리에 실패하였습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": [
           "notices"
@@ -393,28 +462,13 @@
         ],
         "responses": {
           "400": {
-            "description": "해당하는 공지가 존재하지 않을 경우",
+            "description": "해당하는 공지가 존재하지 않거나 삭제 처리에 실패한 경우",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "존재하지 않는 게시글입니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "404": {
-            "description": "공지 삭제 처리에 실패한 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "{아이디} 공지 삭제 처리에 실패하였습니다."
+                  "example": "존재하지 않는 게시글입니다. OR {아이디} 공지 삭제 처리에 실패하였습니다."
                 }
               },
               "xml": {
