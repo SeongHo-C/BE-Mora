@@ -66,15 +66,9 @@ router.patch(
   //  #swagger.description = '공지 수정'
   //  #swagger.tags = ['notices']
   /*  #swagger.responses[400] = {
-            description: '해당하는 공지가 존재하지 않을 경우',
+            description: '해당하는 공지가 존재하지 않거나 수정 처리에 실패한 경우',
             schema: {
-                message: '존재하지 않는 공지입니다.'
-            }
-  } */
-  /*  #swagger.responses[404] = {
-            description: '공지 수정 처리에 실패한 경우',
-            schema: {
-                message: '{제목} 공지 수정 처리에 실패하였습니다.'
+                message: '존재하지 않는 공지입니다. OR {제목} 공지 수정 처리에 실패하였습니다.'
             }
   } */
 );
@@ -86,15 +80,9 @@ router.delete(
   //  #swagger.description = '공지 삭제'
   //  #swagger.tags = ['notices']
   /*  #swagger.responses[400] = {
-            description: '해당하는 공지가 존재하지 않을 경우',
+            description: '해당하는 공지가 존재하지 않거나 삭제 처리에 실패한 경우',
             schema: {
-                message: '존재하지 않는 게시글입니다.'
-            }
-  } */
-  /*  #swagger.responses[404] = {
-            description: '공지 삭제 처리에 실패한 경우',
-            schema: {
-                message: '{아이디} 공지 삭제 처리에 실패하였습니다.'
+                message: '존재하지 않는 게시글입니다. OR {아이디} 공지 삭제 처리에 실패하였습니다.'
             }
   } */
 );
