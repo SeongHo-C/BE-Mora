@@ -12,6 +12,7 @@ const Photo = require('./api/photo/model');
 const Comment = require('./api/comment/model');
 const Generation = require('./api/generation/model');
 const Report = require('./api/report/model');
+const Like = require('./api/like/model');
 
 const db = {};
 const sequelize = new Sequelize(
@@ -32,6 +33,7 @@ db.Photo = Photo;
 db.Comment = Comment;
 db.Generation = Generation;
 db.Report = Report;
+db.Like = Like;
 
 Board.initiate(sequelize);
 Hashtag.initiate(sequelize);
@@ -43,6 +45,7 @@ Photo.initiate(sequelize);
 Comment.initiate(sequelize);
 Generation.initiate(sequelize);
 Report.initiate(sequelize);
+Like.initiate(sequelize);
 
 Board.associate(db);
 Hashtag.associate(db);
@@ -53,5 +56,6 @@ Photo.associate(db);
 Comment.associate(db);
 Generation.associate(db);
 Report.associate(db);
+Like.associate(db);
 
 module.exports = db;
