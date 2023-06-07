@@ -309,27 +309,6 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "admin_id": {
-                  "type": "string",
-                  "example": "admin"
-                },
-                "title": {
-                  "type": "string",
-                  "example": "모여라레이서 사이트 사용 안내 공지"
-                },
-                "content": {
-                  "type": "string",
-                  "example": "모여라레이서 사이트 사용 안내 내용"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -351,26 +330,14 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "공지 수정 성공",
+          "400": {
+            "description": "해당하는 공지가 존재하지 않을 경우",
             "schema": {
               "type": "object",
               "properties": {
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "title": {
-                        "type": "string",
-                        "example": "수정된 공지"
-                      },
-                      "content": {
-                        "type": "string",
-                        "example": "수정된 공지 내용"
-                      }
-                    }
-                  }
+                "message": {
+                  "type": "string",
+                  "example": "존재하지 않는 공지입니다."
                 }
               },
               "xml": {
@@ -382,13 +349,13 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "해당하는 공지가 존재하지 않을 경우",
+            "description": "공지 수정 처리에 실패한 경우",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "공지 수정 처리에 실패하였습니다."
+                  "example": "{제목} 공지 수정 처리에 실패하였습니다."
                 }
               },
               "xml": {
@@ -404,7 +371,7 @@
         "tags": [
           "notices"
         ],
-        "description": "공지 검색",
+        "description": "관리자, 사용자 : 공지 검색 (검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
             "name": "keyword",
@@ -445,17 +412,32 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
+          "400": {
             "description": "해당하는 공지가 존재하지 않을 경우",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "공지 삭제 처리에 실패하였습니다."
+                  "example": "존재하지 않는 게시글입니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "공지 삭제 처리에 실패한 경우",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "{아이디} 공지 삭제 처리에 실패하였습니다."
                 }
               },
               "xml": {

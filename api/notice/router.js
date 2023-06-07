@@ -10,21 +10,33 @@ router.post(
   serviceHandler(noticeController.addNotice)
   //  #swagger.description = '공지 등록'
   //  #swagger.tags = ['notices']
-  /*  #swagger.parameters[''] = {
-                in: 'body',
-                schema: {
-                    admin_id: 'admin',
-                    title: '모여라레이서 사이트 사용 안내 공지',
-                    content: '모여라레이서 사이트 사용 안내 내용', 
-                }
-} */
+  /*  #swagger.responses[201] = {
+            description: '공지 등록 성공',
+            schema: {
+                data: [
+                  {
+                    id: '2dfa7641-5498-44cf-9c0e-b7aea36b4e3f', 
+                    title: '공지', 
+                    content: '공지 내용', 
+                    createdAt: '2023-06-03T15:02:55.000Z'
+                    updatedAt: '2023-06-03T15:02:55.000Z'
+                  }
+                ]
+            }
+  } */
+  /*  #swagger.responses[401] = {
+            description: '관리자 정보에 등록된 id가 아닌 경우',
+            schema: {
+                message: '존재하지 않는 관리자 ID입니다.
+            }
+  } */
 );
 
 router.get(
   '/notice/:keyword',
   loginRequired,
   serviceHandler(noticeController.getNotices)
-  //  #swagger.description = '공지 검색'
+  //  #swagger.description = '관리자, 사용자 : 공지 검색 (검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)'
   //  #swagger.tags = ['notices']
   /*  #swagger.responses[200] = {
             description: '공지 조회 성공',
@@ -32,8 +44,8 @@ router.get(
                 data: [
                   {
                     id: '2dfa7641-5498-44cf-9c0e-b7aea36b4e3f', 
-                    title: '첫번째 공지', 
-                    content: '첫번째 공지 내용', 
+                    title: '공지', 
+                    content: '공지 내용', 
                     createdAt: '2023-06-03T15:02:55.000Z'
                     updatedAt: '2023-06-03T15:02:55.000Z'
                     admin_id: '1c711f6d-62b2-4407-8b4d-6b9cad9950b5'
@@ -53,21 +65,16 @@ router.patch(
   serviceHandler(noticeController.setNotice)
   //  #swagger.description = '공지 수정'
   //  #swagger.tags = ['notices']
-  /*  #swagger.responses[201] = {
-            description: '공지 수정 성공',
+  /*  #swagger.responses[400] = {
+            description: '해당하는 공지가 존재하지 않을 경우',
             schema: {
-                data: [
-                  {
-                    title: '수정된 공지', 
-                    content: '수정된 공지 내용', 
-                  }
-                ]
+                message: '존재하지 않는 공지입니다.'
             }
   } */
   /*  #swagger.responses[404] = {
-            description: '해당하는 공지가 존재하지 않을 경우',
+            description: '공지 수정 처리에 실패한 경우',
             schema: {
-                message: '공지 수정 처리에 실패하였습니다.'
+                message: '{제목} 공지 수정 처리에 실패하였습니다.'
             }
   } */
 );
@@ -78,10 +85,16 @@ router.delete(
   serviceHandler(noticeController.deleteNotice)
   //  #swagger.description = '공지 삭제'
   //  #swagger.tags = ['notices']
-  /*  #swagger.responses[404] = {
+  /*  #swagger.responses[400] = {
             description: '해당하는 공지가 존재하지 않을 경우',
             schema: {
-                message: '공지 삭제 처리에 실패하였습니다.'
+                message: '존재하지 않는 게시글입니다.'
+            }
+  } */
+  /*  #swagger.responses[404] = {
+            description: '공지 삭제 처리에 실패한 경우',
+            schema: {
+                message: '{아이디} 공지 삭제 처리에 실패하였습니다.'
             }
   } */
 );
