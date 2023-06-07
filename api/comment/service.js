@@ -1,5 +1,5 @@
 const { Comment, Board } = require('../../models');
-const { updateComment, deleteComment } = require('./controller');
+const { BadRequestClass, UnauthorizedClass } = require('../../middlewares');
 
 module.exports = {
   async setComment(content, board_id, commenter) {
@@ -9,7 +9,9 @@ module.exports = {
       });
 
       if (!board) {
-        throw new Error('존재하지 않은 게시판에는 댓글을 달 수 없습니다.');
+        throw new BadRequestClass(
+          '존재하지 않은 게시판에는 댓글을 달 수 없습니다.'
+        );
       }
 
       await Comment.create({
@@ -29,7 +31,9 @@ module.exports = {
       });
 
       if (comment.commenter !== login_id) {
-        throw new Error('댓글을 작성한 사용자가 아닙니다.');
+        throw new UnauthorizedClass(
+          '댓글을 작성한 사용자가 아니면 수정하실 수 없습니다.'
+        );
       }
 
       await Comment.update(
@@ -52,7 +56,9 @@ module.exports = {
       });
 
       if (comment.commenter !== login_id) {
-        throw new Error('댓글을 작성한 사용자가 아닙니다.');
+        throw new UnauthorizedClass(
+          '댓글을 작성한 사용자가 아니면 삭제하실 수 없습니다.'
+        );
       }
 
       await Comment.destroy({
