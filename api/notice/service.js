@@ -2,11 +2,7 @@ const Notice = require('./model');
 const Admin = require('../admin/model');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils');
-const {
-  BadRequestClass,
-  UnauthorizedClass,
-  NotFoundClass,
-} = require('../../middlewares');
+const { BadRequestClass, UnauthorizedClass } = require('../../middlewares');
 
 module.exports = {
   async addNotice(noticeInfo) {
@@ -67,7 +63,7 @@ module.exports = {
 
     const notice = await Notice.findOne({ where: { id: id } });
     if (!notice) {
-      throw new NotFoundClass('존재하지 않는 공지입니다.');
+      throw new BadRequestClass('존재하지 않는 공지입니다.');
     }
 
     const updateCount = Notice.update(
@@ -89,7 +85,7 @@ module.exports = {
   async deleteNotice(id) {
     const notice = await Notice.findOne({ where: { id: id } });
     if (!notice) {
-      throw new NotFoundClass('존재하지 않는 공지입니다.');
+      throw new BadRequestClass('존재하지 않는 공지입니다.');
     }
 
     const deleteCount = await Notice.destroy({ where: { id: id } });

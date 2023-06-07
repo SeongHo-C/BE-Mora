@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Admin = require('./model');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils');
-const { BadRequestClass, NotFoundClass } = require('../../middlewares');
+const { BadRequestClass, ForbiddenClass } = require('../../middlewares');
 
 module.exports = {
   async addAdmin(adminInfo) {
@@ -24,16 +24,16 @@ module.exports = {
     const { email, password } = adminInfo;
     const admin = await Admin.findOne({ where: { email: email } });
     if (!admin) {
-      throw new NotFoundClass('이메일 입력값이 올바르지 않습니다.');
+      throw new ForbiddenClass('이메일 입력값이 올바르지 않습니다.');
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, admin.password);
     if (!isPasswordCorrect) {
-      throw new NotFoundClass('비밀번호 입력값이 올바르지 않습니다.');
+      throw new ForbiddenClass('비밀번호 입력값이 올바르지 않습니다.');
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ id: admin.id }, secretKey);
+    const token = jwt.sign({ id: admin.id, role: 'admin' }, secretKey);
 
     return token;
   },
@@ -75,7 +75,7 @@ module.exports = {
     const { name, password } = toUpdate;
     const admin = await Admin.findOne({ where: { email: email } });
     if (!admin) {
-      throw new NotFoundClass('존재하지 않는 이메일입니다.');
+      throw new ForbiddenClass('존재하지 않는 이메일입니다.');
     }
 
     const newPasswordHash = await bcrypt.hash(password, 10);
@@ -100,7 +100,7 @@ module.exports = {
   async deleteAdmin(email) {
     const admin = await Admin.findOne({ where: { email: email } });
     if (!admin) {
-      throw new NotFoundClass('존재하지 않는 관리자 이메일입니다.');
+      throw new ForbiddenClass('존재하지 않는 관리자 이메일입니다.');
     }
 
     const deleteCount = await Admin.destroy({ where: { email: email } });

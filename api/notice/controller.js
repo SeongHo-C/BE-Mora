@@ -20,7 +20,8 @@ module.exports = {
   },
 
   async setNotice(req, res) {
-    const { id, title, content } = req.body;
+    const { id } = req.params;
+    const { title, content } = req.body;
     const toUpdate = {
       ...(title && { title }),
       ...(content && { content }),

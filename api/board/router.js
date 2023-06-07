@@ -3,22 +3,15 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { loginRequired } = require('../../middlewares');
-
-const {
-  getBoards,
-  getBoard,
-  setBoard,
-  deleteBoard,
-  updateBoard,
-  afterUploadImage,
-} = require('./controller');
+const { serviceHandler } = require('../../utils');
+const boardController = require('./controller');
 
 const router = express.Router();
 
 try {
   fs.readdirSync('uploads');
 } catch (error) {
-  console.error('uploads 폴더가 없어 uploads 폴더를 생성합니다.');
+  console.error('uploads 폴더가 없으므로 uploads 폴더를 생성합니다.');
   fs.mkdirSync('uploads');
 }
 
@@ -35,14 +28,30 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-router.post('/img', loginRequired, upload.single('img'), afterUploadImage);
+router.post(
+  '/board/img',
+  loginRequired,
+  upload.single('img'),
+  serviceHandler(boardController.afterUploadImage)
+);
 
 const upload2 = multer();
-router.post('/', loginRequired, upload2.none(), setBoard);
-router.delete('/', loginRequired, upload2.none(), deleteBoard);
-router.put('/', loginRequired, upload2.none(), updateBoard);
+router.post('/board', loginRequired, upload2.none(), boardController.setBoard);
 
-router.get('/:category', getBoards);
-router.get('/detail/:id', getBoard);
+router.put(
+  '/board',
+  loginRequired,
+  upload2.none(),
+  serviceHandler(boardController.updateBoard)
+);
+
+router.delete(
+  '/board',
+  loginRequired,
+  serviceHandler(boardController.deleteBoard)
+);
+
+// router.get('/:category', getBoards);
+// router.get('/detail/:id', getBoard);
 
 module.exports = router;

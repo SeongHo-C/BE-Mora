@@ -11,7 +11,7 @@ class Report extends Sequelize.Model {
           allowNull: false,
         },
         type: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.ENUM('board', 'comment'),
           allowNull: false,
         },
         from_user_id: {
@@ -31,8 +31,7 @@ class Report extends Sequelize.Model {
           allowNull: false,
         },
         status: {
-          type: Sequelize.BOOLEAN,
-          defaultValue: false,
+          type: Sequelize.ENUM('ready', 'hold', 'delete'),
           allowNull: false,
         },
       },
