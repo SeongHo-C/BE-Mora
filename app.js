@@ -37,6 +37,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
+app.get('/api', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.send(data);
+});
+
 app.use('/api', adminRouter);
 app.use('/api', noticeRouter);
 app.use('/api/v1/board', boardRouter);
