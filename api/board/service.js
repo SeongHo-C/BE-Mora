@@ -1,4 +1,5 @@
 const { Board, Hashtag, Photo } = require('../../models');
+const { UnauthorizedClass } = require('../../middlewares');
 
 exports.setBoard = async (
   writer,
@@ -51,7 +52,9 @@ exports.deleteBoard = async (board_id, login_id) => {
     });
 
     if (board.writer !== login_id) {
-      throw new Error('게시판 작성자와 동일한 사용자만 삭제가 가능합니다.');
+      throw new UnauthorizedClass(
+        '게시판 작성자와 동일한 사용자만 삭제가 가능합니다.'
+      );
     }
 
     await Board.destroy({
@@ -77,7 +80,9 @@ exports.updateBoard = async (
     });
 
     if (board.writer !== login_id) {
-      throw new Error('게시판 작성자와 동일한 사용자만 수정이 가능합니다.');
+      throw new UnauthorizedClass(
+        '게시판 작성자와 동일한 사용자만 수정이 가능합니다.'
+      );
     }
 
     await Board.update(
