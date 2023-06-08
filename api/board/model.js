@@ -43,6 +43,11 @@ class Board extends Sequelize.Model {
   }
 
   static associate(db) {
+    db.Board.hasMany(db.Comment, {
+      foreignKey: 'board_id',
+      sourceKey: 'id',
+      onDelete: 'cascade',
+    });
     db.Board.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'id' });
     db.Board.belongsToMany(db.Hashtag, {
       through: 'board_hashtag',

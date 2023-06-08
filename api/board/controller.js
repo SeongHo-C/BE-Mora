@@ -3,7 +3,9 @@ const boardService = require('./service');
 module.exports = {
   async afterUploadImage(req, res) {
     console.log(req.file);
-    res.json({ path: req.file.path, origin_name: req.file.originalname });
+    res
+      .status(201)
+      .json({ path: req.file.path, origin_name: req.file.originalname });
   },
 
   async setBoard(req, res) {
@@ -43,5 +45,11 @@ module.exports = {
       login_id
     );
     res.status(200).json('게시글 수정 완료');
+  },
+
+  async getBoards(req, res) {
+    const { category } = req.params;
+
+    res.status(200).json(await boardService.getBoards(category));
   },
 };

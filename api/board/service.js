@@ -1,5 +1,6 @@
-const { Board, Hashtag, Photo } = require('../../models');
-const { UnauthorizedClass } = require('../../middlewares');
+const { Board, Photo, Comment, Like, Hashtag } = require('../../models');
+const { UnauthorizedException } = require('../../middlewares');
+// const { Sequelize, fn, col } = require('sequelize');
 
 module.exports = {
   async setBoard(writer, category, title, content, hashtags, images) {
@@ -41,7 +42,7 @@ module.exports = {
     });
 
     if (board.writer !== login_id) {
-      throw new UnauthorizedClass(
+      throw new UnauthorizedException(
         '게시판 작성자와 동일한 사용자만 삭제가 가능합니다.'
       );
     }
@@ -65,7 +66,7 @@ module.exports = {
     });
 
     if (board.writer !== login_id) {
-      throw new UnauthorizedClass(
+      throw new UnauthorizedException(
         '게시판 작성자와 동일한 사용자만 수정이 가능합니다.'
       );
     }
@@ -108,5 +109,21 @@ module.exports = {
         })
       );
     }
+  },
+
+  async getBoards(category) {
+    const board = await Board.findAll({
+      include: [
+        {
+          model: Comment,
+          attributes: ['id'],
+        },
+        { model: Like, attributes: ['id'] },
+        { model: Hashtag, attributes: ['title'] },
+      ],
+      where: { category },
+    });
+
+    return board;
   },
 };

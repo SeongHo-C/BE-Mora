@@ -14,9 +14,7 @@
   "paths": {
     "/admins/register": {
       "post": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "관리자 등록",
         "parameters": [],
         "responses": {
@@ -141,9 +139,7 @@
     },
     "/admins/login": {
       "post": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "관리자 로그인",
         "parameters": [
           {
@@ -203,9 +199,7 @@
     },
     "/admins": {
       "get": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "모든 관리자 정보 조회 ( 검색 범위 : 이름, 이메일 )",
         "parameters": [
           {
@@ -305,9 +299,7 @@
     },
     "/admins/{email}": {
       "patch": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "관리자 정보 수정",
         "parameters": [
           {
@@ -413,9 +405,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "description": "관리자 정보 삭제",
         "parameters": [
           {
@@ -506,9 +496,7 @@
     },
     "/notices": {
       "post": {
-        "tags": [
-          "notices"
-        ],
+        "tags": ["notices"],
         "description": "공지 등록",
         "parameters": [
           {
@@ -641,9 +629,7 @@
     },
     "/notices/admin": {
       "get": {
-        "tags": [
-          "notices"
-        ],
+        "tags": ["notices"],
         "description": "관리자 : 공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
@@ -751,9 +737,7 @@
     },
     "/notices/user": {
       "get": {
-        "tags": [
-          "notices"
-        ],
+        "tags": ["notices"],
         "description": "사용자 : 공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
@@ -861,9 +845,7 @@
     },
     "/notices/{id}": {
       "patch": {
-        "tags": [
-          "notices"
-        ],
+        "tags": ["notices"],
         "description": "공지 수정",
         "parameters": [
           {
@@ -969,9 +951,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "notices"
-        ],
+        "tags": ["notices"],
         "description": "공지 삭제",
         "parameters": [
           {
@@ -1060,7 +1040,7 @@
         }
       }
     },
-    "/board/img": {
+    "/boards/img": {
       "post": {
         "description": "",
         "parameters": [
@@ -1075,7 +1055,7 @@
         "responses": {}
       }
     },
-    "/board": {
+    "/boards": {
       "post": {
         "description": "",
         "parameters": [
@@ -1146,11 +1126,28 @@
         "responses": {}
       }
     },
-    "/generations": {
-      "post": {
-        "tags": [
-          "generations"
+    "/boards/{category}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
         ],
+        "responses": {}
+      }
+    },
+    "/generation": {
+      "post": {
+        "tags": ["generations"],
         "description": "관리자 : 기수 등록",
         "parameters": [
           {
@@ -1281,9 +1278,7 @@
     },
     "/generations/admin": {
       "get": {
-        "tags": [
-          "generations"
-        ],
+        "tags": ["generations"],
         "description": "관리자 : 모든 기수 정보 조회 (검색 범위 : name, phase)",
         "parameters": [
           {
@@ -1381,9 +1376,7 @@
     },
     "/generations/user": {
       "get": {
-        "tags": [
-          "generations"
-        ],
+        "tags": ["generations"],
         "description": "사용자 : 모든 기수 정보 조회 (검색 범위 : name, phase)",
         "parameters": [
           {
@@ -1481,9 +1474,7 @@
     },
     "/generations/{id}": {
       "patch": {
-        "tags": [
-          "generations"
-        ],
+        "tags": ["generations"],
         "description": "관리자 : 기수 정보 수정",
         "parameters": [
           {
@@ -1572,9 +1563,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "generations"
-        ],
+        "tags": ["generations"],
         "description": "관리자 : 기수 정보 삭제",
         "parameters": [
           {
@@ -1665,9 +1654,7 @@
     },
     "/reports": {
       "post": {
-        "tags": [
-          "reports"
-        ],
+        "tags": ["reports"],
         "description": "신고 등록",
         "parameters": [
           {
@@ -1828,9 +1815,7 @@
         }
       },
       "get": {
-        "tags": [
-          "reports"
-        ],
+        "tags": ["reports"],
         "description": "신고 검색(검색 범위 : 신고 내용, 상태, 타입, 신고자 이름, 신고자 이메일, 신고 받은자 이름, 신고 받은자 이메일)",
         "parameters": [
           {
