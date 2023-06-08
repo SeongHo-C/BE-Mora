@@ -43,9 +43,9 @@ class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.User.hasOne(db.Profile, {
+    db.User.hasOne(db.User_Detail, {
       foreignKey: 'user_id',
-      targetKey: 'email',
+      sourceKey: 'id',
     });
     db.User.hasMany(db.Board, { foreignKey: 'writer', sourceKey: 'id' });
     db.User.hasMany(db.Comment, {
