@@ -5,7 +5,7 @@ const { adminRequired } = require('../../middlewares');
 const { serviceHandler } = require('../../utils');
 
 router.post(
-  '/admin/register',
+  '/admins/register',
   serviceHandler(adminController.addAdmin)
   //  #swagger.description = '관리자 등록'
   //  #swagger.tags = ['admins']
@@ -31,7 +31,7 @@ router.post(
 );
 
 router.post(
-  '/admin/login',
+  '/admins/login',
   serviceHandler(adminController.getAdminToken)
   //  #swagger.description = '관리자 로그인'
   //  #swagger.tags = ['admins']
@@ -51,7 +51,7 @@ router.post(
 );
 
 router.get(
-  '/admin/:keyword',
+  '/admins',
   adminRequired,
   serviceHandler(adminController.getAdmins)
   //  #swagger.description = '모든 관리자 정보 조회 ( 검색 범위 : 이름, 이메일 )'
@@ -72,7 +72,7 @@ router.get(
 );
 
 router.patch(
-  '/admin/:email',
+  '/admins/:email',
   adminRequired,
   serviceHandler(adminController.setAdmin)
   //  #swagger.description = '관리자 정보 수정'
@@ -84,36 +84,36 @@ router.patch(
                     password: '해쉬화된 비밀번호',
                   }
   } */
-  /*  #swagger.responses[400] = {
+  /*  #swagger.responses[404] = {
+    description: '해당 이메일이 없는 경우',
+    schema: {
+      message: '존재하지 않는 이메일입니다.'
+    }
+  } */
+  /*  #swagger.responses[500] = {
             description: '관리자 정보 수정 처리에 실패한 경우',
             schema: {
                 message: '{이름} 관리자 정보 수정 처리에 실패했습니다.'
             }
   } */
-  /*  #swagger.responses[403] = {
-            description: '해당 이메일이 없는 경우',
-            schema: {
-                message: '존재하지 않는 이메일입니다.'
-            }
-  } */
 );
 
 router.delete(
-  '/admin/:email',
+  '/admins/:email',
   adminRequired,
   serviceHandler(adminController.deleteAdmin)
   //  #swagger.description = '관리자 정보 삭제'
   //  #swagger.tags = ['admins']
-  /*  #swagger.responses[400] = {
+  /*  #swagger.responses[404] = {
+    description: '해당 이메일이 없는 경우',
+    schema: {
+      message: '존재하지 않는 이메일입니다.'
+    }
+  } */
+  /*  #swagger.responses[500] = {
             description: '관리자 정보 삭제 처리에 실패한 경우',
             schema: {
                 message: '{이메일} 관리자 정보 삭제 처리에 실패했습니다.'
-            }
-  } */
-  /*  #swagger.responses[403] = {
-            description: '관리자 이메일 정보가 없는 경우',
-            schema: {
-                message: '존재하지 않는 관리자 이메일입니다.'
             }
   } */
 );
