@@ -68,6 +68,10 @@ class User extends Sequelize.Model {
       sourceKey: 'id',
       as: 'ToUser',
     });
+    db.User.hasOne(db.Blacklist, {
+      foreignKey: 'email',
+      sourceKey: 'email',
+    });
   }
 }
 
