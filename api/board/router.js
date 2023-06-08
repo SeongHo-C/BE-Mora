@@ -29,24 +29,24 @@ const upload = multer({
 });
 
 router.post(
-  '/board/img',
+  '/boards/img',
   loginRequired,
   upload.single('img'),
   serviceHandler(boardController.afterUploadImage)
 );
 
 const upload2 = multer();
-router.post('/board', loginRequired, upload2.none(), boardController.setBoard);
+router.post('/boards', loginRequired, upload2.none(), boardController.setBoard);
 
 router.put(
-  '/board',
+  '/boards',
   loginRequired,
   upload2.none(),
   serviceHandler(boardController.updateBoard)
 );
 
 router.delete(
-  '/board',
+  '/boards',
   loginRequired,
   serviceHandler(boardController.deleteBoard)
 );
