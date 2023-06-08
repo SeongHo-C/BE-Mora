@@ -1,5 +1,6 @@
-const { Board, Hashtag, Photo } = require('../../models');
+const { Board, Photo, Comment, Like, Hashtag } = require('../../models');
 const { UnauthorizedClass } = require('../../middlewares');
+// const { Sequelize, fn, col } = require('sequelize');
 
 module.exports = {
   async setBoard(writer, category, title, content, hashtags, images) {
@@ -108,5 +109,21 @@ module.exports = {
         })
       );
     }
+  },
+
+  async getBoards(category) {
+    const board = await Board.findAll({
+      include: [
+        {
+          model: Comment,
+          attributes: ['id'],
+        },
+        { model: Like, attributes: ['id'] },
+        { model: Hashtag, attributes: ['title'] },
+      ],
+      where: { category },
+    });
+
+    return board;
   },
 };

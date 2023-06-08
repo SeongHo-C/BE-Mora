@@ -51,7 +51,11 @@ router.delete(
   serviceHandler(boardController.deleteBoard)
 );
 
-// router.get('/:category', getBoards);
+router.get(
+  '/boards/:category',
+  loginRequired,
+  serviceHandler(boardController.getBoards)
+);
 // router.get('/detail/:id', getBoard);
 
 module.exports = router;

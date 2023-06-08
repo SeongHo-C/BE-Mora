@@ -479,7 +479,7 @@
         }
       }
     },
-    "/board/img": {
+    "/boards/img": {
       "post": {
         "description": "",
         "parameters": [
@@ -492,7 +492,7 @@
         "responses": {}
       }
     },
-    "/board": {
+    "/boards": {
       "post": {
         "description": "",
         "parameters": [
@@ -546,6 +546,25 @@
       "delete": {
         "description": "",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/boards/{category}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
