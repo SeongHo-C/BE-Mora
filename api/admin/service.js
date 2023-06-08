@@ -20,9 +20,7 @@ module.exports = {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newAdminInfo = { name, email, password: hashedPassword };
-    const createdNewAdmin = await Admin.create(newAdminInfo);
-
-    return createdNewAdmin;
+    return await Admin.create(newAdminInfo);
   },
 
   async getAdminToken(adminInfo) {
@@ -38,15 +36,12 @@ module.exports = {
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ id: admin.id, role: 'admin' }, secretKey);
-
-    return token;
+    return jwt.sign({ id: admin.id, role: 'admin' }, secretKey);
   },
 
   async getAdmins(page, size, keyword) {
     const { limit, offset } = getPagination(page, size);
-    let admins;
-    admins = await Admin.findAndCountAll({
+    let admins = await Admin.findAndCountAll({
       where: {
         [Op.or]: [
           { name: { [Op.like]: `%${keyword}%` } },
@@ -73,7 +68,7 @@ module.exports = {
     }
 
     const newPasswordHash = await bcrypt.hash(password, 10);
-    const updateCount = Admin.update(
+    const updateCount = await Admin.update(
       {
         name,
         password: newPasswordHash,
@@ -89,7 +84,7 @@ module.exports = {
       );
     }
 
-    return admin;
+    return await Admin.findOne({ where: { email } });
   },
 
   async deleteAdmin(email) {

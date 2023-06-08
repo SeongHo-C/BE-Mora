@@ -3,20 +3,19 @@ const noticeService = require('./service');
 module.exports = {
   async addNotice(req, res) {
     const { title, content } = req.body;
-    const admin_id = req.currentId;
-    const newNotice = await noticeService.addNotice({
-      admin_id,
-      title,
-      content,
-    });
-    res.status(201).json(newNotice);
+    const adminId = req.currentId;
+    res.status(201).json(
+      await noticeService.addNotice({
+        admin_id: adminId,
+        title,
+        content,
+      })
+    );
   },
 
   async getNotices(req, res) {
-    const { keyword } = req.params;
-    const { page, size } = req.query;
-    const notices = await noticeService.getNotices(page, size, keyword);
-    res.status(200).json(notices);
+    const { page, size, keyword } = req.query;
+    res.status(200).json(await noticeService.getNotices(page, size, keyword));
   },
 
   async setNotice(req, res) {
@@ -27,13 +26,11 @@ module.exports = {
       ...(content && { content }),
     };
 
-    const updatedResult = await noticeService.setNotice(id, toUpdate);
-    res.status(200).json(updatedResult);
+    res.status(200).json(await noticeService.setNotice(id, toUpdate));
   },
 
   async deleteNotice(req, res) {
     const { id } = req.params;
-    const deletedResult = await noticeService.deleteNotice(id);
-    res.status(200).json(deletedResult);
+    res.status(200).json(await noticeService.deleteNotice(id));
   },
 };
