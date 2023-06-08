@@ -14,14 +14,6 @@ class Report extends Sequelize.Model {
           type: Sequelize.ENUM('BOARD', 'COMMENT'),
           allowNull: false,
         },
-        from_user_id: {
-          type: Sequelize.STRING(36),
-          allowNull: false,
-        },
-        to_user_id: {
-          type: Sequelize.STRING(36),
-          allowNull: false,
-        },
         content: {
           type: Sequelize.STRING(500),
           allowNull: false,
