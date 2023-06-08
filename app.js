@@ -14,6 +14,7 @@ const generationRouter = require('./api/generation/router');
 const reportRouter = require('./api/report/router');
 const quizRouter = require('./api/quiz/router');
 const skillRouter = require('./api/skill/router');
+const likeRouter = require('./api/like/router');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
@@ -67,6 +68,7 @@ app.use('/api', skillRouter);
 app.use('/api', commentRouter);
 app.use('/api', generationRouter);
 app.use('/api', reportRouter);
+app.use('/api', likeRouter);
 
 app.use((req, res, next) => {
   const error = new NotFoundClass(

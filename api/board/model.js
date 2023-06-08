@@ -58,6 +58,11 @@ class Board extends Sequelize.Model {
       sourceKey: 'id',
       onDelete: 'cascade',
     });
+    db.Board.hasMany(db.Like, {
+      foreignKey: 'board_id',
+      sourceKey: 'id',
+      onDelete: 'cascade',
+    });
   }
 }
 
