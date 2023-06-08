@@ -14,7 +14,9 @@
   "paths": {
     "/admins/register": {
       "post": {
-        "tags": ["admins"],
+        "tags": [
+          "admins"
+        ],
         "description": "관리자 등록",
         "parameters": [],
         "responses": {
@@ -139,7 +141,9 @@
     },
     "/admins/login": {
       "post": {
-        "tags": ["admins"],
+        "tags": [
+          "admins"
+        ],
         "description": "관리자 로그인",
         "parameters": [
           {
@@ -199,7 +203,9 @@
     },
     "/admins": {
       "get": {
-        "tags": ["admins"],
+        "tags": [
+          "admins"
+        ],
         "description": "모든 관리자 정보 조회 ( 검색 범위 : 이름, 이메일 )",
         "parameters": [
           {
@@ -299,7 +305,9 @@
     },
     "/admins/{email}": {
       "patch": {
-        "tags": ["admins"],
+        "tags": [
+          "admins"
+        ],
         "description": "관리자 정보 수정",
         "parameters": [
           {
@@ -405,7 +413,9 @@
         }
       },
       "delete": {
-        "tags": ["admins"],
+        "tags": [
+          "admins"
+        ],
         "description": "관리자 정보 삭제",
         "parameters": [
           {
@@ -496,7 +506,9 @@
     },
     "/notices": {
       "post": {
-        "tags": ["notices"],
+        "tags": [
+          "notices"
+        ],
         "description": "공지 등록",
         "parameters": [
           {
@@ -629,7 +641,9 @@
     },
     "/notices/admin": {
       "get": {
-        "tags": ["notices"],
+        "tags": [
+          "notices"
+        ],
         "description": "관리자 : 공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
@@ -737,7 +751,9 @@
     },
     "/notices/user": {
       "get": {
-        "tags": ["notices"],
+        "tags": [
+          "notices"
+        ],
         "description": "사용자 : 공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
@@ -845,7 +861,9 @@
     },
     "/notices/{id}": {
       "patch": {
-        "tags": ["notices"],
+        "tags": [
+          "notices"
+        ],
         "description": "공지 수정",
         "parameters": [
           {
@@ -951,7 +969,9 @@
         }
       },
       "delete": {
-        "tags": ["notices"],
+        "tags": [
+          "notices"
+        ],
         "description": "공지 삭제",
         "parameters": [
           {
@@ -1134,20 +1154,26 @@
             "name": "category",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
       }
     },
-    "/generation": {
+    "/generations": {
       "post": {
-        "tags": ["generations"],
+        "tags": [
+          "generations"
+        ],
         "description": "관리자 : 기수 등록",
         "parameters": [
           {
@@ -1278,7 +1304,9 @@
     },
     "/generations/admin": {
       "get": {
-        "tags": ["generations"],
+        "tags": [
+          "generations"
+        ],
         "description": "관리자 : 모든 기수 정보 조회 (검색 범위 : name, phase)",
         "parameters": [
           {
@@ -1376,7 +1404,9 @@
     },
     "/generations/user": {
       "get": {
-        "tags": ["generations"],
+        "tags": [
+          "generations"
+        ],
         "description": "사용자 : 모든 기수 정보 조회 (검색 범위 : name, phase)",
         "parameters": [
           {
@@ -1474,7 +1504,9 @@
     },
     "/generations/{id}": {
       "patch": {
-        "tags": ["generations"],
+        "tags": [
+          "generations"
+        ],
         "description": "관리자 : 기수 정보 수정",
         "parameters": [
           {
@@ -1563,7 +1595,9 @@
         }
       },
       "delete": {
-        "tags": ["generations"],
+        "tags": [
+          "generations"
+        ],
         "description": "관리자 : 기수 정보 삭제",
         "parameters": [
           {
@@ -1654,7 +1688,9 @@
     },
     "/reports": {
       "post": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "description": "신고 등록",
         "parameters": [
           {
@@ -1815,7 +1851,9 @@
         }
       },
       "get": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "description": "신고 검색(검색 범위 : 신고 내용, 상태, 타입, 신고자 이름, 신고자 이메일, 신고 받은자 이름, 신고 받은자 이메일)",
         "parameters": [
           {
@@ -1947,6 +1985,397 @@
                           }
                         }
                       }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}/{type}": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "description": "신고 상세 조회",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "신고 상세 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "dc37fbcd-49c7-4c39-84ea-1736e9714798"
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "BOARD"
+                          },
+                          "from_user_id": {
+                            "type": "string",
+                            "example": "fb89daf7-75c2-4864-9650-6290a624238b"
+                          },
+                          "to_user_id": {
+                            "type": "string",
+                            "example": "515c791e-dc96-4366-81d3-617324ffd537"
+                          },
+                          "target_id": {
+                            "type": "string",
+                            "example": "18f4c16f-0247-4cd4-88b2-69110343bb45"
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "게시글 신고합니다."
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "READY"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2023-06-08T03:23:37.472Z"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2023-06-08T03:23:37.472Z"
+                          },
+                          "FromUser": {
+                            "type": "string",
+                            "example": "name, email"
+                          },
+                          "ToUser": {
+                            "type": "string",
+                            "example": "name, email"
+                          },
+                          "Board": {
+                            "type": "string",
+                            "example": "title, content"
+                          },
+                          "Comment": {
+                            "type": "string",
+                            "example": "content"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "dc37fbcd-49c7-4c39-84ea-1736e9714798"
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "BOARD"
+                          },
+                          "from_user_id": {
+                            "type": "string",
+                            "example": "fb89daf7-75c2-4864-9650-6290a624238b"
+                          },
+                          "to_user_id": {
+                            "type": "string",
+                            "example": "515c791e-dc96-4366-81d3-617324ffd537"
+                          },
+                          "target_id": {
+                            "type": "string",
+                            "example": "18f4c16f-0247-4cd4-88b2-69110343bb45"
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "게시글 신고합니다."
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "READY"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2023-06-08T03:23:37.472Z"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2023-06-08T03:23:37.472Z"
+                          },
+                          "FromUser": {
+                            "type": "string",
+                            "example": "name, email"
+                          },
+                          "ToUser": {
+                            "type": "string",
+                            "example": "name, email"
+                          },
+                          "Board": {
+                            "type": "string",
+                            "example": "title, content"
+                          },
+                          "Comment": {
+                            "type": "string",
+                            "example": "content"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}/{status}": {
+      "patch": {
+        "tags": [
+          "reports"
+        ],
+        "description": "신고 상태 수정",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "dc37fbcd-49c7-4c39-84ea-1736e9714798"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "BOARD"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "신고 ID가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 신고입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 신고입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "신고 수정 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{ID} 신고 상태 수정 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{ID} 신고 상태 수정 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}": {
+      "delete": {
+        "tags": [
+          "reports"
+        ],
+        "description": "신고 상태 삭제",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "신고 ID가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 신고입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 신고입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "신고 삭제 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{ID} 신고 삭제 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{ID} 신고 삭제 처리에 실패하였습니다."
                     }
                   },
                   "xml": {
