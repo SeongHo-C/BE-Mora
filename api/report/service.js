@@ -3,104 +3,69 @@ const Board = require('../board/model');
 const Comment = require('../comment/model');
 const User = require('../user/model');
 const { Op } = require('sequelize');
+const { getPagination, getPagingData } = require('../../utils');
+const { NotFoundException } = require('../../middlewares');
 
-const reportService = {
+module.exports = {
   async addReport(reportInfo) {
     const { target_id, type } = reportInfo;
-    if (type == 1) {
+    if (type === 'BOARD') {
       const board = await Board.findOne({
-        attributes: ['id'],
+        attributes: ['id', 'writer'],
         where: { id: target_id },
+        raw: true,
       });
       if (!board) {
-        throw new Error(
-          '존재하지 않는 게시글입니다. 다시 한 번 확인해 주세요.'
-        );
+        throw new NotFoundException('존재하지 않는 게시글입니다.');
       }
-    } else if (type == 2) {
+      reportInfo.to_user_id = board.writer;
+    } else if (type === 'COMMENT') {
       const comment = await Comment.findOne({
-        attributes: ['id'],
+        attributes: ['id', 'commenter'],
         where: { id: target_id },
+        raw: true,
       });
       if (!comment) {
-        throw new Error('존재하지 않는 댓글입니다. 다시 한 번 확인해 주세요.');
+        throw new NotFoundException('존재하지 않는 댓글입니다.');
       }
+      reportInfo.to_user_id = comment.commenter;
     }
 
-    const report = await Report.create(reportInfo);
-    return report;
+    return await Report.create(reportInfo);
   },
 
-  async getAllReports() {
-    const reports = await Report.findAll({
+  async getReports(page, size, keyword) {
+    const { limit, offset } = getPagination(page, size);
+    let reports = await Report.findAndCountAll({
       include: [
         {
-          model: Board,
-          attributes: ['writer', 'title', 'content'],
-        },
-        {
-          model: Comment,
-          attributes: ['commenter', 'content'],
+          model: User,
+          attributes: ['name', 'email'],
+          as: 'FromUser',
         },
         {
           model: User,
           attributes: ['name', 'email'],
+          as: 'ToUser',
         },
       ],
-    });
-    return reports;
-  },
-
-  async getUserReports(id) {
-    const reports = await Report.findAll({ where: { from_user_id: id } });
-    if (!reports) {
-      throw new Error('사용자가 신고한 내용이 없습니다.');
-    }
-
-    return reports;
-  },
-
-  async getReports(keyword) {
-    console.log('keyword:', keyword);
-    let reports = {};
-    if (!keyword || keyword === ':keyword') {
-      reports = await Report.findAll({});
-    } else {
-      reports = await Report.findAll({
-        include: [
-          {
-            model: Board,
-            attributes: ['writer', 'title', 'content'],
-          },
-          {
-            model: Comment,
-            attributes: ['commenter', 'content'],
-            // where: { content: { [Op.like]: `%${keyword}%` } },
-          },
-          {
-            model: User,
-            attributes: ['name', 'email'],
-            // where: {
-            //   [Op.or]: [
-            //     { name: { [Op.like]: `%${keyword}%` } },
-            //     { email: { [Op.like]: `%${keyword}%` } },
-            //   ],
-            // },
-          },
+      where: {
+        [Op.or]: [
+          { content: { [Op.like]: `%${keyword}%` } },
+          { status: { [Op.like]: `%${keyword}%` } },
+          { type: { [Op.like]: `%${keyword}%` } },
+          { '$FromUser.name$': { [Op.like]: `%${keyword}%` } },
+          { '$FromUser.email$': { [Op.like]: `%${keyword}%` } },
+          { '$ToUser.name$': { [Op.like]: `%${keyword}%` } },
+          { '$ToUser.email$': { [Op.like]: `%${keyword}%` } },
         ],
-        where: {
-          [Op.or]: [
-            { content: { [Op.like]: `%${keyword}%` } },
-            { '$Board.title$': { [Op.like]: `%${keyword}%` } },
-            { '$Board.content$': { [Op.like]: `%${keyword}%` } },
-            { '$Comment.content$': { [Op.like]: `%${keyword}%` } },
-          ],
-        },
-      });
-    }
+      },
+      order: [['created_at', 'DESC']],
+      offset,
+      limit,
+    });
+    reports = getPagingData(reports, page, limit);
 
     return reports;
   },
 };
-
-module.exports = reportService;
