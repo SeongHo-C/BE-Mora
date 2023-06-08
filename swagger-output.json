@@ -1,17 +1,18 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
-    "title": "Mora API",
-    "description": "Mora API with express",
-    "version": "1.0.0"
+    "title": "mora API Document",
+    "version": "0.0.1",
+    "description": "모여라 레이서 swagger 입니다."
   },
-  "host": "localhost:3000",
-  "basePath": "/",
-  "schemes": [
-    "http"
+  "servers": [
+    {
+      "url": "localhost:3000",
+      "description": "Local server"
+    }
   ],
   "paths": {
-    "/admin/register": {
+    "/api/admin/register": {
       "post": {
         "tags": [
           "admins"
@@ -21,56 +22,117 @@
         "responses": {
           "201": {
             "description": "관리자 회원가입 성공",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "uuid"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "관리자"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "admin"
-                    },
-                    "password": {
-                      "type": "string",
-                      "example": "1234"
-                    },
-                    "createdAt": {
-                      "type": "string",
-                      "example": "2023-06-03T16:19:06.000Z"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "example": "2023-06-03T16:19:06.000Z"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "uuid"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "관리자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
                     }
+                  },
+                  "xml": {
+                    "name": "main"
                   }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "uuid"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "관리자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           },
           "400": {
             "description": "이미 존재하는 이메일이 있는 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "이미 존재하는 이메일입니다."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "이미 존재하는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "이미 존재하는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -105,16 +167,34 @@
         "responses": {
           "403": {
             "description": "email 또는 password가 맞지 않는 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "이메일 또는 비밀번호 입력값이 올바르지 않습니다."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "이메일 또는 비밀번호 입력값이 올바르지 않습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "이메일 또는 비밀번호 입력값이 올바르지 않습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -132,52 +212,99 @@
             "name": "keyword",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "관리자 정보 조회 성공",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "uuid"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "관리자"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "admin"
-                    },
-                    "password": {
-                      "type": "string",
-                      "example": "1234"
-                    },
-                    "createdAt": {
-                      "type": "string",
-                      "example": "2023-06-03T16:19:06.000Z"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "example": "2023-06-03T16:19:06.000Z"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "uuid"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "관리자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
                     }
+                  },
+                  "xml": {
+                    "name": "main"
                   }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "uuid"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "관리자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -195,12 +322,16 @@
             "name": "email",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "",
@@ -223,31 +354,67 @@
         "responses": {
           "400": {
             "description": "관리자 정보 수정 처리에 실패한 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "{이름} 관리자 정보 수정 처리에 실패했습니다."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{이름} 관리자 정보 수정 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{이름} 관리자 정보 수정 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           },
           "403": {
             "description": "해당 이메일이 없는 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "존재하지 않는 이메일입니다."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -263,42 +430,82 @@
             "name": "email",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "400": {
             "description": "관리자 정보 삭제 처리에 실패한 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "{이메일} 관리자 정보 삭제 처리에 실패했습니다."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{이메일} 관리자 정보 삭제 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{이메일} 관리자 정보 삭제 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           },
           "403": {
             "description": "관리자 이메일 정보가 없는 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "존재하지 않는 관리자 이메일입니다."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 관리자 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 관리자 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -315,53 +522,15 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "공지 등록 성공",
             "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "example": "2dfa7641-5498-44cf-9c0e-b7aea36b4e3f"
-                      },
-                      "title": {
-                        "type": "string",
-                        "example": "공지"
-                      },
-                      "content": {
-                        "type": "string",
-                        "example": "공지 내용"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "example": "2023-06-03T15:02:55.000Z"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "example": "2023-06-03T15:02:55.000Z"
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "type": "string"
             }
           }
-        }
+        ],
+        "responses": {}
       }
     },
-    "/notice/admin/{keyword}": {
+    "/notice/admin": {
       "get": {
         "tags": [
           "notices"
@@ -369,21 +538,17 @@
         "description": "관리자 : 공지 검색 (검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
-            "name": "keyword",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
       }
     },
-    "/notice/user/{keyword}": {
+    "/notice/user": {
       "get": {
         "tags": [
           "notices"
@@ -391,15 +556,11 @@
         "description": "사용자 : 공지 검색 (검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
-            "name": "keyword",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -416,31 +577,19 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "해당하는 공지가 존재하지 않거나 수정 처리에 실패한 경우",
             "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "존재하지 않는 공지입니다. OR {제목} 공지 수정 처리에 실패하였습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "type": "string"
             }
           }
-        }
+        ],
+        "responses": {}
       },
       "delete": {
         "tags": [
@@ -452,31 +601,19 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "해당하는 공지가 존재하지 않거나 삭제 처리에 실패한 경우",
             "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "존재하지 않는 게시글입니다. OR {아이디} 공지 삭제 처리에 실패하였습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "type": "string"
             }
           }
-        }
+        ],
+        "responses": {}
       }
     },
     "/board/img": {
@@ -486,7 +623,9 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -499,36 +638,40 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "category": {
-                  "example": "any"
-                },
-                "title": {
-                  "example": "any"
-                },
-                "content": {
-                  "example": "any"
-                },
-                "hashtags": {
-                  "example": "any"
-                },
-                "images": {
-                  "example": "any"
-                }
-              }
+              "type": "string"
             }
           }
         ],
         "responses": {
           "201": {
             "description": "Created"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "example": "any"
+                  },
+                  "title": {
+                    "example": "any"
+                  },
+                  "content": {
+                    "example": "any"
+                  },
+                  "hashtags": {
+                    "example": "any"
+                  },
+                  "images": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -538,7 +681,9 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -549,7 +694,9 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -565,61 +712,123 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "201": {
             "description": "기수 등록 성공",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "example": "uuid"
-                      },
-                      "name": {
-                        "type": "string",
-                        "example": "SW"
-                      },
-                      "phase": {
-                        "type": "string",
-                        "example": "1"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "uuid"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "SW"
+                          },
+                          "phase": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2023-06-03T16:19:06.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2023-06-03T16:19:06.000Z"
+                          }
+                        }
                       }
                     }
+                  },
+                  "xml": {
+                    "name": "main"
                   }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "uuid"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "SW"
+                          },
+                          "phase": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2023-06-03T16:19:06.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2023-06-03T16:19:06.000Z"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           },
           "400": {
             "description": "해당하는 기수가 존재하지 않을 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "이미 존재하는 기수입니다."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "이미 존재하는 기수입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "이미 존재하는 기수입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -637,51 +846,97 @@
             "name": "keyword",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "기수 정보 조회 성공",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "example": "uuid"
-                      },
-                      "name": {
-                        "type": "string",
-                        "example": "SW"
-                      },
-                      "phase": {
-                        "type": "string",
-                        "example": "1"
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "example": "2023-06-03T16:19:06.000Z"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "uuid"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "SW"
+                          },
+                          "phase": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2023-06-03T16:19:06.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2023-06-03T16:19:06.000Z"
+                          }
+                        }
                       }
                     }
+                  },
+                  "xml": {
+                    "name": "main"
                   }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "uuid"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "SW"
+                          },
+                          "phase": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2023-06-03T16:19:06.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2023-06-03T16:19:06.000Z"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -699,27 +954,49 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "400": {
             "description": "해당하는 기수가 존재하지 않거나 기수 수정 처리에 실패한 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "존재하지 않는 기수입니다. OR 기수 수정 처리에 실패했습니다."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 기수입니다. OR 기수 수정 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 기수입니다. OR 기수 수정 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -735,27 +1012,49 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "400": {
             "description": "해당하는 기수가 존재하지 않거나 기수 삭제 처리에 실패한 경우",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "존재하지 않는 기수입니다. OR 기수 삭제 처리에 실패했습니다."
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 기수입니다. OR 기수 삭제 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
                 }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 기수입니다. OR 기수 삭제 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -772,7 +1071,9 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -786,7 +1087,9 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -802,7 +1105,9 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -819,16 +1124,37 @@
             "name": "keyword",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
       }
     }
-  }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Bearer token to access these api endpoints",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }

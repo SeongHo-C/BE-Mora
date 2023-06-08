@@ -16,7 +16,7 @@ const quizRouter = require('./api/quiz/router');
 const skillRouter = require('./api/skill/router');
 
 const swaggerUi = require('swagger-ui-express');
-const swaggerFile = require('./swagger-output');
+const swaggerFile = require('./swagger-output.json');
 
 const logger = require('./logger');
 
@@ -29,10 +29,10 @@ app.set('port', process.env.PORT || 3000);
 sequelize
   .sync({ force: false })
   .then(() => {
-    console.log('데이터베이스 연결 성공');
+    logger.info('데이터베이스 연결 성공');
   })
   .catch((err) => {
-    console.error(err);
+    logger.error(err);
   });
 
 app.use(
@@ -79,5 +79,5 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 app.listen(app.get('port'), () => {
-  console.log(app.get('port'), '번 포트에서 대기중');
+  logger.info(app.get('port'), '번 포트에서 대기중');
 });
