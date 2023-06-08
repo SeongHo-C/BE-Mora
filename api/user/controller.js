@@ -1,31 +1,23 @@
 const { addUser, getUserToken } = require('./service');
+module.exports = {
+  /**
+   * 회원가입
+   */
+  async addUser(req, res) {
+    const { name, email, password } = req.body;
+    const userInfo = { name, email, password };
 
-/**
- * 회원가입
- */
-exports.addUser = async (req, res, next) => {
-  const { name, email, password } = req.body;
-  const userInfo = { name, email, password };
-  try {
-    await addUser(userInfo);
-    return res.status(201).json({
-      message: '회원가입에 성공했습니다!',
-    });
-  } catch (e) {
-    next(e);
-  }
-};
+    const createdResult = await addUser(userInfo);
+    return res.status(201).json(createdResult);
+  },
 
-/**
- *  회원 로그인
- */
-exports.getUserToken = async (req, res, next) => {
-  const { email, password } = req.body;
-  await getUserToken({ email, password });
-  try {
+  /**
+   *  회원 로그인
+   */
+  async getUserToken(req, res) {
+    const { email, password } = req.body;
+
     const token = await getUserToken({ email, password });
     return res.status(201).json(token);
-  } catch (e) {
-    next(e);
-  }
+  },
 };
