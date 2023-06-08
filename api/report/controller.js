@@ -18,4 +18,19 @@ module.exports = {
     const { page, size, keyword } = req.query;
     res.status(200).json(await reportService.getReports(page, size, keyword));
   },
+
+  async getDetailReport(req, res) {
+    const { id, type } = req.params;
+    res.status(200).json(await reportService.getDetailReport(id, type));
+  },
+
+  async setReport(req, res) {
+    const { id, status } = req.params;
+    res.status(200).json(await reportService.setReport(id, status));
+  },
+
+  async deleteReport(req, res) {
+    const { id } = req.params;
+    res.status(200).json(await reportService.deleteReport(id));
+  },
 };
