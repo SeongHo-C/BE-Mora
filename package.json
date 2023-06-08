@@ -4,7 +4,8 @@
   "description": "모여라레이서(모레)",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app",
+    "start": "cross-env NODE_ENV=production PORT=5000 SWAGGER_HOST=http://www.moyeora-racer.com node app",
+    "dev": "nodemon app",
     "prestart": "node ./swagger.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
