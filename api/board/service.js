@@ -1,5 +1,5 @@
 const { Board, Photo, Comment, Like, Hashtag } = require('../../models');
-const { UnauthorizedClass } = require('../../middlewares');
+const { UnauthorizedException } = require('../../middlewares');
 // const { Sequelize, fn, col } = require('sequelize');
 
 module.exports = {
@@ -42,7 +42,7 @@ module.exports = {
     });
 
     if (board.writer !== login_id) {
-      throw new UnauthorizedClass(
+      throw new UnauthorizedException(
         '게시판 작성자와 동일한 사용자만 삭제가 가능합니다.'
       );
     }
@@ -66,7 +66,7 @@ module.exports = {
     });
 
     if (board.writer !== login_id) {
-      throw new UnauthorizedClass(
+      throw new UnauthorizedException(
         '게시판 작성자와 동일한 사용자만 수정이 가능합니다.'
       );
     }

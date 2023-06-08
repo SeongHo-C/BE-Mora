@@ -2,7 +2,7 @@ const User = require('./model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserDetail = require('../user-detail/model');
-const { BadRequestClass, NotFoundClass } = require('../../middlewares');
+const { BadRequestException, NotFoundClass } = require('../../middlewares');
 
 module.exports = {
   /**
@@ -13,7 +13,7 @@ module.exports = {
     const { name, email, password } = userInfo;
     const existingUser = await User.findOne({ where: { email: email } });
     if (existingUser) {
-      throw new BadRequestClass('이미 존재하는 이메일입니다.');
+      throw new BadRequestException('이미 존재하는 이메일입니다.');
     }
 
     // 비밀번호 암호화
@@ -35,7 +35,7 @@ module.exports = {
     });
 
     if (!newUser) {
-      throw new BadRequestClass('회원가입에 실패했습니다.');
+      throw new BadRequestException('회원가입에 실패했습니다.');
     }
 
     return newUser;
