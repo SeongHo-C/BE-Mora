@@ -58,6 +58,16 @@ class User extends Sequelize.Model {
       sourceKey: 'id',
       onDelete: 'cascade',
     });
+    db.User.hasMany(db.Report, {
+      foreignKey: 'from_user_id',
+      sourceKey: 'id',
+      as: 'FromUser',
+    });
+    db.User.hasMany(db.Report, {
+      foreignKey: 'to_user_id',
+      sourceKey: 'id',
+      as: 'ToUser',
+    });
   }
 }
 

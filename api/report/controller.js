@@ -1,34 +1,21 @@
 const reportService = require('./service');
 
-const reportController = {
+module.exports = {
   async addReport(req, res) {
-    const { type, to_user_id, target_id, content } = req.body;
-    const from_user_id = req.currentId;
-    const newReport = await reportService.addReport({
-      type,
-      from_user_id,
-      to_user_id,
-      target_id,
-      content,
-    });
-    res.status(201).json(newReport);
-  },
-
-  async getAllReports(req, res) {
-    const reports = await reportService.getAllReports();
-    res.status(201).json(reports);
-  },
-
-  async getUserReports(req, res) {
-    const reports = await reportService.getUserReports(req.currentId);
-    res.status(201).json(reports);
+    const { type, target_id, content } = req.body;
+    const fromUserId = req.currentId;
+    res.status(201).json(
+      await reportService.addReport({
+        type,
+        from_user_id: fromUserId,
+        target_id,
+        content,
+      })
+    );
   },
 
   async getReports(req, res) {
-    const { keyword } = req.params;
-    const reports = await reportService.getReports(keyword);
-    res.status(201).json(reports);
+    const { page, size, keyword } = req.query;
+    res.status(200).json(await reportService.getReports(page, size, keyword));
   },
 };
-
-module.exports = reportController;

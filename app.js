@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const { errorHandler, NotFoundClass } = require('./middlewares');
+const { errorHandler, NotFoundException } = require('./middlewares');
 const adminRouter = require('./api/admin/router');
 const noticeRouter = require('./api/notice/router');
 const boardRouter = require('./api/board/router');
@@ -71,7 +71,7 @@ app.use('/api', reportRouter);
 app.use('/api', likeRouter);
 
 app.use((req, res, next) => {
-  const error = new NotFoundClass(
+  const error = new NotFoundException(
     `${req.method} ${req.url} 라우터가 없습니다.`
   );
   logger.error(error.message);

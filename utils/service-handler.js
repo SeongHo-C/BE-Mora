@@ -1,4 +1,4 @@
-const { BadRequestClass } = require('../middlewares');
+const { BadRequestException } = require('../middlewares');
 const logger = require('../logger');
 
 const serviceHandler = (service) => {
@@ -7,7 +7,7 @@ const serviceHandler = (service) => {
       await service(req, res);
     } catch (err) {
       logger.error(err.message);
-      throw new BadRequestClass('BAD REQUREST ERROR');
+      throw new BadRequestException('BAD REQUREST ERROR');
     }
   };
 };

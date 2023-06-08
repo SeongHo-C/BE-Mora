@@ -39,6 +39,10 @@ class Comment extends Sequelize.Model {
       targetKey: 'id',
       onDelete: 'cascade',
     });
+    db.Comment.hasMany(db.Report, {
+      foreignKey: 'target_id',
+      sourceKey: 'id',
+    });
   }
 }
 
