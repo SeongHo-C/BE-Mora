@@ -15,6 +15,8 @@ const reportRouter = require('./api/report/router');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output');
 
+const logger = require('./logger');
+
 dotenv.config();
 const { sequelize } = require('./models');
 
@@ -64,6 +66,7 @@ app.use((req, res, next) => {
   const error = new NotFoundClass(
     `${req.method} ${req.url} 라우터가 없습니다.`
   );
+  logger.error(error.message);
   next(error);
 });
 
