@@ -51,6 +51,7 @@ class UserDetail extends Sequelize.Model {
     db.UserDetail.belongsTo(db.User, {
       foreignKey: 'user_id',
       targetKey: 'id',
+      onDelete: 'cascade',
     });
   }
 }
