@@ -46,4 +46,55 @@ module.exports = {
 
     return plan;
   },
+
+  async getYearMonth(yearMonth) {
+    const startDate = new Date(yearMonth + '-01');
+    const endDate = new Date(yearMonth + '-01');
+    endDate.setMonth(endDate.getMonth() + 1);
+    endDate.setDate(endDate.getDate() - 1);
+
+    const plans = Plan.findAll({
+      include: [
+        {
+          model: PlanLink,
+          attributes: ['id', 'url'],
+        },
+        {
+          model: Admin,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: {
+        [Op.or]: [
+          { start_date: { [Op.between]: [startDate, endDate] } },
+          { end_date: { [Op.between]: [startDate, endDate] } },
+        ],
+      },
+    });
+
+    return plans;
+  },
+
+  async getYearMonthDay(yearMonthDay) {
+    const plans = Plan.findAll({
+      include: [
+        {
+          model: PlanLink,
+          attributes: ['id', 'url'],
+        },
+        {
+          model: Admin,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: {
+        [Op.and]: [
+          { start_date: { [Op.lte]: yearMonthDay } },
+          { end_date: { [Op.gte]: yearMonthDay } },
+        ],
+      },
+    });
+
+    return plans;
+  },
 };
