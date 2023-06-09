@@ -5,19 +5,19 @@ const { loginRequired } = require('../../middlewares');
 const { serviceHandler } = require('../../utils');
 
 skillRouter.get(
-  '/skill',
+  '/skills',
   loginRequired,
   serviceHandler(skillController.getSkill)
 );
 
 skillRouter.get(
-  '/skill/myskill',
+  '/skills/myskill',
   loginRequired,
   serviceHandler(skillController.getUserSkills)
 );
 
 skillRouter.post(
-  '/skill/update',
+  '/skills/update',
   loginRequired,
   serviceHandler(skillController.updateUserSkills)
 );
