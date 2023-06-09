@@ -32,7 +32,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "example": "uuid"
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
                         },
                         "name": {
                           "type": "string",
@@ -71,7 +71,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "example": "uuid"
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
                         },
                         "name": {
                           "type": "string",
@@ -229,7 +229,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "example": "uuid"
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
                         },
                         "name": {
                           "type": "string",
@@ -268,7 +268,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "example": "uuid"
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
                         },
                         "name": {
                           "type": "string",
@@ -291,6 +291,149 @@
                           "example": "2023-06-03T16:19:06.000Z"
                         }
                       }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admins/{id}": {
+      "get": {
+        "tags": [
+          "admins"
+        ],
+        "description": "관리자 정보 상세 조회",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "관리자 상세 정보 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "관리자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "관리자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "해당 ID가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 관리자 ID입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 관리자 ID입니다."
                     }
                   },
                   "xml": {
@@ -860,6 +1003,155 @@
       }
     },
     "/notices/{id}": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "description": "관리자 : 공지 상세 조회",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "사용자 : 공지 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "공지 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "공지 내용"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email 정보"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "공지 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "공지 내용"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email 정보"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공지 ID가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 공지입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 공지입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "patch": {
         "tags": [
           "notices"

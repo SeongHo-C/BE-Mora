@@ -13,7 +13,7 @@ router.post(
             description: '관리자 회원가입 성공',
             schema: {
                 data: {
-                  id: 'uuid', 
+                  id: 'd4bdf4e9-2191-46bd-b659-499e9d901d3b', 
                   name: '관리자',
                   email: 'admin',
                   password: '1234', 
@@ -60,7 +60,7 @@ router.get(
             description: '관리자 정보 조회 성공',
             schema: {
                 data: {
-                  id: 'uuid', 
+                  id: 'd4bdf4e9-2191-46bd-b659-499e9d901d3b', 
                   name: '관리자',
                   email: 'admin',
                   password: '1234', 
@@ -68,6 +68,33 @@ router.get(
                   updatedAt: '2023-06-03T16:19:06.000Z' 
                 }
             }
+  } */
+);
+
+router.get(
+  '/admins/:id',
+  adminRequired,
+  serviceHandler(adminController.getDetail)
+  //  #swagger.description = '관리자 정보 상세 조회'
+  //  #swagger.tags = ['admins']
+  /*  #swagger.responses[200] = {
+            description: '관리자 상세 정보 조회 성공',
+            schema: {
+                data: {
+                  id: 'd4bdf4e9-2191-46bd-b659-499e9d901d3b', 
+                  name: '관리자',
+                  email: 'admin',
+                  password: '1234', 
+                  createdAt: '2023-06-03T16:19:06.000Z',
+                  updatedAt: '2023-06-03T16:19:06.000Z' 
+                }
+            }
+  } */
+  /*  #swagger.responses[404] = {
+    description: '해당 ID가 없는 경우',
+    schema: {
+      message: '존재하지 않는 관리자 ID입니다.'
+    }
   } */
 );
 

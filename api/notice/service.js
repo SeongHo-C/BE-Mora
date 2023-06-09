@@ -44,6 +44,23 @@ module.exports = {
     return notices;
   },
 
+  async getDetail(id) {
+    const notice = await Notice.findOne({
+      include: [
+        {
+          model: Admin,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: { id },
+    });
+    if (!notice) {
+      throw new NotFoundException('존재하지 않는 공지입니다.');
+    }
+
+    return notice;
+  },
+
   async setNotice(id, toUpdate) {
     const { title, content } = toUpdate;
 

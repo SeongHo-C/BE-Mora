@@ -60,6 +60,15 @@ module.exports = {
     return admins;
   },
 
+  async getDetail(id) {
+    const admin = await Admin.findOne({ where: { id } });
+    if (!admin) {
+      throw new NotFoundException('존재하지 않는 관리자 ID입니다.');
+    }
+
+    return admin;
+  },
+
   async setAdmin(email, toUpdate) {
     const { name, password } = toUpdate;
     const admin = await Admin.findOne({ where: { email } });

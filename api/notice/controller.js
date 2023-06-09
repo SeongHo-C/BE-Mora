@@ -18,6 +18,11 @@ module.exports = {
     res.status(200).json(await noticeService.getNotices(page, size, keyword));
   },
 
+  async getDetail(req, res) {
+    const { id } = req.params;
+    res.status(200).json(await noticeService.getDetail(id));
+  },
+
   async setNotice(req, res) {
     const { id } = req.params;
     const { title, content } = req.body;

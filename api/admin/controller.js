@@ -18,6 +18,11 @@ module.exports = {
     res.status(200).json(await adminService.getAdmins(page, size, keyword));
   },
 
+  async getDetail(req, res) {
+    const { id } = req.params;
+    res.status(200).json(await adminService.getDetail(id));
+  },
+
   async setAdmin(req, res) {
     const { email } = req.params;
     const { name, password } = req.body;
