@@ -1,4 +1,4 @@
-const { addUser, getUserToken } = require('./service');
+const userService = require('./service');
 module.exports = {
   /**
    * 회원가입
@@ -7,11 +7,11 @@ module.exports = {
     const { name, email, password } = req.body;
     const userInfo = { name, email, password };
 
-    const createdResult = await addUser(userInfo);
+    const createdResult = await userService.addUser(userInfo);
     if (!createdResult) {
       return res.status(400).json({ message: '이미 가입된 이메일입니다.' });
     }
-    return res.status(201).json(createdResult);
+    return res.status(201).json({ message: '회원가입이 완료되었습니다.' });
   },
 
   /**
@@ -20,7 +20,7 @@ module.exports = {
   async getUserToken(req, res) {
     const { email, password } = req.body;
 
-    const token = await getUserToken({ email, password });
+    const token = await userService.getUserToken({ email, password });
     if (!token) {
       return res
         .status(400)
@@ -37,8 +37,7 @@ module.exports = {
   async deleteUser(req, res) {
     const { password } = req.body;
     const loginId = req.currentId;
-
-    const deleteResult = await deleteUser(loginId, password);
+    const deleteResult = await userService.deleteUser(loginId, password);
     if (!deleteResult) {
       res.status(400).json({ message: '비밀번호가 일치하지않습니다.' });
     }

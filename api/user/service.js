@@ -68,11 +68,17 @@ module.exports = {
    * 회원탈퇴
    */
   async deleteUser(loginId, password) {
+    const user = await User.findOne({ where: { id: loginId } });
+    if (!user) {
+      return;
+    }
+
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return;
     }
-    await User.destroy({ where: { id: loginId } });
-    return;
+
+    const result = await User.destroy({ where: { id: loginId } });
+    return result;
   },
 };
