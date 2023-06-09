@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const userDetailService = require('./service');
 
 module.exports = {
@@ -12,21 +11,35 @@ module.exports = {
   },
 
   /**
-   * 이름, 직함, 소개 수정
-   * @param name - 이름
-   * @param position - 직함
-   * @param comment - 소개
+   *  이미지 업로드
+   */
+  async uploadImage(req, res) {
+    res.status(201).json({ path: req.file.path });
+  },
+
+  /**
+   * 이름, 사진, 직책, 직함, 소개, 기수 수정
    */
   async setProfile(req, res) {
-    const { name, position, comment } = req.body;
+    const { userName, userImg, position, intro, phase, track } = req.body;
     const userId = req.currentId;
 
     const updatedResult = await userDetailService.setProfile(
       userId,
-      name,
+      userName,
+      userImg,
       position,
-      comment
+      intro,
+      phase,
+      track
     );
-    return res.status(200).json(updatedResult);
+    if (!updatedResult) {
+      res
+        .status(400)
+        .json({
+          message: '프로필 업데이트에 실패했습니다. 다시 시도해주세요.',
+        });
+    }
+    res.status(200).json({ message: '변경되었습니다.' });
   },
 };

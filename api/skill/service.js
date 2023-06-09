@@ -67,9 +67,6 @@ module.exports = {
         };
       })
     );
-    console.log('----');
-    console.log(userSkills);
-    console.log('----');
     const result = await UserSkill.bulkCreate(
       userSkills.map((userSkills) => ({
         skill_id: userSkills.id,

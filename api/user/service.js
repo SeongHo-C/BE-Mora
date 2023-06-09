@@ -2,7 +2,6 @@ const User = require('./model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserDetail = require('../user-detail/model');
-const { BadRequestException } = require('../../middlewares');
 
 module.exports = {
   /**
@@ -41,6 +40,9 @@ module.exports = {
     return newUser;
   },
 
+  /**
+   * 사용자 로그인
+   */
   async getUserToken({ email, password }) {
     // 사용자 조회
     const user = await User.findOne({ where: { email: email } });
@@ -55,13 +57,27 @@ module.exports = {
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign(
-      { id: user.id, role: 'user' },
-      secretKey
-      // { 개발 단계에서 토큰 시간 ❌
-      //   expiresIn: '3h',
-      // }
-    );
+    const token = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
+      expiresIn: '1h',
+    });
     return token;
+  },
+
+  /**
+   * 회원탈퇴
+   */
+  async deleteUser(loginId, password) {
+    const user = await User.findOne({ where: { id: loginId } });
+    if (!user) {
+      return;
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return;
+    }
+
+    const result = await User.destroy({ where: { id: loginId } });
+    return result;
   },
 };
