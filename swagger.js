@@ -37,5 +37,6 @@ const endpointsFiles = [
   './api/board/router.js',
   './api/generation/router.js',
   './api/report/router.js',
+  './api/plan/router.js',
 ];
 swaggerAutogen(outputFile, endpointsFiles, options);
