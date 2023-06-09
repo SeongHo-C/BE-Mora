@@ -12,15 +12,18 @@ module.exports = {
     const { category, title, content, hashtags, images } = req.body;
     const writer = req.currentId;
 
-    await boardService.setBoard(
-      writer,
-      category,
-      title,
-      content,
-      hashtags,
-      images
-    );
-    res.status(201).json('게시글 등록 성공');
+    res
+      .status(201)
+      .json(
+        await boardService.setBoard(
+          writer,
+          category,
+          title,
+          content,
+          hashtags,
+          images
+        )
+      );
   },
 
   async deleteBoard(req, res) {

@@ -1,6 +1,6 @@
 const { Board, Photo, Comment, Like, Hashtag } = require('../../models');
+const db = require('../../models');
 const { UnauthorizedException } = require('../../middlewares');
-// const { Sequelize, fn, col } = require('sequelize');
 
 module.exports = {
   async setBoard(writer, category, title, content, hashtags, images) {
@@ -33,6 +33,8 @@ module.exports = {
         })
       );
     }
+
+    return board.id;
   },
 
   async deleteBoard(board_id, login_id) {
@@ -112,18 +114,50 @@ module.exports = {
   },
 
   async getBoards(category) {
-    const board = await Board.findAll({
-      include: [
-        {
-          model: Comment,
-          attributes: ['id'],
-        },
-        { model: Like, attributes: ['id'] },
-        { model: Hashtag, attributes: ['title'] },
-      ],
+    let boards = await Board.findAll({
       where: { category },
     });
 
-    return board;
+    const comment_cnt = await Promise.all(
+      boards.map((board) => Comment.count({ where: { id: board.id } }))
+    );
+
+    const like_cnt = await Promise.all(
+      boards.map((board) => Like.count({ where: { board_id: board.id } }))
+    );
+
+    const hashtags = await Promise.all(
+      boards.map((board) =>
+        db.sequelize.models.board_hashtag.findAll({
+          attributes: ['hashtag_id'],
+          where: { board_id: board.id },
+        })
+      )
+    );
+
+    const hashtags_title = await Promise.all(
+      hashtags.map((hashtag) =>
+        Promise.all(
+          hashtag.map((tag) =>
+            Hashtag.findOne({
+              attributes: ['title'],
+              where: { id: tag.dataValues.hashtag_id },
+            })
+          )
+        )
+      )
+    );
+
+    boards = boards.map((board, idx) => {
+      const additionalData = {
+        comment_cnt: comment_cnt[idx],
+        like_cnt: like_cnt[idx],
+        hashtags: hashtags_title[idx],
+      };
+
+      return Object.assign({}, board.dataValues, additionalData);
+    });
+
+    return boards;
   },
 };
