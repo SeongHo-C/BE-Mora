@@ -33,32 +33,10 @@ router.post(
 );
 
 router.get(
-  '/generations/admin',
-  adminRequired,
-  serviceHandler(generationController.getGenerations)
-  //  #swagger.description = '관리자 : 모든 기수 정보 조회 (검색 범위 : name, phase)'
-  //  #swagger.tags = ['generations']
-  /*  #swagger.responses[200] = {
-            description: '기수 정보 조회 성공',
-            schema: {
-                data: [
-                  {
-                    id: '903a6547-6f39-4bfb-b912-8d4b9bff451f',
-                    name: 'SW',
-                    phase: '1',
-                    createdAt: '2023-06-03T16:19:06.000Z',
-                    updatedAt: '2023-06-03T16:19:06.000Z'
-                  }
-                ]
-            }
-  } */
-);
-
-router.get(
-  '/generations/user',
+  '/generations',
   loginRequired,
   serviceHandler(generationController.getGenerations)
-  //  #swagger.description = '사용자 : 모든 기수 정보 조회 (검색 범위 : name, phase)'
+  //  #swagger.description = '모든 기수 정보 조회 (검색 범위 : name, phase)'
   //  #swagger.tags = ['generations']
   /*  #swagger.responses[200] = {
             description: '기수 정보 조회 성공',
