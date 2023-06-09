@@ -2,7 +2,7 @@ const User = require('./model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserDetail = require('../user-detail/model');
-const { BadRequestException, NotFoundClass } = require('../../middlewares');
+const { BadRequestException } = require('../../middlewares');
 
 module.exports = {
   /**
@@ -13,7 +13,7 @@ module.exports = {
     const { name, email, password } = userInfo;
     const existingUser = await User.findOne({ where: { email: email } });
     if (existingUser) {
-      throw new BadRequestException('이미 존재하는 이메일입니다.');
+      return;
     }
 
     // 비밀번호 암호화
@@ -45,19 +45,23 @@ module.exports = {
     // 사용자 조회
     const user = await User.findOne({ where: { email: email } });
     if (!user) {
-      throw new Error('아이디 또는 비밀번호를 다시 입력해주세요.');
+      return;
     }
 
     // 패스워드 검증
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      throw new Error('아이디 또는 비밀번호를 다시 입력해주세요.');
+      return;
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
-      expiresIn: '3h',
-    });
+    const token = jwt.sign(
+      { id: user.id, role: 'user' },
+      secretKey
+      // { 개발 단계에서 토큰 시간 ❌
+      //   expiresIn: '3h',
+      // }
+    );
     return token;
   },
 };
