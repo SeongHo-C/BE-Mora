@@ -127,9 +127,8 @@ module.exports = {
     });
 
     const comment_cnt = await Promise.all(
-      boards.map((board) => Comment.count({ where: { id: board.id } }))
+      boards.map((board) => Comment.count({ where: { board_id: board.id } }))
     );
-
     const like_cnt = await Promise.all(
       boards.map((board) => Like.count({ where: { board_id: board.id } }))
     );
@@ -207,5 +206,30 @@ module.exports = {
     };
 
     return Object.assign({}, board.dataValues, additionalData);
+  },
+
+  async getComments(id) {
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: { board_id: id },
+    });
+
+    const user_detail = await Promise.all(
+      comments.map(({ commenter }) =>
+        UserDetail.findOne({
+          where: { user_id: commenter },
+          attributes: ['img_path', 'generation_id', 'position'],
+        })
+      )
+    );
+
+    return comments.map((comment, idx) =>
+      Object.assign({}, comment.dataValues, { user_detail: user_detail[idx] })
+    );
   },
 };
