@@ -13,4 +13,14 @@ module.exports = {
         )
       );
   },
+
+  async getYearMonth(req, res) {
+    const { yearMonth } = req.params;
+    res.status(200).json(await planService.getYearMonth(yearMonth));
+  },
+
+  async getYearMonthDay(req, res) {
+    const { yearMonthDay } = req.params;
+    res.status(200).json(await planService.getYearMonthDay(yearMonthDay));
+  },
 };

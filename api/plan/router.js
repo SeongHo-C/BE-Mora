@@ -41,4 +41,54 @@ router.post(
   } */
 );
 
+router.get(
+  '/plans/ym/:yearMonth',
+  loginRequired,
+  serviceHandler(planController.getYearMonth)
+  //  #swagger.description = '년월 일정 조회'
+  //  #swagger.tags = ['plans, planLinks']
+  /*  #swagger.responses[200] = {
+            description: '년월 일정 조회 성공',
+            schema: {
+                data: {
+                  id: '56dc6f70-de6f-40f7-ac40-3e1081c69ce5', 
+                  title: '일정 제목',
+                  content: '일정 내용',
+                  start_date: '2023-06-03T16:19:06.000Z',
+                  end_date: '2023-06-03T16:19:06.000Z', 
+                  createdAt: '2023-06-03T16:19:06.000Z',
+                  updatedAt: '2023-06-03T16:19:06.000Z', 
+                  admin_id: 'ae38d389-7804-4e7d-9d8f-c2618799ce3f',
+                  PlanLinks: '[ { id, url },{ id, url } ... ]',
+                  Admin: 'name, email'
+                }
+            }
+  } */
+);
+
+router.get(
+  '/plans/ymd/:yearMonthDay',
+  loginRequired,
+  serviceHandler(planController.getYearMonthDay)
+  //  #swagger.description = '년월일 일정 조회'
+  //  #swagger.tags = ['plans, planLinks']
+  /*  #swagger.responses[200] = {
+            description: '년월일 일정 조회 성공',
+            schema: {
+                data: {
+                  id: '56dc6f70-de6f-40f7-ac40-3e1081c69ce5', 
+                  title: '일정 제목',
+                  content: '일정 내용',
+                  start_date: '2023-06-03T16:19:06.000Z',
+                  end_date: '2023-06-03T16:19:06.000Z', 
+                  createdAt: '2023-06-03T16:19:06.000Z',
+                  updatedAt: '2023-06-03T16:19:06.000Z', 
+                  admin_id: 'ae38d389-7804-4e7d-9d8f-c2618799ce3f',
+                  PlanLinks: '[ { id, url },{ id, url } ... ]',
+                  Admin: 'name, email'
+                }
+            }
+  } */
+);
+
 module.exports = router;
