@@ -30,4 +30,18 @@ module.exports = {
       .status(201)
       .json({ token: token, message: '로그인에 성공하셨습니다!' });
   },
+
+  /**
+   * 회원 탈퇴
+   */
+  async deleteUser(req, res) {
+    const { password } = req.body;
+    const loginId = req.currentId;
+
+    const deleteResult = await deleteUser(loginId, password);
+    if (!deleteResult) {
+      res.status(400).json({ message: '비밀번호가 일치하지않습니다.' });
+    }
+    return res.status(201).json({ message: '탈퇴가 완료되었습니다.' });
+  },
 };

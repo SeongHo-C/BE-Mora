@@ -41,6 +41,9 @@ module.exports = {
     return newUser;
   },
 
+  /**
+   * 사용자 로그인
+   */
   async getUserToken({ email, password }) {
     // 사용자 조회
     const user = await User.findOne({ where: { email: email } });
@@ -63,5 +66,17 @@ module.exports = {
       // }
     );
     return token;
+  },
+
+  /**
+   * 회원탈퇴
+   */
+  async deleteUser(loginId, password) {
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return;
+    }
+    await User.destroy({ where: { id: loginId } });
+    return;
   },
 };

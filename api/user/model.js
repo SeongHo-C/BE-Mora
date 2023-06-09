@@ -46,8 +46,13 @@ class User extends Sequelize.Model {
     db.User.hasOne(db.User_Detail, {
       foreignKey: 'user_id',
       sourceKey: 'id',
+      onDelete: 'cascade',
     });
-    db.User.hasMany(db.Board, { foreignKey: 'writer', sourceKey: 'id' });
+    db.User.hasMany(db.Board, {
+      foreignKey: 'writer',
+      sourceKey: 'id',
+      onDelete: 'cascade',
+    });
     db.User.hasMany(db.Comment, {
       foreignKey: 'commenter',
       sourceKey: 'id',
@@ -62,11 +67,13 @@ class User extends Sequelize.Model {
       foreignKey: 'from_user_id',
       sourceKey: 'id',
       as: 'FromUser',
+      onDelete: 'cascade',
     });
     db.User.hasMany(db.Report, {
       foreignKey: 'to_user_id',
       sourceKey: 'id',
       as: 'ToUser',
+      onDelete: 'cascade',
     });
     db.User.hasOne(db.Blacklist, {
       foreignKey: 'email',
