@@ -2577,6 +2577,206 @@
           }
         }
       }
+    },
+    "/plans": {
+      "post": {
+        "tags": [
+          "plans, planLinks"
+        ],
+        "description": "일정 등록",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "일정 등록 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url },{ id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url },{ id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "일정ID가 존재하지 않는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{ID}는 존재하지 않는 일정입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{ID}는 존재하지 않는 일정입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "일정 등록 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "일정 등록 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "일정 등록 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
