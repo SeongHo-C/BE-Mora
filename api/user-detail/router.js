@@ -5,13 +5,13 @@ const { loginRequired } = require('../../middlewares');
 const { serviceHandler } = require('../../utils');
 
 userDetailRouter.get(
-  '/user/mypage',
+  '/users/mypage',
   loginRequired,
   serviceHandler(userDetalController.getProfile)
 );
 
 userDetailRouter.put(
-  '/user/mypage/edit',
+  '/users/mypage/edit',
   loginRequired,
   serviceHandler(userDetalController.setProfile)
 );
