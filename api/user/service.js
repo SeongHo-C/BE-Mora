@@ -58,13 +58,9 @@ module.exports = {
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign(
-      { id: user.id, role: 'user' },
-      secretKey
-      // { 개발 단계에서 토큰 시간 ❌
-      //   expiresIn: '3h',
-      // }
-    );
+    const token = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
+      expiresIn: '1h',
+    });
     return token;
   },
 
