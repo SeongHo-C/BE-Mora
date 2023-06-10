@@ -166,6 +166,10 @@ module.exports = {
           model: User,
           attributes: ['name', 'email'],
         },
+        {
+          model: Photo,
+          attributes: ['file_name', 'origin_name'],
+        },
       ],
       where: { id },
     });
