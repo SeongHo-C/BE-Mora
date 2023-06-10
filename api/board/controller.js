@@ -55,4 +55,16 @@ module.exports = {
 
     res.status(200).json(await boardService.getBoards(category));
   },
+
+  async getBoard(req, res) {
+    const { id } = req.params;
+
+    res.status(200).json(await boardService.getBoard(id));
+  },
+
+  async getComments(req, res) {
+    const { id } = req.params;
+
+    res.status(200).json(await boardService.getComments(id));
+  },
 };

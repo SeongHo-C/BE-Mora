@@ -56,6 +56,17 @@ router.get(
   loginRequired,
   serviceHandler(boardController.getBoards)
 );
-// router.get('/detail/:id', getBoard);
+
+router.get(
+  '/boards/detail/:id',
+  loginRequired,
+  serviceHandler(boardController.getBoard)
+);
+
+router.get(
+  '/boards/detail/:id/comments',
+  loginRequired,
+  serviceHandler(boardController.getComments)
+);
 
 module.exports = router;

@@ -1,4 +1,12 @@
-const { Board, Photo, Comment, Like, Hashtag } = require('../../models');
+const {
+  User,
+  UserDetail,
+  Board,
+  Photo,
+  Comment,
+  Like,
+  Hashtag,
+} = require('../../models');
 const db = require('../../models');
 const { UnauthorizedException } = require('../../middlewares');
 
@@ -119,9 +127,8 @@ module.exports = {
     });
 
     const comment_cnt = await Promise.all(
-      boards.map((board) => Comment.count({ where: { id: board.id } }))
+      boards.map((board) => Comment.count({ where: { board_id: board.id } }))
     );
-
     const like_cnt = await Promise.all(
       boards.map((board) => Like.count({ where: { board_id: board.id } }))
     );
@@ -148,7 +155,7 @@ module.exports = {
       )
     );
 
-    boards = boards.map((board, idx) => {
+    return boards.map((board, idx) => {
       const additionalData = {
         comment_cnt: comment_cnt[idx],
         like_cnt: like_cnt[idx],
@@ -157,7 +164,76 @@ module.exports = {
 
       return Object.assign({}, board.dataValues, additionalData);
     });
+  },
 
-    return boards;
+  async getBoard(id) {
+    const board = await Board.findOne({
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: { id },
+    });
+
+    await board.update({
+      view_cnt: board.view_cnt + 1,
+    });
+
+    const user_detail = await UserDetail.findOne({
+      where: { user_id: board.writer },
+      attributes: ['img_path', 'generation_id', 'position'],
+    });
+
+    const comment_cnt = await Comment.count({ where: { board_id: id } });
+    const like_cnt = await Like.count({ where: { board_id: id } });
+
+    const hashtags = await db.sequelize.models.board_hashtag.findAll({
+      attributes: ['hashtag_id'],
+      where: { board_id: id },
+    });
+    const hashtags_title = await Promise.all(
+      hashtags.map((hashtag) =>
+        Hashtag.findOne({
+          attributes: ['title'],
+          where: { id: hashtag.dataValues.hashtag_id },
+        })
+      )
+    );
+
+    const additionalData = {
+      user_detail,
+      comment_cnt,
+      like_cnt,
+      hashtags: hashtags_title,
+    };
+
+    return Object.assign({}, board.dataValues, additionalData);
+  },
+
+  async getComments(id) {
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: { board_id: id },
+    });
+
+    const user_detail = await Promise.all(
+      comments.map(({ commenter }) =>
+        UserDetail.findOne({
+          where: { user_id: commenter },
+          attributes: ['img_path', 'generation_id', 'position'],
+        })
+      )
+    );
+
+    return comments.map((comment, idx) =>
+      Object.assign({}, comment.dataValues, { user_detail: user_detail[idx] })
+    );
   },
 };
