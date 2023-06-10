@@ -10,7 +10,7 @@ class Photo extends Sequelize.Model {
           defaultValue: Sequelize.UUIDV4,
           allowNull: false,
         },
-        path: {
+        file_name: {
           type: Sequelize.STRING(100),
           allowNull: false,
         },

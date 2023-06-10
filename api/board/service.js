@@ -8,6 +8,7 @@ const {
   Hashtag,
 } = require('../../models');
 const db = require('../../models');
+const { fn, col, literal } = require('sequelize');
 const { UnauthorizedException } = require('../../middlewares');
 
 module.exports = {
@@ -35,7 +36,7 @@ module.exports = {
         images.map((img) => {
           return Photo.create({
             board_id: board.id,
-            path: img.path,
+            file_name: img.file_name,
             origin_name: img.origin_name,
           });
         })
@@ -238,11 +239,54 @@ module.exports = {
   },
 
   async getPopularBoard() {
-    const board = await Board.findAll({
-      order: [['view_cnt', 'DESC']],
-      limit: 10,
+    const boards = await Board.findAll({
+      attributes: [
+        'id',
+        'writer',
+        'category',
+        'title',
+        'content',
+        'view_cnt',
+        [fn('COUNT', col('comments.id')), 'comment_cnt'],
+        [fn('COUNT', col('likes.id')), 'like_cnt'],
+        'createdAt',
+        'updatedAt',
+      ],
+      include: [
+        {
+          model: Like,
+          attributes: [],
+        },
+        {
+          model: Comment,
+          attributes: [],
+        },
+        {
+          model: User,
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Photo,
+          attributes: ['file_name', 'origin_name'],
+        },
+      ],
+      group: ['Board.id'],
+      order: [literal('view_cnt + like_cnt DESC')],
     });
 
-    return board;
+    const userDetails = await Promise.all(
+      boards.map((board) =>
+        UserDetail.findOne({
+          where: { user_id: board.writer },
+          attributes: ['img_path', 'generation_id', 'position'],
+        })
+      )
+    );
+
+    return boards
+      .map((board, idx) =>
+        Object.assign({}, board.dataValues, { user_detail: userDetails[idx] })
+      )
+      .slice(0, 10);
   },
 };

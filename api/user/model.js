@@ -43,7 +43,7 @@ class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.User.hasOne(db.user_detail, {
+    db.User.hasOne(db.UserDetail, {
       foreignKey: 'user_id',
       sourceKey: 'id',
       onDelete: 'cascade',
