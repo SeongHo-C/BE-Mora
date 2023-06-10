@@ -54,8 +54,6 @@ module.exports = {
       });
     }
 
-    await UserSkill.destroy({ where: { user_id: userId } });
-
     // 새로운 유저 스킬 등록
     const userSkills = await Promise.all(
       skillNames.map(async (skillName) => {
