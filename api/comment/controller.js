@@ -19,9 +19,9 @@ module.exports = {
 
   async deleteComment(req, res) {
     const { comment_id } = req.body;
-    const login_id = req.currentId;
+    const userId = req.currentId;
 
-    await commentService.deleteComment(comment_id, login_id);
+    await commentService.deleteComment(comment_id, userId);
     res.status(200).json('댓글 삭제 완료');
   },
 };

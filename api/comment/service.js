@@ -41,19 +41,19 @@ module.exports = {
     );
   },
 
-  async deleteComment(comment_id, login_id) {
+  async deleteComment(id, userId) {
     const comment = await Comment.findOne({
-      where: { id: comment_id },
+      where: { id },
     });
 
-    if (comment.commenter !== login_id) {
+    if (comment.commenter !== userId) {
       throw new UnauthorizedClass(
         '댓글을 작성한 사용자가 아니면 삭제하실 수 없습니다.'
       );
     }
 
     await Comment.destroy({
-      where: { id: comment_id },
+      where: { id },
     });
   },
 };
