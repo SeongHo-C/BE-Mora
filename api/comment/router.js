@@ -6,17 +6,17 @@ const { serviceHandler } = require('../../utils');
 const router = express.Router();
 
 router.post(
-  '/comment',
+  '/comments',
   loginRequired,
   serviceHandler(commentController.setComment)
 );
 router.patch(
-  '/comment',
+  '/comments',
   loginRequired,
   serviceHandler(commentController.updateComment)
 );
 router.delete(
-  '/comment',
+  '/comments',
   loginRequired,
   serviceHandler(commentController.deleteComment)
 );
