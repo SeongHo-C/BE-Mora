@@ -5,14 +5,15 @@ const fs = require('fs');
 const { loginRequired } = require('../../middlewares');
 const { serviceHandler } = require('../../utils');
 const boardController = require('./controller');
+const logger = require('../../logger');
 
 const router = express.Router();
 
-try {
-  fs.readdirSync('uploads');
-} catch (error) {
-  console.error('uploads 폴더가 없으므로 uploads 폴더를 생성합니다.');
-  fs.mkdirSync('uploads');
+if (!fs.existsSync('uploads')) {
+  fs.mkdir('uploads', (err) => {
+    if (err) logger.error('Error creating folder:', err);
+    else logger.info('Folder created successfully.');
+  });
 }
 
 const upload = multer({
