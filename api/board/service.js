@@ -177,6 +177,10 @@ module.exports = {
       where: { id },
     });
 
+    await board.update({
+      view_cnt: board.view_cnt + 1,
+    });
+
     const user_detail = await UserDetail.findOne({
       where: { user_id: board.writer },
       attributes: ['img_path', 'generation_id', 'position'],
