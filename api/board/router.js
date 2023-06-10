@@ -51,6 +51,8 @@ router.delete(
   serviceHandler(boardController.deleteBoard)
 );
 
+router.get('/boards/popular', serviceHandler(boardController.getPopularBoard));
+
 router.get(
   '/boards/:category',
   loginRequired,

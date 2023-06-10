@@ -236,4 +236,13 @@ module.exports = {
       Object.assign({}, comment.dataValues, { user_detail: user_detail[idx] })
     );
   },
+
+  async getPopularBoard() {
+    const board = await Board.findAll({
+      order: [['view_cnt', 'DESC']],
+      limit: 10,
+    });
+
+    return board;
+  },
 };

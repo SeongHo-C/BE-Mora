@@ -67,4 +67,8 @@ module.exports = {
 
     res.status(200).json(await boardService.getComments(id));
   },
+
+  async getPopularBoard(req, res) {
+    res.status(200).json(await boardService.getPopularBoard());
+  },
 };
