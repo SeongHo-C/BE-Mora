@@ -20,12 +20,12 @@ module.exports = {
     });
   },
 
-  async updateComment(content, comment_id, login_id) {
+  async updateComment(content, id, userId) {
     const comment = await Comment.findOne({
-      where: { id: comment_id },
+      where: { id },
     });
 
-    if (comment.commenter !== login_id) {
+    if (comment.commenter !== userId) {
       throw new UnauthorizedClass(
         '댓글을 작성한 사용자가 아니면 수정하실 수 없습니다.'
       );
@@ -36,7 +36,7 @@ module.exports = {
         content,
       },
       {
-        where: { id: comment_id },
+        where: { id },
       }
     );
   },

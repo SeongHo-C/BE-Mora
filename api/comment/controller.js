@@ -11,9 +11,9 @@ module.exports = {
 
   async updateComment(req, res) {
     const { content, comment_id } = req.body;
-    const login_id = req.currentId;
+    const userId = req.currentId;
 
-    await commentService.updateComment(content, comment_id, login_id);
+    await commentService.updateComment(content, comment_id, userId);
     res.status(200).json('댓글 수정 완료');
   },
 
