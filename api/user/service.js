@@ -1,7 +1,8 @@
 const User = require('./model');
+const UserDetail = require('../user-detail/model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const UserDetail = require('../user-detail/model');
+const { BadRequestException } = require('../../middlewares');
 
 module.exports = {
   /**
