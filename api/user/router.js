@@ -1,8 +1,15 @@
 const express = require('express');
 const userRouter = express.Router();
-const { addUser, getUserToken } = require('./controller');
+const userController = require('./controller');
+const { loginRequired } = require('../../middlewares');
+const { serviceHandler } = require('../../utils');
 
-userRouter.post('/register', addUser);
-userRouter.post('/login', getUserToken);
+userRouter.post('/users/register', serviceHandler(userController.addUser));
+userRouter.post('/users/login', serviceHandler(userController.getUserToken));
+userRouter.delete(
+  '/users/delete',
+  loginRequired,
+  serviceHandler(userController.deleteUser)
+);
 
 module.exports = userRouter;

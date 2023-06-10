@@ -1,48 +1,47 @@
-const {
-  getBoards,
-  getBoard,
-  setBoard,
-  deleteBoard,
-  updateBoard,
-} = require('./service');
+const boardService = require('./service');
 
-exports.afterUploadImage = async (req, res, next) => {
-  console.log(req.file);
-  res.json({ path: req.file.path, origin_name: req.file.originalname });
-};
+module.exports = {
+  async afterUploadImage(req, res) {
+    console.log(req.file);
+    res
+      .status(201)
+      .json({
+        file_name: req.file.filename,
+        origin_name: req.file.originalname,
+      });
+  },
 
-exports.setBoard = async (req, res, next) => {
-  const { category, title, content, hashtags, images } = req.body;
-  const writer = req.currentId;
+  async setBoard(req, res) {
+    const { category, title, content, hashtags, images } = req.body;
+    const writer = req.currentId;
 
-  try {
-    await setBoard(writer, category, title, content, hashtags, images);
-    res.status(201).json('게시판 등록');
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-};
+    res
+      .status(201)
+      .json(
+        await boardService.setBoard(
+          writer,
+          category,
+          title,
+          content,
+          hashtags,
+          images
+        )
+      );
+  },
 
-exports.deleteBoard = async (req, res, next) => {
-  const { board_id } = req.body;
-  const login_id = req.currentId;
+  async deleteBoard(req, res) {
+    const { board_id } = req.body;
+    const login_id = req.currentId;
 
-  try {
-    await deleteBoard(board_id, login_id);
-    res.status(201).json('삭제 완료');
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-};
+    await boardService.deleteBoard(board_id, login_id);
+    res.status(200).json('게시글 삭제 완료');
+  },
 
-exports.updateBoard = async (req, res, next) => {
-  const { category, title, content, hashtags, images, board_id } = req.body;
-  const login_id = req.currentId;
+  async updateBoard(req, res) {
+    const { category, title, content, hashtags, images, board_id } = req.body;
+    const login_id = req.currentId;
 
-  try {
-    await updateBoard(
+    await boardService.updateBoard(
       category,
       title,
       content,
@@ -51,33 +50,24 @@ exports.updateBoard = async (req, res, next) => {
       board_id,
       login_id
     );
-    res.status(201).json('게시판 수정');
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-};
+    res.status(200).json('게시글 수정 완료');
+  },
 
-exports.getBoards = async (req, res, next) => {
-  const { cateogory } = req.params;
+  async getBoards(req, res) {
+    const { category } = req.params;
 
-  try {
-    const data = await getBoards(cateogory);
-    return res.json(data);
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-};
+    res.status(200).json(await boardService.getBoards(category));
+  },
 
-exports.getBoard = async (req, res, next) => {
-  const { id } = req.params;
+  async getBoard(req, res) {
+    const { id } = req.params;
 
-  try {
-    const data = await getBoard(id);
-    return res.json(data);
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
+    res.status(200).json(await boardService.getBoard(id));
+  },
+
+  async getComments(req, res) {
+    const { id } = req.params;
+
+    res.status(200).json(await boardService.getComments(id));
+  },
 };

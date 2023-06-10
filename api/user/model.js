@@ -43,15 +43,41 @@ class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.User.hasOne(db.Profile, {
+    db.User.hasOne(db.user_detail, {
       foreignKey: 'user_id',
-      targetKey: 'email',
+      sourceKey: 'id',
+      onDelete: 'cascade',
     });
-    db.User.hasMany(db.Board, { foreignKey: 'writer', sourceKey: 'id' });
+    db.User.hasMany(db.Board, {
+      foreignKey: 'writer',
+      sourceKey: 'id',
+      onDelete: 'cascade',
+    });
     db.User.hasMany(db.Comment, {
       foreignKey: 'commenter',
       sourceKey: 'id',
       onDelete: 'cascade',
+    });
+    db.User.hasMany(db.Like, {
+      foreignKey: 'user_id',
+      sourceKey: 'id',
+      onDelete: 'cascade',
+    });
+    db.User.hasMany(db.Report, {
+      foreignKey: 'from_user_id',
+      sourceKey: 'id',
+      as: 'FromUser',
+      onDelete: 'cascade',
+    });
+    db.User.hasMany(db.Report, {
+      foreignKey: 'to_user_id',
+      sourceKey: 'id',
+      as: 'ToUser',
+      onDelete: 'cascade',
+    });
+    db.User.hasOne(db.Blacklist, {
+      foreignKey: 'email',
+      sourceKey: 'email',
     });
   }
 }

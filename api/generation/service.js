@@ -1,69 +1,85 @@
 const Generation = require('./model');
-// const { CustomError } = require('../../middlewares');
-// const { code, message } = require('../../utils');
 const { Op } = require('sequelize');
+const { getPagination, getPagingData } = require('../../utils');
+const {
+  BadRequestException,
+  NotFoundException,
+  InternalServerErrorException,
+} = require('../../middlewares');
 
 module.exports = {
   async addGeneration(generationInfo) {
     const { name, phase } = generationInfo;
     const generation = await Generation.findOne({
-      where: { [Op.and]: [{ name: name }, { phase: phase }] },
+      where: { [Op.and]: [{ name }, { phase }] },
     });
     if (generation) {
-      // throw new CustomError(code.CONFLICT, message.ALREADY_GENERATION);
-      throw new Error('이미 존재하는 기수입니다. 다시 한 번 확인해 주세요.');
+      throw new BadRequestException('이미 존재하는 기수입니다.');
     }
 
-    const createdNewGeneration = await Generation.create(generationInfo);
-    return createdNewGeneration;
+    return await Generation.create(generationInfo);
   },
 
-  async getGeneraions(keyword) {
-    const generations = await Generation.findAll({
+  async getGeneraions(page, size, keyword) {
+    const { limit, offset } = getPagination(page, size);
+    let generations = await Generation.findAndCountAll({
       where: {
         [Op.or]: [
           { name: { [Op.like]: `%${keyword}%` } },
           { phase: { [Op.like]: `%${keyword}%` } },
         ],
       },
+      order: [
+        ['name', 'ASC'],
+        ['phase', 'ASC'],
+      ],
+      offset,
+      limit,
     });
+    generations = getPagingData(generations, page, limit);
+
     return generations;
   },
 
   async setGeneration(id, toUpdate) {
     const { name, phase } = toUpdate;
-    const generation = await Generation.findOne({ where: { id: id } });
+
+    const generation = await Generation.findOne({ where: { id } });
     if (!generation) {
-      // throw new CustomError(code.NOT_FOUND, message.NO_GENERATION);
-      throw new Error('찾으시는 기수가 없습니다. 다시 한 번 확인해 주세요.');
+      throw new NotFoundException('존재하지 않는 기수입니다.');
     }
 
-    const updateCount = Generation.update(
+    const updateCount = await Generation.update(
       {
-        name: name,
-        phase: phase,
+        name,
+        phase,
       },
       {
-        where: { id: id },
+        where: { id },
       }
     );
-    if (updateCount < 1) {
-      // throw new CustomError(code.NOT_FOUND, message.GENERATION_UPDATE_FAIL);
-      throw new Error(
-        '기수 수정 처리가 실패했습니다. 다시 한 번 확인해 주세요.'
+    if (!updateCount) {
+      throw new InternalServerErrorException(
+        `${name} 기수 수정 처리에 실패했습니다.`
       );
     }
-    return updateCount;
+
+    return await Generation.findOne({ where: { id } });
   },
 
   async deleteGeneration(id) {
-    const deleteCount = await Generation.destroy({ where: { id: id } });
-    if (deleteCount < 1) {
-      // throw new CustomError(code.NOT_FOUND, message.GENERATION_DELETE_FAIL);
-      throw new Error(
-        '기수 삭제 처리가 실패했습니다. 다시 한 번 확인해 주세요.'
+    const generation = await Generation.findOne({ where: { id } });
+    if (!generation) {
+      throw new NotFoundException('존재하지 않는 기수입니다.');
+    }
+
+    const deleteCount = await Generation.destroy({ where: { id } });
+    if (!deleteCount) {
+      throw new InternalServerErrorException(
+        `${id} 기수 삭제 처리에 실패했습니다.`
       );
     }
-    return deleteCount;
+
+    return generation;
   },
 };

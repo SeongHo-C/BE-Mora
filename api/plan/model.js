@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize');
 
+/**
+ * 일정 테이블
+ */
 class Plan extends Sequelize.Model {
   static initiate(sequelize) {
     Plan.init(
@@ -30,7 +33,7 @@ class Plan extends Sequelize.Model {
       {
         sequelize,
         timestamps: true,
-        underscored: false,
+        underscored: true,
         modelName: 'Plan',
         tableName: 'plans',
         peranoid: false,
@@ -42,7 +45,47 @@ class Plan extends Sequelize.Model {
 
   static associate(db) {
     db.Plan.belongsTo(db.Admin, { foreignKey: 'admin_id', targetKey: 'id' });
+    db.Plan.hasMany(db.PlanLink, { foreignKey: 'plan_id', sourceKey: 'id' });
   }
 }
 
-module.exports = Plan;
+/**
+ * 일정 링크 테이블
+ */
+class PlanLink extends Sequelize.Model {
+  static initiate(sequelize) {
+    PlanLink.init(
+      {
+        id: {
+          type: Sequelize.UUID,
+          primaryKey: true,
+          defaultValue: Sequelize.UUIDV4,
+          allowNull: false,
+        },
+        url: {
+          type: Sequelize.STRING(500),
+          allowNull: false,
+        },
+      },
+      {
+        sequelize,
+        timestamps: true,
+        underscored: true,
+        modelName: 'PlanLink',
+        tableName: 'planLinks',
+        peranoid: false,
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
+      }
+    );
+  }
+
+  static associate(db) {
+    db.PlanLink.belongsTo(db.Plan, {
+      foreignKey: 'plan_id',
+      targetKey: 'id',
+    });
+  }
+}
+
+module.exports = { Plan, PlanLink };

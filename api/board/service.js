@@ -1,14 +1,17 @@
-const { Board, Hashtag, Photo } = require('../../models');
+const {
+  User,
+  UserDetail,
+  Board,
+  Photo,
+  Comment,
+  Like,
+  Hashtag,
+} = require('../../models');
+const db = require('../../models');
+const { UnauthorizedException } = require('../../middlewares');
 
-exports.setBoard = async (
-  writer,
-  category,
-  title,
-  content,
-  hashtags,
-  images
-) => {
-  try {
+module.exports = {
+  async setBoard(writer, category, title, content, hashtags, images) {
     const board = await Board.create({
       category,
       writer,
@@ -38,46 +41,44 @@ exports.setBoard = async (
         })
       );
     }
-  } catch (err) {
-    throw new Error(err);
-  }
-};
 
-exports.deleteBoard = async (board_id, login_id) => {
-  try {
+    return board.id;
+  },
+
+  async deleteBoard(board_id, login_id) {
     const board = await Board.findOne({
       attributes: ['writer'],
       where: { id: board_id },
     });
 
     if (board.writer !== login_id) {
-      throw new Error('게시판 작성자와 동일한 사용자만 삭제가 가능합니다.');
+      throw new UnauthorizedException(
+        '게시판 작성자와 동일한 사용자만 삭제가 가능합니다.'
+      );
     }
 
     await Board.destroy({
       where: { id: board_id },
     });
-  } catch (err) {
-    throw new Error(err);
-  }
-};
+  },
 
-exports.updateBoard = async (
-  category,
-  title,
-  content,
-  hashtags,
-  images,
-  board_id,
-  login_id
-) => {
-  try {
+  async updateBoard(
+    category,
+    title,
+    content,
+    hashtags,
+    images,
+    board_id,
+    login_id
+  ) {
     const board = await Board.findOne({
       where: { id: board_id },
     });
 
     if (board.writer !== login_id) {
-      throw new Error('게시판 작성자와 동일한 사용자만 수정이 가능합니다.');
+      throw new UnauthorizedException(
+        '게시판 작성자와 동일한 사용자만 수정이 가능합니다.'
+      );
     }
 
     await Board.update(
@@ -118,25 +119,121 @@ exports.updateBoard = async (
         })
       );
     }
-  } catch (err) {
-    throw new Error(err);
-  }
-};
+  },
 
-exports.getBoards = async (category) => {
-  try {
-    const data = await Board.findAll({ where: { category } });
-    return data;
-  } catch (err) {
-    throw new Error(err);
-  }
-};
+  async getBoards(category) {
+    let boards = await Board.findAll({
+      where: { category },
+    });
 
-exports.getBoard = async (id) => {
-  try {
-    const data = await Board.findOne({ where: { id } });
-    return data;
-  } catch (err) {
-    throw new Error(err);
-  }
+    const comment_cnt = await Promise.all(
+      boards.map((board) => Comment.count({ where: { board_id: board.id } }))
+    );
+    const like_cnt = await Promise.all(
+      boards.map((board) => Like.count({ where: { board_id: board.id } }))
+    );
+
+    const hashtags = await Promise.all(
+      boards.map((board) =>
+        db.sequelize.models.board_hashtag.findAll({
+          attributes: ['hashtag_id'],
+          where: { board_id: board.id },
+        })
+      )
+    );
+
+    const hashtags_title = await Promise.all(
+      hashtags.map((hashtag) =>
+        Promise.all(
+          hashtag.map((tag) =>
+            Hashtag.findOne({
+              attributes: ['title'],
+              where: { id: tag.dataValues.hashtag_id },
+            })
+          )
+        )
+      )
+    );
+
+    return boards.map((board, idx) => {
+      const additionalData = {
+        comment_cnt: comment_cnt[idx],
+        like_cnt: like_cnt[idx],
+        hashtags: hashtags_title[idx],
+      };
+
+      return Object.assign({}, board.dataValues, additionalData);
+    });
+  },
+
+  async getBoard(id) {
+    const board = await Board.findOne({
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: { id },
+    });
+
+    await board.update({
+      view_cnt: board.view_cnt + 1,
+    });
+
+    const user_detail = await UserDetail.findOne({
+      where: { user_id: board.writer },
+      attributes: ['img_path', 'generation_id', 'position'],
+    });
+
+    const comment_cnt = await Comment.count({ where: { board_id: id } });
+    const like_cnt = await Like.count({ where: { board_id: id } });
+
+    const hashtags = await db.sequelize.models.board_hashtag.findAll({
+      attributes: ['hashtag_id'],
+      where: { board_id: id },
+    });
+    const hashtags_title = await Promise.all(
+      hashtags.map((hashtag) =>
+        Hashtag.findOne({
+          attributes: ['title'],
+          where: { id: hashtag.dataValues.hashtag_id },
+        })
+      )
+    );
+
+    const additionalData = {
+      user_detail,
+      comment_cnt,
+      like_cnt,
+      hashtags: hashtags_title,
+    };
+
+    return Object.assign({}, board.dataValues, additionalData);
+  },
+
+  async getComments(id) {
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: { board_id: id },
+    });
+
+    const user_detail = await Promise.all(
+      comments.map(({ commenter }) =>
+        UserDetail.findOne({
+          where: { user_id: commenter },
+          attributes: ['img_path', 'generation_id', 'position'],
+        })
+      )
+    );
+
+    return comments.map((comment, idx) =>
+      Object.assign({}, comment.dataValues, { user_detail: user_detail[idx] })
+    );
+  },
 };

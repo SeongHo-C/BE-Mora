@@ -1,38 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('./controller');
-const { loginRequired } = require('../../middlewares');
+const { adminRequired } = require('../../middlewares');
 const { serviceHandler } = require('../../utils');
 
 router.post(
-  '/admin/register',
+  '/admins/register',
   serviceHandler(adminController.addAdmin)
   //  #swagger.description = '관리자 등록'
   //  #swagger.tags = ['admins']
-  /*  #swagger.parameters[''] = {
-                in: 'body',
-                schema: {
-                    name: '관리자',
-                    email: 'admin',
-                    password: '1234', 
-                }
-} */
   /*  #swagger.responses[201] = {
-            description: '관리자 등록 성공',
+            description: '관리자 회원가입 성공',
             schema: {
-                message: '관리자를 생성하였습니다.'
+                data: {
+                  id: 'd4bdf4e9-2191-46bd-b659-499e9d901d3b', 
+                  name: '관리자',
+                  email: 'admin',
+                  password: '1234', 
+                  createdAt: '2023-06-03T16:19:06.000Z',
+                  updatedAt: '2023-06-03T16:19:06.000Z' 
+                }
             }
-} */
+  } */
   /*  #swagger.responses[400] = {
-            description: 'body 또는 params를 입력받지 못한 경우',
+            description: '이미 존재하는 이메일이 있는 경우',
             schema: {
-                message: '데이터 형식이 올바르지 않습니다.'
+                message: '이미 존재하는 이메일입니다.'
             }
-} */
+  } */
 );
 
 router.post(
-  '/admin/login',
+  '/admins/login',
   serviceHandler(adminController.getAdminToken)
   //  #swagger.description = '관리자 로그인'
   //  #swagger.tags = ['admins']
@@ -42,91 +41,106 @@ router.post(
                     email: 'admin',
                     password: '1234', 
                 }
-} */
-  /*  #swagger.responses[201] = {
-            description: '관리자 로그인 성공',
+  } */
+  /*  #swagger.responses[403] = {
+            description: 'email 또는 password가 맞지 않는 경우',
             schema: {
-                message: '관리자 아이디로 로그인했습니다.'
-            }
-} */
-  /*  #swagger.responses[400] = {
-            description: 'body 또는 params를 입력받지 못한 경우',
-            schema: {
-                message: 'email 또는 password 입력값이 올바르지 않습니다.'
-            }
-} */
-);
-
-router.get(
-  '/admin/info',
-  loginRequired,
-  serviceHandler(adminController.getAdmin)
-  //  #swagger.description = '현재 로그인한 관리자 정보 조회'
-  //  #swagger.tags = ['admins']
-  /*  #swagger.responses[201] = {
-            description: '관리자 정보 조회 성공',
-            schema: {
-                data: [
-                  {
-                    id: 'uuid', 
-                    name: '관리자',
-                    email: 'admin',
-                    password: '1234', 
-                    createdAt: '2023-06-03T16:19:06.000Z',
-                    updatedAt: '2023-06-03T16:19:06.000Z'
-                  }
-                ]
+                message: '이메일 또는 비밀번호 입력값이 올바르지 않습니다.'
             }
   } */
 );
 
 router.get(
-  '/admin/:adminInfo',
-  loginRequired,
+  '/admins',
+  adminRequired,
   serviceHandler(adminController.getAdmins)
-  //  #swagger.description = '모든 관리자 정보 조회'
+  //  #swagger.description = '모든 관리자 정보 조회 ( 검색 범위 : 이름, 이메일 )'
   //  #swagger.tags = ['admins']
-  /*  #swagger.responses[201] = {
+  /*  #swagger.responses[200] = {
             description: '관리자 정보 조회 성공',
             schema: {
-                data: [
-                  {
-                    id: 'uuid', 
-                    name: '관리자',
-                    email: 'admin',
-                    password: '1234', 
-                    createdAt: '2023-06-03T16:19:06.000Z',
-                    updatedAt: '2023-06-03T16:19:06.000Z'
-                  }
-                ]
+                data: {
+                  id: 'd4bdf4e9-2191-46bd-b659-499e9d901d3b', 
+                  name: '관리자',
+                  email: 'admin',
+                  password: '1234', 
+                  createdAt: '2023-06-03T16:19:06.000Z',
+                  updatedAt: '2023-06-03T16:19:06.000Z' 
+                }
             }
+  } */
+);
+
+router.get(
+  '/admins/:id',
+  adminRequired,
+  serviceHandler(adminController.getDetail)
+  //  #swagger.description = '관리자 정보 상세 조회'
+  //  #swagger.tags = ['admins']
+  /*  #swagger.responses[200] = {
+            description: '관리자 상세 정보 조회 성공',
+            schema: {
+                data: {
+                  id: 'd4bdf4e9-2191-46bd-b659-499e9d901d3b', 
+                  name: '관리자',
+                  email: 'admin',
+                  password: '1234', 
+                  createdAt: '2023-06-03T16:19:06.000Z',
+                  updatedAt: '2023-06-03T16:19:06.000Z' 
+                }
+            }
+  } */
+  /*  #swagger.responses[404] = {
+    description: '해당 ID가 없는 경우',
+    schema: {
+      message: '존재하지 않는 관리자 ID입니다.'
+    }
   } */
 );
 
 router.patch(
-  '/admin/:email',
-  loginRequired,
+  '/admins/:email',
+  adminRequired,
   serviceHandler(adminController.setAdmin)
   //  #swagger.description = '관리자 정보 수정'
   //  #swagger.tags = ['admins']
+  /*  #swagger.parameters[''] = {
+                  in: 'body',
+                  schema: {
+                    name: '관리자', 
+                    password: '해쉬화된 비밀번호',
+                  }
+  } */
   /*  #swagger.responses[404] = {
-            description: '해당하는 관리자가 존재하지 않을 경우',
+    description: '해당 이메일이 없는 경우',
+    schema: {
+      message: '존재하지 않는 이메일입니다.'
+    }
+  } */
+  /*  #swagger.responses[500] = {
+            description: '관리자 정보 수정 처리에 실패한 경우',
             schema: {
-                message: '관리자 수정 처리에 실패하였습니다.'
+                message: '{이름} 관리자 정보 수정 처리에 실패했습니다.'
             }
   } */
 );
 
 router.delete(
-  '/admin/:email',
-  loginRequired,
+  '/admins/:email',
+  adminRequired,
   serviceHandler(adminController.deleteAdmin)
   //  #swagger.description = '관리자 정보 삭제'
   //  #swagger.tags = ['admins']
   /*  #swagger.responses[404] = {
-            description: '해당하는 관리자가 존재하지 않을 경우',
+    description: '해당 이메일이 없는 경우',
+    schema: {
+      message: '존재하지 않는 이메일입니다.'
+    }
+  } */
+  /*  #swagger.responses[500] = {
+            description: '관리자 정보 삭제 처리에 실패한 경우',
             schema: {
-                message: '관리자 탈퇴 처리에 실패하였습니다.'
+                message: '{이메일} 관리자 정보 삭제 처리에 실패했습니다.'
             }
   } */
 );

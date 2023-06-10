@@ -7,33 +7,40 @@ class ResponseFormat extends Error {
   }
 }
 
-class BadRequestClass extends ResponseFormat {
+class BadRequestException extends ResponseFormat {
   constructor(message) {
     super(400, message);
   }
 }
 
-class UnauthorizedClass extends ResponseFormat {
+class UnauthorizedException extends ResponseFormat {
   constructor(message) {
     super(401, message);
   }
 }
 
-class NotFoundClass extends ResponseFormat {
+class ForbiddenException extends ResponseFormat {
+  constructor(message) {
+    super(403, message);
+  }
+}
+
+class NotFoundException extends ResponseFormat {
   constructor(message) {
     super(404, message);
   }
 }
 
-class InternalServerErrorClass extends ResponseFormat {
+class InternalServerErrorException extends ResponseFormat {
   constructor(message) {
     super(500, message);
   }
 }
 
 module.exports = {
-  BadRequestClass,
-  UnauthorizedClass,
-  NotFoundClass,
-  InternalServerErrorClass,
+  BadRequestException,
+  UnauthorizedException,
+  ForbiddenException,
+  NotFoundException,
+  InternalServerErrorException,
 };

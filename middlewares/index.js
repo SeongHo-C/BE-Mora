@@ -1,17 +1,21 @@
 const errorHandler = require('./error-handler');
 const {
-  BadRequestClass,
-  UnauthorizedClass,
-  NotFoundClass,
-  InternalServerErrorClass,
+  BadRequestException,
+  UnauthorizedException,
+  ForbiddenException,
+  NotFoundException,
+  InternalServerErrorException,
 } = require('./error-format');
 const loginRequired = require('./login-required');
+const adminRequired = require('./admin-required');
 
 module.exports = {
   errorHandler,
-  BadRequestClass,
-  UnauthorizedClass,
-  NotFoundClass,
-  InternalServerErrorClass,
+  BadRequestException,
+  UnauthorizedException,
+  ForbiddenException,
+  NotFoundException,
+  InternalServerErrorException,
   loginRequired,
+  adminRequired,
 };

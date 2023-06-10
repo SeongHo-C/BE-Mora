@@ -1,9 +1,13 @@
+const { BadRequestException } = require('../middlewares');
+const logger = require('../logger');
+
 const serviceHandler = (service) => {
-  return async (req, res, next) => {
+  return async (req, res) => {
     try {
       await service(req, res);
     } catch (err) {
-      next(err);
+      logger.error(err.message);
+      throw new BadRequestException('BAD REQUREST ERROR');
     }
   };
 };
