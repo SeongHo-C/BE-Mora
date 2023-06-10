@@ -14,7 +14,7 @@ module.exports = {
    *  이미지 업로드
    */
   async uploadImage(req, res) {
-    res.status(201).json({ path: req.file.path });
+    res.status(201).json({ file_name: req.file.filename });
   },
 
   /**
@@ -34,11 +34,9 @@ module.exports = {
       track
     );
     if (!updatedResult) {
-      res
-        .status(400)
-        .json({
-          message: '프로필 업데이트에 실패했습니다. 다시 시도해주세요.',
-        });
+      res.status(400).json({
+        message: '프로필 업데이트에 실패했습니다. 다시 시도해주세요.',
+      });
     }
     res.status(200).json({ message: '변경되었습니다.' });
   },
