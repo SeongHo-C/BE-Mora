@@ -63,20 +63,12 @@ module.exports = {
     });
   },
 
-  async updateBoard(
-    category,
-    title,
-    content,
-    hashtags,
-    images,
-    board_id,
-    login_id
-  ) {
+  async updateBoard(category, title, content, hashtags, images, id, loginId) {
     const board = await Board.findOne({
-      where: { id: board_id },
+      where: { id },
     });
 
-    if (board.writer !== login_id) {
+    if (board.writer !== loginId) {
       throw new UnauthorizedException(
         '게시판 작성자와 동일한 사용자만 수정이 가능합니다.'
       );
@@ -85,20 +77,20 @@ module.exports = {
     await Board.update(
       {
         category,
-        writer: login_id,
+        writer: loginId,
         title,
         content,
       },
       {
-        where: { id: board_id },
+        where: { id },
       }
     );
 
-    if (hashtags.length > 0) {
+    if (hashtags) {
       const result = await Promise.all(
-        hashtags.map((tag) => {
+        hashtags.map((hashtag) => {
           return Hashtag.findOrCreate({
-            where: { title: tag.toLowerCase() },
+            where: { title: hashtag.toLowerCase() },
           });
         })
       );
@@ -106,16 +98,16 @@ module.exports = {
     }
 
     await Photo.destroy({
-      where: { board_id },
+      where: { board_id: id },
     });
 
-    if (images.length > 0) {
+    if (images) {
       await Promise.all(
-        images.map((img) => {
+        images.map((image) => {
           return Photo.create({
-            board_id: board.id,
-            path: img.path,
-            origin_name: img.origin_name,
+            board_id: id,
+            file_name: image.file_name,
+            origin_name: image.origin_name,
           });
         })
       );

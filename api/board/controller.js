@@ -37,7 +37,7 @@ module.exports = {
 
   async updateBoard(req, res) {
     const { category, title, content, hashtags, images, board_id } = req.body;
-    const login_id = req.currentId;
+    const loginId = req.currentId;
 
     await boardService.updateBoard(
       category,
@@ -46,7 +46,7 @@ module.exports = {
       hashtags,
       images,
       board_id,
-      login_id
+      loginId
     );
     res.status(200).json('게시글 수정 완료');
   },
