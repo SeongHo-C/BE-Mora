@@ -1484,6 +1484,29 @@
         "responses": {}
       }
     },
+    "/boards/detail/{id}/comments": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/generations": {
       "post": {
         "tags": [
@@ -2732,6 +2755,39 @@
               }
             }
           },
+          "400": {
+            "description": "end_date가 start_date보다 앞의 일자인 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "end_date는 start_date보다 앞선 일자일 수 없습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "end_date는 start_date보다 앞선 일자일 수 없습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "일정ID가 존재하지 않는 경우",
             "content": {
@@ -2766,7 +2822,7 @@
             }
           },
           "500": {
-            "description": "일정 등록 처리에 실패한 경우",
+            "description": "일정 OR 일정 링크 등록 처리에 실패한 경우",
             "content": {
               "application/json": {
                 "schema": {
@@ -2774,7 +2830,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "일정 등록 처리에 실패하였습니다."
+                      "example": "일정 OR 일정 링크 등록 처리에 실패하였습니다."
                     }
                   },
                   "xml": {
@@ -2788,7 +2844,804 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "일정 등록 처리에 실패하였습니다."
+                      "example": "일정 OR 일정 링크 등록 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plans/ym/{yearMonth}": {
+      "get": {
+        "tags": [
+          "plans, planLinks"
+        ],
+        "description": "년월 일정 조회",
+        "parameters": [
+          {
+            "name": "yearMonth",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "년월 일정 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url },{ id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url },{ id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plans/ymd/{yearMonthDay}": {
+      "get": {
+        "tags": [
+          "plans, planLinks"
+        ],
+        "description": "년월일 일정 조회",
+        "parameters": [
+          {
+            "name": "yearMonthDay",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "년월일 일정 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url }, { id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url }, { id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plans/{id}": {
+      "patch": {
+        "tags": [
+          "plans, planLinks"
+        ],
+        "description": "일정 수정",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "일정 제목"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "일정 내용"
+                },
+                "start_date": {
+                  "type": "string",
+                  "example": "2023-06-03T16:19:06.000Z"
+                },
+                "end_date": {
+                  "type": "string",
+                  "example": "2023-06-03T16:19:06.000Z"
+                },
+                "links": {
+                  "type": "string",
+                  "example": "[ { url }, { url } ... ]"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "일정 수정 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url }, { id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url }, { id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "end_date가 start_date보다 앞의 일자인 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "end_date는 start_date보다 앞선 일자일 수 없습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "end_date는 start_date보다 앞선 일자일 수 없습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "일정 ID가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 일정입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 일정입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "일정 링크 : 삭제, 생성 / 일정 : 수정 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "일정 링크 : 삭제, 생성 / 일정 : 수정 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "일정 링크 : 삭제, 생성 / 일정 : 수정 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "plans, planLinks"
+        ],
+        "description": "일정 삭제",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "일정 제목"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "일정 내용"
+                },
+                "start_date": {
+                  "type": "string",
+                  "example": "2023-06-03T16:19:06.000Z"
+                },
+                "end_date": {
+                  "type": "string",
+                  "example": "2023-06-03T16:19:06.000Z"
+                },
+                "links": {
+                  "type": "string",
+                  "example": "[ { url }, { url } ... ]"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "일정 수정 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url }, { id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "일정 제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "일정 내용"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "admin_id": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "PlanLinks": {
+                          "type": "string",
+                          "example": "[ { id, url }, { id, url } ... ]"
+                        },
+                        "Admin": {
+                          "type": "string",
+                          "example": "name, email"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "일정 ID가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 일정입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 일정입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "일정 OR 일정 링크 삭제 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "일정 OR 일정 링크 삭제 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "일정 OR 일정 링크 삭제 처리에 실패하였습니다."
                     }
                   },
                   "xml": {
