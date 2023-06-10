@@ -3,12 +3,10 @@ const boardService = require('./service');
 module.exports = {
   async afterUploadImage(req, res) {
     console.log(req.file);
-    res
-      .status(201)
-      .json({
-        file_name: req.file.filename,
-        origin_name: req.file.originalname,
-      });
+    res.status(201).json({
+      file_name: req.file.filename,
+      origin_name: req.file.originalname,
+    });
   },
 
   async setBoard(req, res) {
@@ -31,9 +29,9 @@ module.exports = {
 
   async deleteBoard(req, res) {
     const { board_id } = req.body;
-    const login_id = req.currentId;
+    const loginId = req.currentId;
 
-    await boardService.deleteBoard(board_id, login_id);
+    await boardService.deleteBoard(board_id, loginId);
     res.status(200).json('게시글 삭제 완료');
   },
 

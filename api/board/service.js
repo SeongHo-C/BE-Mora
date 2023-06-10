@@ -46,20 +46,20 @@ module.exports = {
     return board.id;
   },
 
-  async deleteBoard(board_id, login_id) {
+  async deleteBoard(id, loginId) {
     const board = await Board.findOne({
       attributes: ['writer'],
-      where: { id: board_id },
+      where: { id },
     });
 
-    if (board.writer !== login_id) {
+    if (board.writer !== loginId) {
       throw new UnauthorizedException(
         '게시판 작성자와 동일한 사용자만 삭제가 가능합니다.'
       );
     }
 
     await Board.destroy({
-      where: { id: board_id },
+      where: { id },
     });
   },
 
