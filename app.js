@@ -58,7 +58,7 @@ app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-app.get('/favicon.ico', (req, res) => {
+app.get('/', (req, res) => {
   res.status(204).end();
 });
 
