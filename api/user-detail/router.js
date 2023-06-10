@@ -5,8 +5,6 @@ const path = require('path');
 const userDetalController = require('./controller');
 const { loginRequired } = require('../../middlewares');
 const { serviceHandler } = require('../../utils');
-const path = require('path');
-const multer = require('multer');
 
 userDetailRouter.get(
   '/users/mypage',
