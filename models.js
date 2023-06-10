@@ -8,8 +8,10 @@ const Quiz = require('./api/quiz/model');
 const { Skill, UserSkill } = require('./api/skill/model');
 
 const Admin = require('./api/admin/model');
+const Career = require('./api/career/model');
 const User = require('./api/user/model');
 const UserDetail = require('./api/user-detail/model');
+const Career = require('./api/career/model');
 const { Plan, PlanLink } = require('./api/plan/model');
 const Notice = require('./api/notice/model');
 const Photo = require('./api/photo/model');
@@ -43,6 +45,7 @@ db.Comment = Comment;
 db.Generation = Generation;
 db.Report = Report;
 db.Like = Like;
+db.Career = Career;
 
 Board.initiate(sequelize);
 Hashtag.initiate(sequelize);
@@ -60,6 +63,7 @@ Comment.initiate(sequelize);
 Generation.initiate(sequelize);
 Report.initiate(sequelize);
 Like.initiate(sequelize);
+Career.initiate(sequelize);
 
 Board.associate(db);
 Hashtag.associate(db);
@@ -74,5 +78,6 @@ Comment.associate(db);
 Generation.associate(db);
 Report.associate(db);
 Like.associate(db);
+Career.associate(db);
 
 module.exports = db;
