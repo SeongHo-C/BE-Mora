@@ -54,10 +54,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.get('/', (req, res) => {
+  res.status(204).end();
+});
 
 app.use('/api', adminRouter);
 app.use('/api', noticeRouter);

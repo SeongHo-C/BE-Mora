@@ -5,7 +5,10 @@ module.exports = {
     console.log(req.file);
     res
       .status(201)
-      .json({ path: req.file.path, origin_name: req.file.originalname });
+      .json({
+        file_name: req.file.filename,
+        origin_name: req.file.originalname,
+      });
   },
 
   async setBoard(req, res) {
