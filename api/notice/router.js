@@ -32,35 +32,13 @@ router.post(
 );
 
 router.get(
-  '/notices/admin',
-  adminRequired,
-  serviceHandler(noticeController.getNotices)
-  //  #swagger.description = '관리자 : 공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)'
-  //  #swagger.tags = ['notices']
-  /*  #swagger.responses[200] = {
-            description: '관리자 : 공지 조회 성공',
-            schema: {
-                data: {
-                  id: '56dc6f70-de6f-40f7-ac40-3e1081c69ce5', 
-                  title: '공지 제목',
-                  content: '공지 내용',
-                  createdAt: '2023-06-03T16:19:06.000Z',
-                  updatedAt: '2023-06-03T16:19:06.000Z',
-                  admin_id: 'ae38d389-7804-4e7d-9d8f-c2618799ce3f',
-                  Admin : 'name, email 정보'
-                }
-            }
-  } */
-);
-
-router.get(
-  '/notices/user',
+  '/notices',
   loginRequired,
   serviceHandler(noticeController.getNotices)
-  //  #swagger.description = '사용자 : 공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)'
+  //  #swagger.description = '공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)'
   //  #swagger.tags = ['notices']
   /*  #swagger.responses[200] = {
-            description: '사용자 : 공지 조회 성공',
+            description: '공지 조회 성공',
             schema: {
                 data: {
                   id: '56dc6f70-de6f-40f7-ac40-3e1081c69ce5', 
