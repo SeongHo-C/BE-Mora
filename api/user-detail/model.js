@@ -38,9 +38,11 @@ class UserDetail extends Sequelize.Model {
       },
       {
         sequelize,
+        timestamps: true,
+        underscored: true,
+        paranoid: false,
         modelName: 'UserDetail',
         tableName: 'user_details',
-        timestamps: true,
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_ci',
       }
