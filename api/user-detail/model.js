@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
  */
 class UserDetail extends Sequelize.Model {
   static initiate(sequelize) {
-    return super.init(
+    UserDetail.init(
       {
         id: {
           type: Sequelize.UUID,
@@ -13,10 +13,7 @@ class UserDetail extends Sequelize.Model {
           allowNull: false,
           primaryKey: true,
         },
-        user_id: {
-          type: Sequelize.UUID,
-          allowNull: false,
-        },
+
         comment: {
           type: Sequelize.STRING(150),
         },
