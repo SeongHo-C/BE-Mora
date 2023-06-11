@@ -8,9 +8,11 @@ module.exports = {
    */
   async getProfile(userId) {
     const user = await User.findOne({
-      include: {
-        model: UserDetail,
-      },
+      include: [
+        {
+          model: UserDetail,
+        },
+      ],
       where: { id: userId },
       attributes: ['name'],
     });
