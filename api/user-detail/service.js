@@ -7,26 +7,26 @@ module.exports = {
    * 프로필 조회
    */
   async getProfile(userId) {
-    const userProfile = await UserDetail.findOne({
-      where: { user_id: userId },
-    });
-    const userName = await User.findOne({
+    const user = await User.findOne({
+      include: {
+        model: UserDetail,
+      },
       where: { id: userId },
       attributes: ['name'],
     });
 
-    if (!userProfile || !userName) {
+    if (!user) {
       throw new NotFoundException('존재하지 않는 유저입니다.');
     }
-    console.log(userName);
-    return { userProfile, userName };
+    console.log(user);
+    return user;
   },
 
   /**
    * 이름, 직함, 소개, 사진 수정
    */
   async setProfile(userId, userName, userImg, position, intro, phase, track) {
-    const user = await UserDetail.findOne({ user_id: userId });
+    const user = await UserDetail.findOne({ where: { user_id: userId } });
     if (!user) {
       throw new NotFoundException('존재하지 않는 유저입니다.');
     }

@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
  */
 class User extends Sequelize.Model {
   static initiate(sequelize) {
-    return super.init(
+    User.init(
       {
         id: {
           type: Sequelize.UUID,
@@ -74,10 +74,6 @@ class User extends Sequelize.Model {
       sourceKey: 'id',
       as: 'ToUser',
       onDelete: 'cascade',
-    });
-    db.User.hasOne(db.Blacklist, {
-      foreignKey: 'email',
-      sourceKey: 'email',
     });
     db.User.hasMany(db.Career, {
       foreignKey: 'user_id',
