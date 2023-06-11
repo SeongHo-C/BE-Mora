@@ -261,10 +261,6 @@ module.exports = {
           model: User,
           attributes: ['name', 'email'],
         },
-        {
-          model: Photo,
-          attributes: ['file_name', 'origin_name'],
-        },
       ],
       group: ['Board.id'],
       order: [literal('view_cnt + like_cnt DESC')],
