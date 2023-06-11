@@ -17,4 +17,9 @@ module.exports = {
     const { id } = req.params;
     res.status(200).json(await adminBoardService.deleteBoard(id));
   },
+
+  async deleteComment(req, res) {
+    const { id } = req.params;
+    res.status(200).json(await adminBoardService.deleteComment(id));
+  },
 };
