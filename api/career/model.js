@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize');
 
 /**
- * 회원 상세정보 테이블
+ * 경력 테이블
  */
-class UserDetail extends Sequelize.Model {
+class Career extends Sequelize.Model {
   static initiate(sequelize) {
-    return super.init(
+    Career.init(
       {
         id: {
           type: Sequelize.UUID,
@@ -17,32 +17,33 @@ class UserDetail extends Sequelize.Model {
           type: Sequelize.UUID,
           allowNull: false,
         },
-        comment: {
-          type: Sequelize.STRING(150),
-        },
-        img_path: {
-          type: Sequelize.STRING,
-        },
-        generation_id: {
-          type: Sequelize.STRING(20),
+        company_name: {
+          type: Sequelize.STRING(50),
           allowNull: false,
         },
         position: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.STRING(50),
           allowNull: false,
         },
-        profile_public: {
-          type: Sequelize.BOOLEAN,
+        hire_date: {
+          type: Sequelize.STRING(150),
           allowNull: false,
+        },
+        resign_date: {
+          type: Sequelize.STRING(150),
+          allowNull: true,
+        },
+        content: {
+          type: Sequelize.STRING(500),
         },
       },
       {
         sequelize,
+        modelName: 'Career',
+        tableName: 'careers',
         timestamps: true,
-        underscored: true,
         paranoid: false,
-        modelName: 'UserDetail',
-        tableName: 'user_details',
+        underscored: true,
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_ci',
       }
@@ -50,12 +51,11 @@ class UserDetail extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.UserDetail.belongsTo(db.User, {
+    db.Career.belongsTo(db.User, {
       foreignKey: 'user_id',
       targetKey: 'id',
-      onDelete: 'cascade',
     });
   }
 }
 
-module.exports = UserDetail;
+module.exports = Career;

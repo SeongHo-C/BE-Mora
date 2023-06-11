@@ -7,7 +7,9 @@ module.exports = {
    * 프로필 조회
    */
   async getProfile(userId) {
-    const userProfile = await UserDetail.findOne({ user_id: userId });
+    const userProfile = await UserDetail.findOne({
+      where: { user_id: userId },
+    });
     const userName = await User.findOne({
       where: { id: userId },
       attributes: ['name'],

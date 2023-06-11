@@ -1,5 +1,4 @@
-const Notice = require('./model');
-const Admin = require('../admin/model');
+const { Notice, Admin } = require('../../models');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils');
 const {

@@ -1,7 +1,4 @@
-const Report = require('./model');
-const Board = require('../board/model');
-const Comment = require('../comment/model');
-const User = require('../user/model');
+const { Report, Board, Comment, User } = require('../../models');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils');
 const {

@@ -79,6 +79,10 @@ class User extends Sequelize.Model {
       foreignKey: 'email',
       sourceKey: 'email',
     });
+    db.User.hasMany(db.Career, {
+      foreignKey: 'user_id',
+      sourceKey: 'id',
+    });
   }
 }
 
