@@ -127,4 +127,28 @@ module.exports = {
 
     return { board, likeCnt };
   },
+
+  async deleteComment(id) {
+    const comment = await Comment.findOne({
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: { id },
+    });
+    if (!comment) {
+      throw new NotFoundException('존재하지 않는 댓글입니다.');
+    }
+
+    const deleteCount = await Comment.destroy({ where: { id } });
+    if (!deleteCount) {
+      throw new InternalServerErrorException(
+        '댓글 삭제 처리에 실패하였습니다.'
+      );
+    }
+
+    return comment;
+  },
 };
