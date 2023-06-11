@@ -8,7 +8,6 @@ const Quiz = require('./api/quiz/model');
 const { Skill, UserSkill } = require('./api/skill/model');
 
 const Admin = require('./api/admin/model');
-const Career = require('./api/career/model');
 const User = require('./api/user/model');
 const UserDetail = require('./api/user-detail/model');
 const Career = require('./api/career/model');
