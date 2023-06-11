@@ -65,6 +65,7 @@ Like.initiate(sequelize);
 Career.initiate(sequelize);
 
 Board.associate(db);
+User.associate(db);
 Hashtag.associate(db);
 Admin.associate(db);
 UserDetail.associate(db);
