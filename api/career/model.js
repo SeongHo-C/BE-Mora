@@ -54,6 +54,7 @@ class Career extends Sequelize.Model {
     db.Career.belongsTo(db.User, {
       foreignKey: 'user_id',
       targetKey: 'id',
+      onDelete: 'cascade',
     });
   }
 }

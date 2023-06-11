@@ -68,16 +68,16 @@ module.exports = {
       });
 
     // 필터링된 workYear의 값 전체를 합하여 년차 계산
-    const totalYear = {
-      year: `${Math.ceil(
-        workYear.reduce((acc, curr) => acc + curr, 0) / 12
-      )}년차`,
-    };
+    // const totalYear = {
+    //   year: `${Math.ceil(
+    //     workYear.reduce((acc, curr) => acc + curr, 0) / 12
+    //   )}년차`,
+    // };
 
     // career 객체로 이루어진 새로운 배열을 생성
     const detailCareer = careersFormatted.map(({ ...rest }) => rest);
 
-    return { detailCareer, totalYear };
+    return detailCareer;
   },
 
   //경력 추가
