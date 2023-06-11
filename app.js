@@ -16,6 +16,9 @@ const quizRouter = require('./api/quiz/router');
 const skillRouter = require('./api/skill/router');
 const likeRouter = require('./api/like/router');
 const planRouter = require('./api/plan/router');
+const careerRouter = require('./api/career/router');
+const adminBoardRouter = require('./api/admin-board/router');
+const adminUserRouter = require('./api/admin-user/router');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
@@ -74,6 +77,9 @@ app.use('/api', generationRouter);
 app.use('/api', reportRouter);
 app.use('/api', likeRouter);
 app.use('/api', planRouter);
+app.use('/api', careerRouter);
+app.use('/api', adminBoardRouter);
+app.use('/api', adminUserRouter);
 
 app.use((req, res, next) => {
   const error = new NotFoundException(

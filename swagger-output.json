@@ -780,14 +780,12 @@
             }
           }
         }
-      }
-    },
-    "/notices/admin": {
+      },
       "get": {
         "tags": [
           "notices"
         ],
-        "description": "관리자 : 공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
+        "description": "공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
         "parameters": [
           {
             "name": "authorization",
@@ -799,117 +797,7 @@
         ],
         "responses": {
           "200": {
-            "description": "관리자 : 공지 조회 성공",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
-                        },
-                        "title": {
-                          "type": "string",
-                          "example": "공지 제목"
-                        },
-                        "content": {
-                          "type": "string",
-                          "example": "공지 내용"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "example": "2023-06-03T16:19:06.000Z"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "example": "2023-06-03T16:19:06.000Z"
-                        },
-                        "admin_id": {
-                          "type": "string",
-                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
-                        },
-                        "Admin": {
-                          "type": "string",
-                          "example": "name, email 정보"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
-                        },
-                        "title": {
-                          "type": "string",
-                          "example": "공지 제목"
-                        },
-                        "content": {
-                          "type": "string",
-                          "example": "공지 내용"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "example": "2023-06-03T16:19:06.000Z"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "example": "2023-06-03T16:19:06.000Z"
-                        },
-                        "admin_id": {
-                          "type": "string",
-                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
-                        },
-                        "Admin": {
-                          "type": "string",
-                          "example": "name, email 정보"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notices/user": {
-      "get": {
-        "tags": [
-          "notices"
-        ],
-        "description": "사용자 : 공지 검색(검색 범위 : 제목, 내용, 관리자 이름, 관리자 이메일)",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "사용자 : 공지 조회 성공",
+            "description": "공지 조회 성공",
             "content": {
               "application/json": {
                 "schema": {
@@ -3642,6 +3530,1586 @@
                     "message": {
                       "type": "string",
                       "example": "일정 OR 일정 링크 삭제 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adminBoards": {
+      "get": {
+        "tags": [
+          "admin-board"
+        ],
+        "description": "게시판 검색(검색 범위 : 제목, 내용, 작성자명, 작성자 이메일)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "게시판 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "category": {
+                          "type": "string",
+                          "example": "free"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "내용"
+                        },
+                        "view_cnt": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "writer": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "User": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "김성수"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "elice@gmail.com"
+                            }
+                          }
+                        },
+                        "Photos": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "path": {
+                                "type": "string",
+                                "example": "uploads\\\\lovelycat1686417123854.jpg"
+                              },
+                              "origin_name": {
+                                "type": "string",
+                                "example": "lovelycat.jpg"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "category": {
+                          "type": "string",
+                          "example": "free"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "제목"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "내용"
+                        },
+                        "view_cnt": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "writer": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "User": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "김성수"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "elice@gmail.com"
+                            }
+                          }
+                        },
+                        "Photos": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "path": {
+                                "type": "string",
+                                "example": "uploads\\\\lovelycat1686417123854.jpg"
+                              },
+                              "origin_name": {
+                                "type": "string",
+                                "example": "lovelycat.jpg"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adminBoards/{id}": {
+      "get": {
+        "tags": [
+          "admin-board"
+        ],
+        "description": "게시글 상세 검색",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "게시글 상세 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "board": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                            },
+                            "category": {
+                              "type": "string",
+                              "example": "free"
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "제목"
+                            },
+                            "content": {
+                              "type": "string",
+                              "example": "내용"
+                            },
+                            "view_cnt": {
+                              "type": "number",
+                              "example": 0
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-06-03T16:19:06.000Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-06-03T16:19:06.000Z"
+                            },
+                            "writer": {
+                              "type": "string",
+                              "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                            },
+                            "User": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "example": "김성수"
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "example": "elice@gmail.com"
+                                }
+                              }
+                            },
+                            "Photos": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "path": {
+                                    "type": "string",
+                                    "example": "uploads\\\\lovelycat1686417123854.jpg"
+                                  },
+                                  "origin_name": {
+                                    "type": "string",
+                                    "example": "lovelycat.jpg"
+                                  }
+                                }
+                              }
+                            },
+                            "Comments": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "content": {
+                                    "type": "string",
+                                    "example": "댓2"
+                                  },
+                                  "User": {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": {
+                                        "type": "string",
+                                        "example": "홍길동"
+                                      },
+                                      "email": {
+                                        "type": "string",
+                                        "example": "test@gmail.com"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Hashtags": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "title": {
+                                    "type": "string",
+                                    "example": "css"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "likeCnt": {
+                          "type": "number",
+                          "example": 3
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "board": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                            },
+                            "category": {
+                              "type": "string",
+                              "example": "free"
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "제목"
+                            },
+                            "content": {
+                              "type": "string",
+                              "example": "내용"
+                            },
+                            "view_cnt": {
+                              "type": "number",
+                              "example": 0
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-06-03T16:19:06.000Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-06-03T16:19:06.000Z"
+                            },
+                            "writer": {
+                              "type": "string",
+                              "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                            },
+                            "User": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "example": "김성수"
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "example": "elice@gmail.com"
+                                }
+                              }
+                            },
+                            "Photos": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "path": {
+                                    "type": "string",
+                                    "example": "uploads\\\\lovelycat1686417123854.jpg"
+                                  },
+                                  "origin_name": {
+                                    "type": "string",
+                                    "example": "lovelycat.jpg"
+                                  }
+                                }
+                              }
+                            },
+                            "Comments": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "content": {
+                                    "type": "string",
+                                    "example": "댓2"
+                                  },
+                                  "User": {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": {
+                                        "type": "string",
+                                        "example": "홍길동"
+                                      },
+                                      "email": {
+                                        "type": "string",
+                                        "example": "test@gmail.com"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Hashtags": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "title": {
+                                    "type": "string",
+                                    "example": "css"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "likeCnt": {
+                          "type": "number",
+                          "example": 3
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "게시글 ID가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 게시글입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 게시글입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "admin-board"
+        ],
+        "description": "게시글 삭제",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "게시글 삭제 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "board": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                            },
+                            "category": {
+                              "type": "string",
+                              "example": "free"
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "제목"
+                            },
+                            "content": {
+                              "type": "string",
+                              "example": "내용"
+                            },
+                            "view_cnt": {
+                              "type": "number",
+                              "example": 0
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-06-03T16:19:06.000Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-06-03T16:19:06.000Z"
+                            },
+                            "writer": {
+                              "type": "string",
+                              "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                            },
+                            "User": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "example": "김성수"
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "example": "elice@gmail.com"
+                                }
+                              }
+                            },
+                            "Photos": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "path": {
+                                    "type": "string",
+                                    "example": "uploads\\\\lovelycat1686417123854.jpg"
+                                  },
+                                  "origin_name": {
+                                    "type": "string",
+                                    "example": "lovelycat.jpg"
+                                  }
+                                }
+                              }
+                            },
+                            "Comments": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "content": {
+                                    "type": "string",
+                                    "example": "댓2"
+                                  },
+                                  "User": {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": {
+                                        "type": "string",
+                                        "example": "홍길동"
+                                      },
+                                      "email": {
+                                        "type": "string",
+                                        "example": "test@gmail.com"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Hashtags": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "title": {
+                                    "type": "string",
+                                    "example": "css"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "likeCnt": {
+                          "type": "number",
+                          "example": 3
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "board": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                            },
+                            "category": {
+                              "type": "string",
+                              "example": "free"
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "제목"
+                            },
+                            "content": {
+                              "type": "string",
+                              "example": "내용"
+                            },
+                            "view_cnt": {
+                              "type": "number",
+                              "example": 0
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-06-03T16:19:06.000Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-06-03T16:19:06.000Z"
+                            },
+                            "writer": {
+                              "type": "string",
+                              "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                            },
+                            "User": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "example": "김성수"
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "example": "elice@gmail.com"
+                                }
+                              }
+                            },
+                            "Photos": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "path": {
+                                    "type": "string",
+                                    "example": "uploads\\\\lovelycat1686417123854.jpg"
+                                  },
+                                  "origin_name": {
+                                    "type": "string",
+                                    "example": "lovelycat.jpg"
+                                  }
+                                }
+                              }
+                            },
+                            "Comments": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "content": {
+                                    "type": "string",
+                                    "example": "댓2"
+                                  },
+                                  "User": {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": {
+                                        "type": "string",
+                                        "example": "홍길동"
+                                      },
+                                      "email": {
+                                        "type": "string",
+                                        "example": "test@gmail.com"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Hashtags": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "title": {
+                                    "type": "string",
+                                    "example": "css"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "likeCnt": {
+                          "type": "number",
+                          "example": 3
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "게시글 ID가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 게시글입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 게시글입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "게시글 삭제 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "게시글 삭제 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "게시글 삭제 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adminBoards/comment/{id}": {
+      "delete": {
+        "tags": [
+          "admin-board"
+        ],
+        "description": "댓글 삭제",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "댓글 삭제 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "2a23dffa-bdaa-4100-9f21-918e81644db0"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "내용"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "board_id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "commenter": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "User": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "김성수"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "elice@gmail.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "2a23dffa-bdaa-4100-9f21-918e81644db0"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "내용"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "board_id": {
+                          "type": "string",
+                          "example": "56dc6f70-de6f-40f7-ac40-3e1081c69ce5"
+                        },
+                        "commenter": {
+                          "type": "string",
+                          "example": "ae38d389-7804-4e7d-9d8f-c2618799ce3f"
+                        },
+                        "User": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "김성수"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "elice@gmail.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "댓글 ID가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 댓글입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 댓글입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "댓글 삭제 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "댓글 삭제 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "댓글 삭제 처리에 실패하였습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adminUsers": {
+      "post": {
+        "tags": [
+          "admin-user"
+        ],
+        "description": "사용자 등록",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "사용자 생성 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "이미 존재하는 이메일이 있는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "이미 존재하는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "이미 존재하는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "admin-user"
+        ],
+        "description": "사용자 조회",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "사용자 정보 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adminUsers/{email}": {
+      "patch": {
+        "tags": [
+          "admin-user"
+        ],
+        "description": "사용자 정보 수정",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "사용자 정보 수정 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "해당 이메일이 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "사용자 정보 수정 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{이름} 사용자 정보 수정 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{이름} 사용자 정보 수정 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "admin-user"
+        ],
+        "description": "사용자 정보 삭제",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "사용자 정보 삭제 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "1234"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "해당 이메일이 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "사용자 정보 삭제 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{이메일} 사용자 정보 삭제 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "{이메일} 사용자 정보 삭제 처리에 실패했습니다."
                     }
                   },
                   "xml": {
