@@ -116,31 +116,15 @@ module.exports = {
 
   async getBoards(category) {
     const boards = await Board.findAll({
-      attributes: [
-        'id',
-        'writer',
-        'category',
-        'title',
-        'content',
-        'view_cnt',
-        [fn('COUNT', col('comments.id')), 'comment_cnt'],
-        [fn('COUNT', col('likes.id')), 'like_cnt'],
-        'createdAt',
-        'updatedAt',
-      ],
-      include: [
-        {
-          model: Like,
-          attributes: [],
-        },
-        {
-          model: Comment,
-          attributes: [],
-        },
-      ],
-      group: ['Board.id'],
       where: { category },
     });
+
+    const comment_cnt = await Promise.all(
+      boards.map((board) => Comment.count({ where: { board_id: board.id } }))
+    );
+    const like_cnt = await Promise.all(
+      boards.map((board) => Like.count({ where: { board_id: board.id } }))
+    );
 
     const hashtags = await Promise.all(
       boards.map((board) =>
@@ -164,11 +148,15 @@ module.exports = {
       )
     );
 
-    return boards.map((board, idx) =>
-      Object.assign({}, board.dataValues, {
+    return boards.map((board, idx) => {
+      const additionalData = {
+        comment_cnt: comment_cnt[idx],
+        like_cnt: like_cnt[idx],
         hashtags: hashtags_title[idx],
-      })
-    );
+      };
+
+      return Object.assign({}, board.dataValues, additionalData);
+    });
   },
 
   async getBoard(id) {
