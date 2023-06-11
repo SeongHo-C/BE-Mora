@@ -49,14 +49,29 @@ module.exports = {
       };
     });
 
-    // workYear 속성 값이 있는 career를 필터링하여 정수로 변환
+    // totalWorkingDate 속성 값이 있는 career를 필터링하여 정수로 변환
     const workYear = careersFormatted
-      .filter((career) => !isNaN(parseInt(career.workYear)))
-      .map((career) => parseInt(career.workYear));
+      .filter((career) => career.totalWorkingDate !== '재직중')
+      .map((career) => {
+        console.log(career.totalWorkingDate);
+        const [years, months] = career.totalWorkingDate.split(' ');
+
+        let totalMonths = 0;
+        if (years) {
+          totalMonths += parseInt(years) * 12;
+        }
+        if (months) {
+          totalMonths += parseInt(months);
+        }
+
+        return totalMonths;
+      });
 
     // 필터링된 workYear의 값 전체를 합하여 년차 계산
     const totalYear = {
-      year: `${workYear.reduce((acc, curr) => acc + curr, 0)}년차`,
+      year: `${Math.ceil(
+        workYear.reduce((acc, curr) => acc + curr, 0) / 12
+      )}년차`,
     };
 
     // career 객체로 이루어진 새로운 배열을 생성
