@@ -39,7 +39,7 @@ module.exports = {
     if (!user) {
       throw new NotFoundException('존재하지 않는 유저입니다.');
     }
-    const generation_id = phase + ' ' + track;
+    const generation_id = track + ' ' + phase;
     console.log(generation_id);
     // 유저 테이블 name 변경
     const updateName = await User.update(
