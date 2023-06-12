@@ -243,8 +243,8 @@ module.exports = {
         'title',
         'content',
         'view_cnt',
-        [fn('COUNT', col('comments.board_id')), 'comment_cnt'],
-        [fn('COUNT', col('likes.board_id')), 'like_cnt'],
+        // [fn('COUNT', col('comments.id')), 'comment_cnt'],
+        [fn('COUNT', col('likes.id')), 'like_cnt'],
         'createdAt',
         'updatedAt',
       ],
@@ -253,10 +253,10 @@ module.exports = {
           model: Like,
           attributes: [],
         },
-        {
-          model: Comment,
-          attributes: [],
-        },
+        // {
+        //   model: Comment,
+        //   attributes: [],
+        // },
         {
           model: User,
           attributes: ['name', 'email'],
