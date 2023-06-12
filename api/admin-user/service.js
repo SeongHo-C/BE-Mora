@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { User } = require('../../models');
+const { User, UserDetail } = require('../../models');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils');
 const {
@@ -37,6 +37,24 @@ module.exports = {
     users = getPagingData(users, page, limit);
 
     return users;
+  },
+
+  async getDetail(id) {
+    const user = await User.findOne({
+      attributes: ['id', 'name', 'email', 'created_at'],
+      include: [
+        {
+          model: UserDetail,
+          attributes: ['img_path'],
+        },
+      ],
+      where: { id },
+    });
+    if (!user) {
+      throw new NotFoundException('존재하지 않는 사용자입니다.');
+    }
+
+    return user;
   },
 
   async setUser(email, toUpdate) {

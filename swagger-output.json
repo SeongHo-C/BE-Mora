@@ -1326,6 +1326,13 @@
         "responses": {}
       }
     },
+    "/boards/popular": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
     "/boards/{category}": {
       "get": {
         "description": "",
@@ -4776,6 +4783,151 @@
                           "example": "2023-06-03T16:19:06.000Z"
                         }
                       }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adminUsers/{id}": {
+      "get": {
+        "tags": [
+          "admin-user"
+        ],
+        "description": "사용자 상세 조회",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "사용자 정보 상세 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "UserDetail": {
+                          "type": "object",
+                          "properties": {
+                            "img_path": {
+                              "type": "string",
+                              "example": "http://www.moyeora-racer.com:5000/default1686549448163.png"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "d4bdf4e9-2191-46bd-b659-499e9d901d3b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "사용자"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@gmail.com"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-06-03T16:19:06.000Z"
+                        },
+                        "UserDetail": {
+                          "type": "object",
+                          "properties": {
+                            "img_path": {
+                              "type": "string",
+                              "example": "http://www.moyeora-racer.com:5000/default1686549448163.png"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "해당 사용자가 없는 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 사용자입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "존재하지 않는 사용자입니다."
                     }
                   },
                   "xml": {

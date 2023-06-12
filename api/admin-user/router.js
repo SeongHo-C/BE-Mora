@@ -50,6 +50,34 @@ router.get(
   } */
 );
 
+router.get(
+  '/adminUsers/:id',
+  adminRequired,
+  serviceHandler(adminUserController.getDetail)
+  //  #swagger.description = '사용자 상세 조회'
+  //  #swagger.tags = ['admin-user']
+  /*  #swagger.responses[200] = {
+            description: '사용자 정보 상세 조회 성공',
+            schema: {
+                data: {
+                  id: 'd4bdf4e9-2191-46bd-b659-499e9d901d3b', 
+                  name: '사용자',
+                  email: 'user@gmail.com',
+                  createdAt: '2023-06-03T16:19:06.000Z',
+                  UserDetail: { 
+                    img_path: 'http://www.moyeora-racer.com:5000/default1686549448163.png'
+                  }
+                }
+            }
+  } */
+  /*  #swagger.responses[404] = {
+    description: '해당 사용자가 없는 경우',
+    schema: {
+      message: '존재하지 않는 사용자입니다.'
+    }
+  } */
+);
+
 router.patch(
   '/adminUsers/:email',
   adminRequired,

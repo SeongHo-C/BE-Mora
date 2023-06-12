@@ -13,6 +13,11 @@ module.exports = {
     res.status(200).json(await adminUserService.getUsers(page, size, keyword));
   },
 
+  async getDetail(req, res) {
+    const { id } = req.params;
+    res.status(200).json(await adminUserService.getDetail(id));
+  },
+
   async setUser(req, res) {
     const { email } = req.params;
     const { name, password } = req.body;
