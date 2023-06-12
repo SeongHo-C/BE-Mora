@@ -33,7 +33,7 @@ class Generation extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Generation.hasOne(db.UserDetail, {
+    db.Generation.hasMany(db.UserDetail, {
       foreignKey: 'generation_id',
       sourceKey: 'id',
       onDelete: 'cascade',
