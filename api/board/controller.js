@@ -5,7 +5,7 @@ module.exports = {
   async afterUploadImage(req, res) {
     logger.info(`${req.file.originalname} 업로드 성공`);
     res.status(201).json({
-      file_name: req.file.filename,
+      img_path: `http://www.moyeora-racer.com:5000/${req.file.filename}`,
       origin_name: req.file.originalname,
     });
   },

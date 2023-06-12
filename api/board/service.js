@@ -36,7 +36,7 @@ module.exports = {
         images.map((img) => {
           return Photo.create({
             board_id: board.id,
-            file_name: img.file_name,
+            img_path: img.img_path,
             origin_name: img.origin_name,
           });
         })
@@ -86,7 +86,7 @@ module.exports = {
       }
     );
 
-    if (hashtags) {
+    if (hashtags.length >= 0) {
       const result = await Promise.all(
         hashtags.map((hashtag) => {
           return Hashtag.findOrCreate({
@@ -101,12 +101,12 @@ module.exports = {
       where: { board_id: id },
     });
 
-    if (images) {
+    if (images.length >= 0) {
       await Promise.all(
         images.map((image) => {
           return Photo.create({
             board_id: id,
-            file_name: image.file_name,
+            img_path: image.img_path,
             origin_name: image.origin_name,
           });
         })
@@ -168,7 +168,7 @@ module.exports = {
         },
         {
           model: Photo,
-          attributes: ['file_name', 'origin_name'],
+          attributes: ['img_path', 'origin_name'],
         },
       ],
       where: { id },
@@ -203,7 +203,7 @@ module.exports = {
       user_detail,
       comment_cnt,
       like_cnt,
-      hashtags: hashtags_title,
+      hashtags: hashtags_title.map((tag) => tag.dataValues.title),
     };
 
     return Object.assign({}, board.dataValues, additionalData);
@@ -236,35 +236,21 @@ module.exports = {
 
   async getPopularBoard() {
     const boards = await Board.findAll({
-      attributes: [
-        'id',
-        'writer',
-        'category',
-        'title',
-        'content',
-        'view_cnt',
-        // [fn('COUNT', col('comments.id')), 'comment_cnt'],
-        [fn('COUNT', col('likes.id')), 'like_cnt'],
-        'createdAt',
-        'updatedAt',
-      ],
       include: [
-        {
-          model: Like,
-          attributes: [],
-        },
-        // {
-        //   model: Comment,
-        //   attributes: [],
-        // },
         {
           model: User,
           attributes: ['name', 'email'],
         },
       ],
-      group: ['Board.id'],
-      order: [literal('view_cnt + like_cnt DESC')],
+      order: [['view_cnt', 'DESC']],
     });
+
+    const comment_cnt = await Promise.all(
+      boards.map((board) => Comment.count({ where: { board_id: board.id } }))
+    );
+    const like_cnt = await Promise.all(
+      boards.map((board) => Like.count({ where: { board_id: board.id } }))
+    );
 
     const userDetails = await Promise.all(
       boards.map((board) =>
@@ -276,9 +262,15 @@ module.exports = {
     );
 
     return boards
-      .map((board, idx) =>
-        Object.assign({}, board.dataValues, { user_detail: userDetails[idx] })
-      )
+      .map((board, idx) => {
+        const additionalData = {
+          comment_cnt: comment_cnt[idx],
+          like_cnt: like_cnt[idx],
+          user_detail: userDetails[idx],
+        };
+
+        return Object.assign({}, board.dataValues, additionalData);
+      })
       .slice(0, 10);
   },
 };
