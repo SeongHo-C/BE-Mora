@@ -1,5 +1,6 @@
-const { Skill, UserSkill } = require('./model');
+const Skill = require('./model');
 const { Op } = require('sequelize');
+const db = require('../../models');
 /**
  *  스킬 서비스
  */
@@ -44,35 +45,20 @@ module.exports = {
    * 유저 스킬 업데이트
    */
   async updateUserSkills(userId, skillNames) {
-    // 기존 스킬 삭제
-    const userSkillCheck = await UserSkill.findAll({
-      where: { user_id: userId },
-    });
-    if (userSkillCheck) {
-      await UserSkill.destroy({
-        where: { user_id: userId },
-      });
+    const user = await db.User.findOne({ where: { id: userId } });
+
+    if (skillNames.length > 0) {
+      const result = await Promise.all(
+        skillNames.map((skill) => {
+          return db.Skill.findOrCreate({
+            where: { name: skill.toLowerCase() },
+          });
+        })
+      );
+      await user.setSkills(result.map((r) => r[0]));
     }
 
-    // 새로운 유저 스킬 등록
-    const userSkills = await Promise.all(
-      skillNames.map(async (skillName) => {
-        // console.log(skillName);
-        const skill = await Skill.findOne({ where: { name: skillName } });
-        return {
-          id: skill.id,
-          name: skill.name,
-        };
-      })
-    );
-    const result = await UserSkill.bulkCreate(
-      userSkills.map((userSkills) => ({
-        skill_id: userSkills.id,
-        user_id: userId,
-      }))
-    );
-    // const result = await UserSkill.bulkCreate(userSkills);
-    return result;
+    return user;
   },
 
   // 유저 스킬 전체 삭제
