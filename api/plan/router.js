@@ -97,6 +97,37 @@ router.get(
   } */
 );
 
+router.get(
+  '/plans/detail/:id',
+  adminRequired,
+  serviceHandler(planController.getDetail)
+  //  #swagger.description = '일정 상세 조회'
+  //  #swagger.tags = ['plans, planLinks']
+  /*  #swagger.responses[200] = {
+            description: '일정 상세 조회 성공',
+            schema: {
+                data: {
+                  id: '56dc6f70-de6f-40f7-ac40-3e1081c69ce5', 
+                  title: '일정 제목',
+                  content: '일정 내용',
+                  start_date: '2023-06-03T16:19:06.000Z',
+                  end_date: '2023-06-03T16:19:06.000Z', 
+                  createdAt: '2023-06-03T16:19:06.000Z',
+                  updatedAt: '2023-06-03T16:19:06.000Z', 
+                  admin_id: 'ae38d389-7804-4e7d-9d8f-c2618799ce3f',
+                  PlanLinks: '[ { id, url }, { id, url } ... ]',
+                  Admin: 'name, email'
+                }
+            }
+  } */
+  /*  #swagger.responses[404] = {
+    description: '일정 ID가 없는 경우',
+    schema: {
+      message: '존재하지 않는 일정입니다.'
+    }
+  } */
+);
+
 router.patch(
   '/plans/:id',
   adminRequired,

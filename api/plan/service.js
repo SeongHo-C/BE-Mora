@@ -118,6 +118,32 @@ module.exports = {
     });
   },
 
+  async getDetail(id) {
+    const plan = await Plan.findOne({
+      include: [
+        {
+          model: PlanLink,
+          attributes: ['id', 'url'],
+        },
+        {
+          model: Admin,
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: { id },
+      order: [
+        ['start_date', 'ASC'],
+        ['end_date', 'ASC'],
+        ['created_at', 'ASC'],
+      ],
+    });
+    if (!plan) {
+      throw new NotFoundException('존재하지 않는 일정입니다.');
+    }
+
+    return plan;
+  },
+
   async setPlan(id, toUpdate, links) {
     const { start_date, end_date } = toUpdate;
     if (start_date > end_date) {
