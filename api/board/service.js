@@ -86,7 +86,7 @@ module.exports = {
       }
     );
 
-    if (hashtags) {
+    if (hashtags.length >= 0) {
       const result = await Promise.all(
         hashtags.map((hashtag) => {
           return Hashtag.findOrCreate({
@@ -101,12 +101,12 @@ module.exports = {
       where: { board_id: id },
     });
 
-    if (images) {
+    if (images.length >= 0) {
       await Promise.all(
         images.map((image) => {
           return Photo.create({
             board_id: id,
-            file_name: image.file_name,
+            img_path: image.img_path,
             origin_name: image.origin_name,
           });
         })
