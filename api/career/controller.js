@@ -6,8 +6,7 @@ module.exports = {
    */
   async getCareer(req, res) {
     const id = req.currentId;
-    const career = await careerService.getCareer(id);
-    res.status(201).json(career);
+    res.status(200).json(await careerService.getCareer(id));
   },
 
   /**
@@ -43,7 +42,7 @@ module.exports = {
       resign_date,
       content,
     });
-    res.status(201).json(newCareer);
+    res.status(200).json(newCareer);
   },
 
   /**
@@ -52,5 +51,6 @@ module.exports = {
   async deleteCareer(req, res) {
     const { id } = req.body;
     await careerService.deleteCareer(id);
+    res.status(200).json({ message: '삭제되었습니다.' });
   },
 };

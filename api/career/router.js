@@ -25,7 +25,7 @@ careerRouter.post(
 /**
  * 경력 수정
  */
-careerRouter.patch(
+careerRouter.put(
   '/careers/update',
   loginRequired,
   serviceHandler(careerController.updateCareer)
@@ -37,7 +37,7 @@ careerRouter.patch(
 careerRouter.delete(
   '/careers/delete',
   loginRequired,
-  serviceHandler(careerController.updateCareer)
+  serviceHandler(careerController.deleteCareer)
 );
 
 module.exports = careerRouter;
