@@ -11,6 +11,13 @@ module.exports = {
       include: [
         {
           model: UserDetail,
+          attributes: [
+            'img_path',
+            'comment',
+            'position',
+            'generation_id',
+            'profile_public',
+          ],
         },
       ],
       where: { id: userId },
