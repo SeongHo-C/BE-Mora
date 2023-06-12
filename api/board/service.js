@@ -168,7 +168,7 @@ module.exports = {
         },
         {
           model: Photo,
-          attributes: ['file_name', 'origin_name'],
+          attributes: ['img_path', 'origin_name'],
         },
       ],
       where: { id },
@@ -203,7 +203,7 @@ module.exports = {
       user_detail,
       comment_cnt,
       like_cnt,
-      hashtags: hashtags_title,
+      hashtags: hashtags_title.map((tag) => tag.dataValues.title),
     };
 
     return Object.assign({}, board.dataValues, additionalData);
