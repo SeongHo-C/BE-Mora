@@ -73,7 +73,7 @@ class User extends Sequelize.Model {
       onDelete: 'cascade',
     });
     db.User.belongsToMany(db.Skill, {
-      through: 'user_skill',
+      through: 'user_skills',
       onDelete: 'cascade',
     });
     db.User.hasOne(db.UserDetail, {

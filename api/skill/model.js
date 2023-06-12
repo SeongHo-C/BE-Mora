@@ -29,7 +29,7 @@ class Skill extends Sequelize.Model {
 
   static associate(db) {
     db.Skill.belongsToMany(db.User, {
-      through: 'user_skill',
+      through: 'user_skills',
       onDelete: 'cascade',
     });
   }
