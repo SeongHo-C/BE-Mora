@@ -23,7 +23,7 @@ module.exports = {
         },
         {
           model: Photo,
-          attributes: ['path', 'origin_name'],
+          attributes: ['img_path', 'origin_name'],
         },
       ],
       where: {
@@ -52,7 +52,7 @@ module.exports = {
         },
         {
           model: Photo,
-          attributes: ['path', 'origin_name'],
+          attributes: ['img_path', 'origin_name'],
         },
         {
           model: Comment,
@@ -91,7 +91,7 @@ module.exports = {
         },
         {
           model: Photo,
-          attributes: ['path', 'origin_name'],
+          attributes: ['img_path', 'origin_name'],
         },
         {
           model: Comment,
