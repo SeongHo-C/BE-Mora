@@ -1,6 +1,6 @@
 const UserDetail = require('./model');
 const User = require('../user/model');
-const { BadRequestException, NotFoundException } = require('../../middlewares');
+const { NotFoundException } = require('../../middlewares');
 
 module.exports = {
   /**
@@ -15,7 +15,7 @@ module.exports = {
             'img_path',
             'comment',
             'position',
-            'generation_id',
+            'generation',
             'profile_public',
           ],
         },
@@ -39,8 +39,8 @@ module.exports = {
     if (!user) {
       throw new NotFoundException('존재하지 않는 유저입니다.');
     }
-    const generation_id = track + ' ' + phase;
-    console.log(generation_id);
+    const generation = track + ' ' + phase;
+
     // 유저 테이블 name 변경
     const updateName = await User.update(
       { name: userName },
@@ -52,7 +52,7 @@ module.exports = {
         position: position,
         comment: intro,
         img_path: userImg,
-        generation_id: generation_id,
+        generation: generation,
       },
       { where: { user_id: userId } }
     );

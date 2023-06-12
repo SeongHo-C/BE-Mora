@@ -19,6 +19,10 @@ class UserDetail extends Sequelize.Model {
         img_path: {
           type: Sequelize.STRING,
         },
+        generation: {
+          type: Sequelize.STRING(20),
+          allowNull: false,
+        },
         position: {
           type: Sequelize.STRING(20),
           allowNull: false,
@@ -42,11 +46,6 @@ class UserDetail extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.UserDetail.belongsTo(db.Generation, {
-      foreignKey: 'generation_id',
-      targetKey: 'id',
-      onDelete: 'cascade',
-    });
     db.UserDetail.belongsTo(db.User, {
       foreignKey: 'user_id',
       targetKey: 'id',
