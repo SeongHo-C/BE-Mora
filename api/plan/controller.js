@@ -23,6 +23,11 @@ module.exports = {
     res.status(200).json(await planService.getYearMonthDay(yearMonthDay));
   },
 
+  async getDetail(req, res) {
+    const { id } = req.params;
+    res.status(200).json(await planService.getDetail(id));
+  },
+
   async setPlan(req, res) {
     const { id } = req.params;
     const { title, content, start_date, end_date, links } = req.body;
