@@ -8,7 +8,6 @@ const {
   Hashtag,
 } = require('../../models');
 const db = require('../../models');
-const { fn, col, literal } = require('sequelize');
 const { UnauthorizedException } = require('../../middlewares');
 
 module.exports = {
@@ -180,7 +179,7 @@ module.exports = {
 
     const user_detail = await UserDetail.findOne({
       where: { user_id: board.writer },
-      attributes: ['img_path', 'generation_id', 'position'],
+      attributes: ['img_path', 'generation', 'position'],
     });
 
     const comment_cnt = await Comment.count({ where: { board_id: id } });
@@ -235,7 +234,7 @@ module.exports = {
   },
 
   async getPopularBoard() {
-    const boards = await Board.findAll({
+    let boards = await Board.findAll({
       include: [
         {
           model: User,
@@ -243,6 +242,7 @@ module.exports = {
         },
       ],
       order: [['view_cnt', 'DESC']],
+      limit: 10,
     });
 
     const comment_cnt = await Promise.all(
@@ -256,21 +256,28 @@ module.exports = {
       boards.map((board) =>
         UserDetail.findOne({
           where: { user_id: board.writer },
-          attributes: ['img_path', 'generation_id', 'position'],
+          attributes: ['img_path', 'generation', 'position'],
         })
       )
     );
 
-    return boards
-      .map((board, idx) => {
-        const additionalData = {
-          comment_cnt: comment_cnt[idx],
-          like_cnt: like_cnt[idx],
-          user_detail: userDetails[idx],
-        };
+    boards = boards.map((board, idx) => {
+      const additionalData = {
+        comment_cnt: comment_cnt[idx],
+        like_cnt: like_cnt[idx],
+        user_detail: userDetails[idx],
+      };
 
-        return Object.assign({}, board.dataValues, additionalData);
-      })
-      .slice(0, 10);
+      return Object.assign({}, board.dataValues, additionalData);
+    });
+
+    return boards.sort((first, second) => {
+      const firstSum = first.view_cnt + first.like_cnt;
+      const secondSum = second.view_cnt + second.like_cnt;
+
+      return firstSum === secondSum
+        ? second.view_cnt - first.view_cnt
+        : secondSum - firstSum;
+    });
   },
 };
