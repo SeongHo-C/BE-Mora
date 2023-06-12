@@ -40,6 +40,18 @@ class User extends Sequelize.Model {
   }
 
   static associate(db) {
+    db.User.hasMany(db.Alert, {
+      foreignKey: 'from_user_id',
+      sourceKey: 'id',
+      as: 'AlertFromUser',
+      onDelete: 'cascade',
+    });
+    db.User.hasMany(db.Alert, {
+      foreignKey: 'to_user_id',
+      sourceKey: 'id',
+      as: 'AlertToUser',
+      onDelete: 'cascade',
+    });
     db.User.hasMany(db.Board, {
       foreignKey: 'writer',
       sourceKey: 'id',
