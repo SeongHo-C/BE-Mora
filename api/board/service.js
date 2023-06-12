@@ -36,7 +36,7 @@ module.exports = {
         images.map((img) => {
           return Photo.create({
             board_id: board.id,
-            file_name: img.file_name,
+            img_path: img.img_path,
             origin_name: img.origin_name,
           });
         })
