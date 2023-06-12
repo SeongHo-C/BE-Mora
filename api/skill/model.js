@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 class Skill extends Sequelize.Model {
   static initiate(sequelize) {
-    return super.init(
+    Skill.init(
       {
         id: {
           type: Sequelize.UUID,
