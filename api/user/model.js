@@ -25,17 +25,14 @@ class User extends Sequelize.Model {
           type: Sequelize.STRING(100),
           allowNull: false,
         },
-        created_at: {
-          type: Sequelize.DATE,
-          defaultValue: Sequelize.NOW,
-          allowNull: false,
-        },
       },
       {
         sequelize,
+        timestamps: true,
+        underscored: true,
+        paranoid: false,
         modelName: 'User',
         tableName: 'users',
-        timestamps: false,
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_ci',
       }
@@ -43,13 +40,13 @@ class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.User.hasOne(db.UserDetail, {
-      foreignKey: 'user_id',
+    db.User.hasMany(db.Board, {
+      foreignKey: 'writer',
       sourceKey: 'id',
       onDelete: 'cascade',
     });
-    db.User.hasMany(db.Board, {
-      foreignKey: 'writer',
+    db.User.hasMany(db.Career, {
+      foreignKey: 'user_id',
       sourceKey: 'id',
       onDelete: 'cascade',
     });
@@ -75,9 +72,14 @@ class User extends Sequelize.Model {
       as: 'ToUser',
       onDelete: 'cascade',
     });
-    db.User.hasMany(db.Career, {
+    db.User.belongsToMany(db.Skill, {
+      through: 'user_skill',
+      onDelete: 'cascade',
+    });
+    db.User.hasOne(db.UserDetail, {
       foreignKey: 'user_id',
       sourceKey: 'id',
+      onDelete: 'cascade',
     });
   }
 }

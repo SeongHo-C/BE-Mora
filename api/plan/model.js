@@ -45,7 +45,11 @@ class Plan extends Sequelize.Model {
 
   static associate(db) {
     db.Plan.belongsTo(db.Admin, { foreignKey: 'admin_id', targetKey: 'id' });
-    db.Plan.hasMany(db.PlanLink, { foreignKey: 'plan_id', sourceKey: 'id' });
+    db.Plan.hasMany(db.PlanLink, {
+      foreignKey: 'plan_id',
+      sourceKey: 'id',
+      onDelete: 'cascade',
+    });
   }
 }
 
@@ -84,6 +88,7 @@ class PlanLink extends Sequelize.Model {
     db.PlanLink.belongsTo(db.Plan, {
       foreignKey: 'plan_id',
       targetKey: 'id',
+      onDelete: 'cascade',
     });
   }
 }

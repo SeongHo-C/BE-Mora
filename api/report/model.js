@@ -38,20 +38,27 @@ class Report extends Sequelize.Model {
   }
 
   static associate(db) {
+    db.Report.belongsTo(db.Board, {
+      foreignKey: 'target_id',
+      targetKey: 'id',
+      onDelete: 'cascade',
+    });
+    db.Report.belongsTo(db.Comment, {
+      foreignKey: 'target_id',
+      targetKey: 'id',
+      onDelete: 'cascade',
+    });
     db.Report.belongsTo(db.User, {
       foreignKey: 'from_user_id',
       targetKey: 'id',
       as: 'FromUser',
+      onDelete: 'cascade',
     });
     db.Report.belongsTo(db.User, {
       foreignKey: 'to_user_id',
       targetKey: 'id',
       as: 'ToUser',
-    });
-    db.Report.belongsTo(db.Board, { foreignKey: 'target_id', targetKey: 'id' });
-    db.Report.belongsTo(db.Comment, {
-      foreignKey: 'target_id',
-      targetKey: 'id',
+      onDelete: 'cascade',
     });
   }
 }

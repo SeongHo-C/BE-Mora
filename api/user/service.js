@@ -30,7 +30,7 @@ module.exports = {
     await UserDetail.create({
       user_id: newUser.id,
       position: '직책을 입력해주세요.',
-      generation_id: '기수를 입력해주세요.',
+      generation_id: 1,
       profile_public: false,
       img_path: 'http://www.moyeora-racer.com:5000/default1686549448163.png',
     });

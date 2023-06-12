@@ -34,14 +34,15 @@ class Comment extends Sequelize.Model {
       targetKey: 'id',
       onDelete: 'cascade',
     });
+    db.Comment.hasMany(db.Report, {
+      foreignKey: 'target_id',
+      sourceKey: 'id',
+      onDelete: 'cascade',
+    });
     db.Comment.belongsTo(db.User, {
       foreignKey: 'commenter',
       targetKey: 'id',
       onDelete: 'cascade',
-    });
-    db.Comment.hasMany(db.Report, {
-      foreignKey: 'target_id',
-      sourceKey: 'id',
     });
   }
 }
