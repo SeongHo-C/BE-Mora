@@ -51,6 +51,7 @@ class Board extends Sequelize.Model {
     db.Board.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'id' });
     db.Board.belongsToMany(db.Hashtag, {
       through: 'board_hashtag',
+      onDelete: 'cascade',
     });
     db.Board.hasMany(db.Photo, {
       foreignKey: 'board_id',

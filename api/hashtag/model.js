@@ -31,6 +31,7 @@ class Hashtag extends Sequelize.Model {
   static associate(db) {
     db.Hashtag.belongsToMany(db.Board, {
       through: 'board_hashtag',
+      onDelete: 'cascade',
     });
   }
 }
