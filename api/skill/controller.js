@@ -23,11 +23,11 @@ module.exports = {
     const userId = req.currentId;
 
     if (skillNames.length > 0) {
-      const result = await skillService.updateUserSkills(userId, skillNames);
-      res.status(200).json(result);
+      await skillService.updateUserSkills(userId, skillNames);
+      res.status(200).json({ message: '스킬 업데이트 완료' });
     } else {
-      const deleteResult = await skillService.deleteUserSkills(userId);
-      res.status(200).json(deleteResult);
+      await skillService.deleteUserSkills(userId);
+      res.status(200).json({ message: '스킬 전체 삭제 완료' });
     }
   },
 };
