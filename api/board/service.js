@@ -223,7 +223,7 @@ module.exports = {
       comments.map(({ commenter }) =>
         UserDetail.findOne({
           where: { user_id: commenter },
-          attributes: ['img_path', 'generation_id', 'position'],
+          attributes: ['img_path', 'generation', 'position'],
         })
       )
     );
