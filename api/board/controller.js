@@ -53,8 +53,9 @@ module.exports = {
 
   async getBoards(req, res) {
     const { category } = req.params;
+    const { keyword = '' } = req.query;
 
-    res.status(200).json(await boardService.getBoards(category));
+    res.status(200).json(await boardService.getBoards(category, keyword));
   },
 
   async getBoard(req, res) {

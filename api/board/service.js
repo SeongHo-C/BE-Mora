@@ -8,6 +8,7 @@ const {
   Hashtag,
 } = require('../../models');
 const db = require('../../models');
+const { Op } = require('sequelize');
 const { UnauthorizedException } = require('../../middlewares');
 
 module.exports = {
@@ -113,10 +114,22 @@ module.exports = {
     }
   },
 
-  async getBoards(category) {
-    const boards = await Board.findAll({
-      where: { category },
-    });
+  async getBoards(category, keyword) {
+    let boards;
+    if (category === 'search') {
+      boards = await Board.findAll({
+        where: {
+          [Op.or]: [
+            { title: { [Op.like]: `%${keyword}%` } },
+            { content: { [Op.like]: `%${keyword}%` } },
+          ],
+        },
+      });
+    } else {
+      boards = await Board.findAll({
+        where: { category },
+      });
+    }
 
     const comment_cnt = await Promise.all(
       boards.map((board) => Comment.count({ where: { board_id: board.id } }))
