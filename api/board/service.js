@@ -12,12 +12,12 @@ const { Op } = require('sequelize');
 const { UnauthorizedException } = require('../../middlewares');
 
 module.exports = {
-  async setBoard(writer, category, title, content, hashtags, images) {
+  async setBoard(category, title, content, hashtags, images, writer) {
     const board = await Board.create({
       category,
-      writer,
       title,
       content,
+      writer,
     });
 
     if (hashtags.length > 0) {

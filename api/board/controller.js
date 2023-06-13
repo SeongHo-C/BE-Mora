@@ -11,18 +11,19 @@ module.exports = {
 
   async setBoard(req, res) {
     const { category, title, content, hashtags, images } = req.body;
+    logger.info([category, title, content, hashtags, images]);
     const writer = req.currentId;
 
     res
       .status(201)
       .json(
         await boardService.setBoard(
-          writer,
           category,
           title,
           content,
           hashtags,
-          images
+          images,
+          writer
         )
       );
   },
