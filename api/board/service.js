@@ -33,11 +33,10 @@ module.exports = {
 
     if (images.length > 0) {
       await Promise.all(
-        images.map((img) => {
+        images.map((img_path) => {
           return Photo.create({
             board_id: board.id,
-            img_path: img.img_path,
-            origin_name: img.origin_name,
+            img_path,
           });
         })
       );
@@ -101,13 +100,12 @@ module.exports = {
       where: { board_id: id },
     });
 
-    if (images.length >= 0) {
+    if (images.length > 0) {
       await Promise.all(
-        images.map((image) => {
+        images.map((img_path) => {
           return Photo.create({
             board_id: id,
-            img_path: image.img_path,
-            origin_name: image.origin_name,
+            img_path,
           });
         })
       );
@@ -175,7 +173,7 @@ module.exports = {
         },
         {
           model: Photo,
-          attributes: ['img_path', 'origin_name'],
+          attributes: ['img_path'],
         },
       ],
       where: { id },
@@ -250,7 +248,7 @@ module.exports = {
         },
         {
           model: Photo,
-          attributes: ['img_path', 'origin_name'],
+          attributes: ['img_path'],
           limit: 1,
         },
       ],

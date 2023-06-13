@@ -14,10 +14,6 @@ class Photo extends Sequelize.Model {
           type: Sequelize.STRING(100),
           allowNull: false,
         },
-        origin_name: {
-          type: Sequelize.STRING(100),
-          allowNull: false,
-        },
       },
       {
         sequelize,
