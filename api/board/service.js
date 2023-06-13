@@ -115,21 +115,16 @@ module.exports = {
   },
 
   async getBoards(category, keyword) {
-    let boards;
-    if (category === 'search') {
-      boards = await Board.findAll({
-        where: {
-          [Op.or]: [
-            { title: { [Op.like]: `%${keyword}%` } },
-            { content: { [Op.like]: `%${keyword}%` } },
-          ],
-        },
-      });
-    } else {
-      boards = await Board.findAll({
-        where: { category },
-      });
-    }
+    const boards = await Board.findAll({
+      where: {
+        category,
+        [Op.or]: [
+          { title: { [Op.like]: `%${keyword}%` } },
+          { content: { [Op.like]: `%${keyword}%` } },
+        ],
+      },
+      order: [['createdAt', 'DESC']],
+    });
 
     const comment_cnt = await Promise.all(
       boards.map((board) => Comment.count({ where: { board_id: board.id } }))
