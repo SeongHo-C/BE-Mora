@@ -248,6 +248,11 @@ module.exports = {
           model: User,
           attributes: ['name', 'email'],
         },
+        {
+          model: Photo,
+          attributes: ['img_path', 'origin_name'],
+          limit: 1,
+        },
       ],
       order: [['view_cnt', 'DESC']],
       limit: 10,
