@@ -17,41 +17,7 @@ module.exports = {
       ],
     });
 
-    const careersFormatted = getEducation.map((education) => {
-      const hireDate = new Date(education.start_date);
-      const resignDate = education.end_date
-        ? new Date(education.end_date)
-        : null;
-
-      // hire_date와 resign_date가 존재하면 개월 수 계산
-      const totalMonths = resignDate
-        ? (resignDate.getFullYear() - hireDate.getFullYear()) * 12 +
-          (resignDate.getMonth() - hireDate.getMonth())
-        : null;
-
-      // totalMonths로 년, 월 계산
-      const years = totalMonths ? Math.floor(totalMonths / 12) : null;
-      const remainingMonths = totalMonths ? totalMonths % 12 : null;
-
-      // 근무 년,월
-      let totalDate = '';
-      if (years > 0) {
-        totalDate += `${years}년`;
-      }
-      if (remainingMonths > 0) {
-        totalDate += ` ${remainingMonths}개월`;
-      }
-
-      // hire_date와 resign_date 제외
-      const { hire_date, resign_date, ...rest } = education.toJSON();
-
-      return {
-        ...rest,
-        totalWorkingDate: totalMonths ? totalDate : '교육중', //총 개월 수가 null일시, '교육중'으로 표시.
-      };
-    });
-    const detailEducation = careersFormatted.map(({ ...rest }) => rest);
-    return detailEducation;
+    return getEducation;
   },
 
   /**

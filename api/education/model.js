@@ -8,9 +8,10 @@ class Education extends Sequelize.Model {
     Education.init(
       {
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
+          allowNull: false,
           primaryKey: true,
-          autoIncrement: true,
         },
         name: {
           type: Sequelize.STRING(50),

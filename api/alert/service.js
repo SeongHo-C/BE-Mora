@@ -1,6 +1,4 @@
 const { Alert, Plan, User, Comment, Board } = require('../../models');
-const { Op } = require('sequelize');
-const { getPagination, getPagingData, sendMail } = require('../../utils');
 const {
   BadRequestException,
   NotFoundException,
