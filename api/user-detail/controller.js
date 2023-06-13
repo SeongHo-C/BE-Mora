@@ -1,3 +1,4 @@
+const { get } = require('../board/router');
 const userDetailService = require('./service');
 
 module.exports = {
@@ -21,7 +22,8 @@ module.exports = {
    * 이름, 사진, 직책, 직함, 소개, 기수 수정
    */
   async setProfile(req, res) {
-    const { userName, userImg, position, intro, phase, track } = req.body;
+    const { userName, userImg, position, intro, phase, track, profile_public } =
+      req.body;
     const userId = req.currentId;
 
     const updatedResult = await userDetailService.setProfile(
@@ -31,7 +33,8 @@ module.exports = {
       position,
       intro,
       phase,
-      track
+      track,
+      profile_public
     );
     if (!updatedResult) {
       res.status(400).json({
@@ -39,5 +42,21 @@ module.exports = {
       });
     }
     res.status(200).json({ message: '변경되었습니다.' });
+  },
+
+  /**
+   * 내가 쓴 글 조회
+   */
+  async getMyBoard(req, res) {
+    const id = req.currentId;
+    return res.status(200).json(await userDetailService.getMyBoard(id));
+  },
+
+  /**
+   * 오픈 프로필 조회
+   */
+
+  async getOpenProfile(req, res) {
+    return res.status(200).json(await userDetailService.getOpenProfiles());
   },
 };
