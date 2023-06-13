@@ -59,10 +59,13 @@ module.exports = {
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
+    const accessToken = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
       expiresIn: '1h',
     });
-    return token;
+    // const refreshToken = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
+    //   expiresIn: '7d',
+    // });
+    return accessToken;
   },
 
   /**
