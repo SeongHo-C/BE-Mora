@@ -37,7 +37,12 @@ router.post(
 );
 
 const upload2 = multer();
-router.post('/boards', loginRequired, upload2.none(), boardController.setBoard);
+router.post(
+  '/boards',
+  loginRequired,
+  upload2.none(),
+  serviceHandler(boardController.setBoard)
+);
 
 router.put(
   '/boards',
