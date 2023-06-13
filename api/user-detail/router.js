@@ -39,4 +39,15 @@ userDetailRouter.put(
   serviceHandler(userDetalController.setProfile)
 );
 
+userDetailRouter.get(
+  '/users/mypage/board',
+  loginRequired,
+  serviceHandler(userDetalController.getMyBoard)
+);
+
+userDetailRouter.get(
+  '/users/open-profile',
+  serviceHandler(userDetalController.getOpenProfile)
+);
+
 module.exports = userDetailRouter;
