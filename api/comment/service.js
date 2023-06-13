@@ -1,5 +1,6 @@
-const { Comment, Board } = require('../../models');
+const { Comment, Board, User } = require('../../models');
 const { BadRequestClass, UnauthorizedClass } = require('../../middlewares');
+const alertService = require('../alert/service');
 
 module.exports = {
   async setComment(content, board_id, commenter) {
@@ -18,6 +19,13 @@ module.exports = {
       board_id,
       commenter,
     });
+
+    const from_user_id = commenter;
+    const to_user_id = board.writer;
+    const type = 'COMMENT';
+    const url = 'url';
+
+    await alertService.addAlert({ from_user_id, to_user_id, type, url });
   },
 
   async updateComment(content, id, userId) {
