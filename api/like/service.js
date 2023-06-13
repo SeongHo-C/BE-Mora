@@ -1,5 +1,5 @@
 const { Like, Board } = require('../../models');
-const { NotFoundClass } = require('../../middlewares');
+const { NotFoundException } = require('../../middlewares');
 
 module.exports = {
   async setLike(boardId, userId) {
@@ -8,7 +8,7 @@ module.exports = {
     });
 
     if (!board) {
-      throw new NotFoundClass(
+      throw new NotFoundException(
         '존재하지 않는 게시판에는 좋아요를 등록할 수 없습니다.'
       );
     }
@@ -25,7 +25,7 @@ module.exports = {
     });
 
     if (!board) {
-      throw new NotFoundClass(
+      throw new NotFoundException(
         '존재하지 않는 게시판에는 좋아요를 삭제할 수 없습니다.'
       );
     }
@@ -38,7 +38,7 @@ module.exports = {
     });
 
     if (!like) {
-      throw new NotFoundClass('등록되지 않은 좋아요를 삭제할 수 없습니다.');
+      throw new NotFoundException('등록되지 않은 좋아요를 삭제할 수 없습니다.');
     }
 
     await Like.destroy({
