@@ -5,6 +5,7 @@ const { serviceHandler } = require('../../utils');
 
 const router = express.Router();
 
+router.get('/likes', loginRequired, serviceHandler(likeController.selectLike));
 router.post('/likes', loginRequired, serviceHandler(likeController.setLike));
 router.delete(
   '/likes',

@@ -26,17 +26,23 @@ module.exports = {
 
   // 유저 스킬 조회
   async getUserSkills(userId) {
+    console.log(userId);
     // 유저와 연결된 UserSkill 모델을 사용하여 스킬 데이터를 조회합니다.
-    const userSkills = await UserSkill.findAll({
+    const userSkills = await db.sequelize.models.user_skills.findAll({
       where: { user_id: userId },
-      include: {
-        model: Skill,
-        attributes: ['name'],
-      },
+      attributes: ['SkillId'],
     });
 
+    const skillIds = userSkills.map((userSkill) => userSkill.SkillId);
+
+    const skills = await Promise.all(
+      skillIds.map((id) =>
+        Skill.findOne({ where: { id }, attributes: ['name'] })
+      )
+    );
+
     // 스킬 name을 추출하여 배열로 반환
-    const skillNames = userSkills.map((userSkill) => userSkill.Skill.name);
+    const skillNames = skills.map((skill) => skill.dataValues.name);
 
     return skillNames;
   },
@@ -51,7 +57,7 @@ module.exports = {
       const result = await Promise.all(
         skillNames.map((skill) => {
           return db.Skill.findOrCreate({
-            where: { name: skill.toLowerCase() },
+            where: { name: skill },
           });
         })
       );
