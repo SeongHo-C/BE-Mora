@@ -47,7 +47,7 @@ module.exports = {
 
       return {
         ...rest,
-        totalWorkingDate: totalMonths ? totalDate : '재직중', //총 개월 수가 null일시, '재직중'으로 표시.
+        totalWorkingDate: totalMonths ? totalDate : '교육중', //총 개월 수가 null일시, '교육중'으로 표시.
       };
     });
     const detailEducation = careersFormatted.map(({ ...rest }) => rest);
@@ -67,5 +67,15 @@ module.exports = {
       description: content,
     });
     return result;
+  },
+
+  /**
+   * 교육 삭제
+   */
+  async deleteEducation(id) {
+    const deleted = await Education.destroy({
+      where: { id: id },
+    });
+    return deleted;
   },
 };

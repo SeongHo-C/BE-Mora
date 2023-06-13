@@ -78,40 +78,32 @@ module.exports = {
   },
 
   //경력 수정
-  async updateCareer({
+  async updateCareer(
     id,
     company_name,
     position,
     hire_date,
     resign_date,
-    content,
-  }) {
-    try {
-      const updateCareer = await Career.update(
-        {
-          company_name,
-          position,
-          hire_date,
-          resign_date,
-          content,
-        },
-        { where: { id: id } }
-      );
-      return updateCareer;
-    } catch (e) {
-      throw new Error(e);
-    }
+    content
+  ) {
+    const updateCareer = await Career.update(
+      {
+        company_name: company_name,
+        position: position,
+        hire_date: hire_date,
+        resign_date: resign_date,
+        content: content,
+      },
+      { where: { id: id } }
+    );
+    return updateCareer;
   },
 
   //경력 삭제
   async deleteCareer(id) {
-    try {
-      const deleteCareer = await Career.destroy({
-        where: { id: id },
-      });
-      return deleteCareer;
-    } catch (e) {
-      throw new Error(e);
-    }
+    const deleteCareer = await Career.destroy({
+      where: { id: id },
+    });
+    return deleteCareer;
   },
 };

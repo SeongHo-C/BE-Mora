@@ -49,7 +49,7 @@ module.exports = {
    * 경력 삭제
    */
   async deleteCareer(req, res) {
-    const id = req.currentId;
+    const { id } = req.body;
     await careerService.deleteCareer(id);
     res.status(200).json({ message: '삭제되었습니다.' });
   },
