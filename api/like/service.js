@@ -2,6 +2,18 @@ const { Like, Board } = require('../../models');
 const { NotFoundException } = require('../../middlewares');
 
 module.exports = {
+  async selectLike(boardId, userId) {
+    const like = await Like.findOne({
+      where: {
+        board_id: boardId,
+        user_id: userId,
+      },
+    });
+
+    if (like) return true;
+    else return false;
+  },
+
   async setLike(boardId, userId) {
     const board = await Board.findOne({
       where: { id: boardId },
