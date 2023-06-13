@@ -2,6 +2,7 @@ const { Alert, Plan, User, Comment, Board } = require('../../models');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData, sendMail } = require('../../utils');
 const {
+  BadRequestException,
   NotFoundException,
   InternalServerErrorException,
 } = require('../../middlewares');
@@ -37,7 +38,7 @@ module.exports = {
         where: { id: to_user_id },
       });
     }
-    console.log('type, fromUser, toUser:', type, fromUser, toUser);
+
     if (!fromUser || !toUser) {
       throw new NotFoundException('존재하지 않는 사용자입니다.');
     }
@@ -49,6 +50,70 @@ module.exports = {
       );
     }
 
-    return alert;
+    return await Alert.findOne({
+      include: [
+        {
+          model: User,
+          as: 'AlertFromUser',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: User,
+          as: 'AlertToUser',
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: {
+        id: alert.id,
+      },
+    });
+  },
+
+  async setAlert(id, toUser, checked) {
+    const alert = await Alert.findOne({
+      where: { id, to_user_id: toUser },
+      raw: true,
+    });
+    if (!alert) {
+      throw new NotFoundException(
+        '존재하지 않는 알림이거나 알림 당사자가 아닌 사용자의 요청입니다.'
+      );
+    }
+
+    if (alert.checked === 0 && checked === true) {
+      const updateCount = await Alert.update(
+        {
+          checked,
+        },
+        { where: { id } }
+      );
+      if (!updateCount) {
+        throw new InternalServerErrorException(
+          `${id} 알림 확인 여부 수정 처리에 실패하였습니다.`
+        );
+      }
+    } else {
+      throw new BadRequestException(
+        '이미 읽은 알림은 다시 수정할 수 없습니다.'
+      );
+    }
+
+    return await Alert.findOne({
+      include: [
+        {
+          model: User,
+          as: 'AlertFromUser',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: User,
+          as: 'AlertToUser',
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: {
+        id: alert.id,
+      },
+    });
   },
 };
