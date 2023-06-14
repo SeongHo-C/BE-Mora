@@ -2,19 +2,6 @@ const { Like, Board } = require('../../models');
 const { NotFoundException, BadRequestException } = require('../../middlewares');
 
 module.exports = {
-  // 좋아요 조회, board service 상세 데이터에 넣어주기?(윤지)
-  async selectLike(boardId, userId) {
-    const like = await Like.findOne({
-      where: {
-        board_id: boardId,
-        user_id: userId,
-      },
-    });
-
-    if (like) return true;
-    else return false;
-  },
-
   async setLike(boardId, userId) {
     const board = await Board.findOne({
       where: { id: boardId },
