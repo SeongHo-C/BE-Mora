@@ -22,12 +22,7 @@ module.exports = {
     const skillNames = req.body.skillNames || []; // 요청 본문에서 skillNames 배열 추출, 빈 배열로 초기화
     const userId = req.currentId;
 
-    if (skillNames.length > 0) {
-      await skillService.updateUserSkills(userId, skillNames);
-      res.status(200).json({ message: '스킬 업데이트 완료' });
-    } else {
-      await skillService.deleteUserSkills(userId);
-      res.status(200).json({ message: '스킬 전체 삭제 완료' });
-    }
+    await skillService.updateUserSkills(userId, skillNames);
+    res.status(200).json({ message: '스킬 업데이트 완료' });
   },
 };

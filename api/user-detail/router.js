@@ -34,6 +34,12 @@ userDetailRouter.post(
 );
 
 userDetailRouter.put(
+  '/users/open-profile',
+  loginRequired,
+  serviceHandler(userDetalController.setOpenProfile)
+);
+
+userDetailRouter.put(
   '/users/mypage/edit',
   loginRequired,
   serviceHandler(userDetalController.setProfile)

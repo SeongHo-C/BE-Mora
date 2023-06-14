@@ -3,7 +3,7 @@ const mjml2html = require('mjml');
 const logger = require('../logger');
 
 const mailSender = {
-  sendGmail(to, subject, text) {
+  sendGmail(to, subject, text, content) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       prot: 587,
@@ -27,10 +27,10 @@ const mailSender = {
               </mj-text>
               <mj-spacer padding="5px 0px"></mj-spacer>
               <mj-text padding="35px 25px">
-                <div style="text-align: center;"><span style="background-color: rgba(0, 0, 0, 0);"><font size="6" face="Comic Sans MS" color="#423F81">${subject}</font></span></div>
+                <div style="text-align: center;"><span style="background-color: rgba(0, 0, 0, 0);"><font size="6" face="Comic Sans MS" color="#423F81">${text}</font></span></div>
               </mj-text>
               <mj-text>
-                <div style="text-align: center; background:#ffffff; padding: 20px; border-radius: 5px; margin: 0 30px;"><span><font size="5" face="Comic Sans MS" color="#605EA0">${text}</font></span></div>
+                <div style="text-align: center; background:#ffffff; padding: 20px; border-radius: 5px; margin: 0 30px;"><span><font size="5" face="Comic Sans MS" color="#605EA0">${content}</font></span></div>
               </mj-text>
               <mj-spacer padding="17px 0px"></mj-spacer>
               <mj-image padding="0px 25px" width="400px"src="http://www.moyeora-racer.com/static/media/main-banner-img.7e2e8f1a08b48ce93fe0.png"></mj-image>
@@ -51,6 +51,7 @@ const mailSender = {
       to,
       subject,
       text,
+      content,
       html: html,
     };
 

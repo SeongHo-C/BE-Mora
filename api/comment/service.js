@@ -1,5 +1,5 @@
 const { Comment, Board } = require('../../models');
-const { BadRequestClass, UnauthorizedClass } = require('../../middlewares');
+const { NotFoundException, ForbiddenException } = require('../../middlewares');
 const alertService = require('../alert/service');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     });
 
     if (!board) {
-      throw new BadRequestClass(
+      throw new NotFoundException(
         '존재하지 않은 게시판에는 댓글을 달 수 없습니다.'
       );
     }
@@ -25,7 +25,9 @@ module.exports = {
     const type = 'COMMENT';
     const target_id = board_id;
 
-    await alertService.addAlert({ from_user_id, to_user_id, type, target_id });
+    await alertService.addAlert({ from_user_id, to_user_id, type, url });
+
+    return '댓글 작성 완료';
   },
 
   async updateComment(content, id, userId) {
@@ -34,7 +36,7 @@ module.exports = {
     });
 
     if (comment.commenter !== userId) {
-      throw new UnauthorizedClass(
+      throw new ForbiddenException(
         '댓글을 작성한 사용자가 아니면 수정하실 수 없습니다.'
       );
     }
@@ -47,6 +49,8 @@ module.exports = {
         where: { id },
       }
     );
+
+    return '댓글 수정 완료';
   },
 
   async deleteComment(id, userId) {
@@ -55,7 +59,7 @@ module.exports = {
     });
 
     if (comment.commenter !== userId) {
-      throw new UnauthorizedClass(
+      throw new ForbiddenException(
         '댓글을 작성한 사용자가 아니면 삭제하실 수 없습니다.'
       );
     }
@@ -63,5 +67,7 @@ module.exports = {
     await Comment.destroy({
       where: { id },
     });
+
+    return '댓글 삭제 완료';
   },
 };

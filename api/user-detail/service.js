@@ -110,7 +110,7 @@ module.exports = {
   async getOpenProfiles() {
     const userDetails = await UserDetail.findAll({
       where: { profile_public: 1 },
-      attributes: ['user_id'],
+      attributes: ['user_id', 'position', 'img_path'],
     });
 
     const careers = await Promise.all(
@@ -122,40 +122,53 @@ module.exports = {
       )
     );
 
-    const careersFormatted = careers.map((career) => {
-      const hireDate = new Date(career.hire_date);
-      const resignDate = new Date(career.resign_date)
-        ? new Date(career.resign_date)
-        : null;
+    const careersFormatted = await Promise.all(
+      careers.map((careerArr) => {
+        const userCareers = careerArr.map((career) => {
+          const hireDate = new Date(career.hire_date);
+          const resignDate = career.resign_date
+            ? new Date(career.resign_date)
+            : null;
 
-      // hire_date와 resign_date가 존재하면 개월 수 계산
-      const totalMonths = resignDate
-        ? (resignDate.getFullYear() - hireDate.getFullYear()) * 12 +
-          (resignDate.getMonth() - hireDate.getMonth())
-        : null;
+          const totalMonths = resignDate
+            ? (resignDate.getFullYear() - hireDate.getFullYear()) * 12 +
+              (resignDate.getMonth() - hireDate.getMonth())
+            : null;
 
-      // totalMonths로 년, 월 계산
-      const years = totalMonths ? Math.floor(totalMonths / 12) : null;
-      const remainingMonths = totalMonths ? totalMonths % 12 : null;
+          const years = totalMonths ? Math.floor(totalMonths / 12) : null;
+          const remainingMonths = totalMonths ? totalMonths % 12 : null;
 
-      // 근무 년,월
-      let totalDate = '';
-      if (years > 0) {
-        totalDate += `${years}년`;
-      }
-      if (remainingMonths > 0) {
-        totalDate += ` ${remainingMonths}개월`;
-      }
+          let totalWorkingYear = '';
+          if (years !== null) {
+            if (remainingMonths === 0) {
+              totalWorkingYear = `${years}년`;
+            } else {
+              totalWorkingYear = `${years + 1}년`;
+            }
+          } else {
+            totalWorkingYear = '현재';
+          }
 
-      // hire_date와 resign_date 제외
-      const { hire_date, resign_date, ...rest } = career;
+          return {
+            ...career.toJSON(),
+            work_year: totalWorkingYear,
+          };
+        });
 
-      return {
-        ...rest,
-        totalWorkingDate: totalMonths ? totalDate : '재직중', //총 개월 수가 null일시, '재직중'으로 표시.
-      };
-    });
-    const detailCareer = careersFormatted.map(({ ...rest }) => rest);
+        const total_year = userCareers.reduce((total, career) => {
+          if (career.work_year !== '현재') {
+            const year = parseInt(career.work_year, 10);
+            total += year;
+          }
+          return total;
+        }, 0);
+
+        return {
+          career_list: userCareers,
+          total_year: `${total_year}년차`,
+        };
+      })
+    );
 
     const names = await Promise.all(
       userDetails.map((user) =>
@@ -186,14 +199,33 @@ module.exports = {
         )
       )
     );
+
+    const user_skills_name = skills_name.map((skills) =>
+      skills.map((skill) => skill.name)
+    );
+
     return userDetails.map((board, idx) => {
       const additionalData = {
-        user_careers: detailCareer[idx],
+        user_careers: careersFormatted[idx],
         user: names[idx],
-        user_skills: skills_name[idx],
+        user_skills: user_skills_name[idx],
       };
 
       return Object.assign({}, board.dataValues, additionalData);
     });
+  },
+
+  /**
+   * 오픈 프로필 공개/비공개 수정(서비스)
+   */
+  async setOpenProfile(userId, public) {
+    const updateProfile = await UserDetail.update(
+      {
+        profile_public: public.open,
+      },
+      { where: { user_id: userId } }
+    );
+
+    return updateProfile;
   },
 };

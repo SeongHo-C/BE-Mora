@@ -32,7 +32,8 @@ module.exports = {
       position: '직책을 입력해주세요.',
       generation: '트랙 및 기수를 입력해주세요.',
       profile_public: false,
-      img_path: 'http://www.moyeora-racer.com:5000/default1686549448163.png',
+      img_path:
+        'https://ziuss-bucket.s3.ap-northeast-2.amazonaws.com/default.png',
     });
 
     if (!newUser) {
@@ -60,7 +61,7 @@ module.exports = {
 
     const secretKey = process.env.JWT_SECRET_KEY;
     const accessToken = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
-      expiresIn: '1h',
+      expiresIn: '1d',
     });
     // const refreshToken = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
     //   expiresIn: '7d',
