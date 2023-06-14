@@ -26,7 +26,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 
 const logger = require('./logger');
-// require('./utils/schedule');
+require('./utils/schedule');
 
 dotenv.config();
 const { sequelize } = require('./models');

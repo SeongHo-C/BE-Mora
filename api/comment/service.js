@@ -1,4 +1,4 @@
-const { Comment, Board, User } = require('../../models');
+const { Comment, Board } = require('../../models');
 const { BadRequestClass, UnauthorizedClass } = require('../../middlewares');
 const alertService = require('../alert/service');
 
@@ -23,7 +23,7 @@ module.exports = {
     const from_user_id = commenter;
     const to_user_id = board.writer;
     const type = 'COMMENT';
-    const url = 'url';
+    const url = board_id;
 
     await alertService.addAlert({ from_user_id, to_user_id, type, url });
   },
