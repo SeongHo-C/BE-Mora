@@ -24,9 +24,11 @@ cron.schedule(
 
       let subject = '';
       let text = '';
+      let planId = '';
       plan.forEach((p) => {
         subject += p.title;
         text += p.content;
+        planId += p.id;
       });
 
       const users = await User.findAll({
@@ -43,7 +45,7 @@ cron.schedule(
           from_user_id: u.id,
           to_user_id: u.id,
           type: 'PLAN',
-          url: 'plan url2',
+          target_id: planId,
         });
       });
 

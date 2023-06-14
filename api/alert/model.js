@@ -14,8 +14,8 @@ class Alert extends Sequelize.Model {
           type: Sequelize.ENUM('COMMENT', 'PLAN', 'COFFEECHAT'),
           allowNull: false,
         },
-        url: {
-          type: Sequelize.STRING(500),
+        target_id: {
+          type: Sequelize.STRING(36),
           allowNull: false,
         },
         checked: {
