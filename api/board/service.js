@@ -7,7 +7,6 @@ const {
   Like,
   Hashtag,
 } = require('../../models');
-const db = require('../../models');
 const { Op } = require('sequelize');
 const { ForbiddenException } = require('../../middlewares');
 
@@ -227,6 +226,7 @@ module.exports = {
         },
       ],
       where: { board_id: id },
+      order: [['createdAt', 'DESC']],
     });
 
     return comments.map((comment) => ({
