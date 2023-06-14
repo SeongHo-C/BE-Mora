@@ -53,26 +53,15 @@ module.exports = {
   async updateUserSkills(userId, skillNames) {
     const user = await db.User.findOne({ where: { id: userId } });
 
-    if (skillNames.length > 0) {
-      const result = await Promise.all(
-        skillNames.map((skill) => {
-          return db.Skill.findOrCreate({
-            where: { name: skill },
-          });
-        })
-      );
-      await user.setSkills(result.map((r) => r[0]));
-    }
+    const result = await Promise.all(
+      skillNames.map((skill) => {
+        return db.Skill.findOrCreate({
+          where: { name: skill },
+        });
+      })
+    );
+    await user.setSkills(result.map((r) => r[0]));
 
     return user;
-  },
-
-  // 유저 스킬 전체 삭제
-  async deleteUserSkills(userId) {
-    try {
-      await UserSkill.destroy({ where: { user_id: userId } });
-    } catch (e) {
-      throw new Error('유저 스킬 삭제에 실패했습니다.');
-    }
   },
 };
