@@ -9,10 +9,7 @@ const {
 } = require('../../models');
 const db = require('../../models');
 const { Op } = require('sequelize');
-const {
-  UnauthorizedException,
-  ForbiddenException,
-} = require('../../middlewares');
+const { ForbiddenException } = require('../../middlewares');
 
 module.exports = {
   async setBoard(category, title, content, hashtags, images, writer) {
@@ -25,23 +22,23 @@ module.exports = {
 
     if (hashtags.length > 0) {
       const result = await Promise.all(
-        hashtags.map((tag) => {
-          return Hashtag.findOrCreate({
-            where: { title: tag.toLowerCase() },
-          });
-        })
+        hashtags.map((hashtag) =>
+          Hashtag.findOrCreate({
+            where: { title: hashtag.toLowerCase() },
+          })
+        )
       );
       await board.addHashtags(result.map((r) => r[0]));
     }
 
     if (images.length > 0) {
       await Promise.all(
-        images.map((img_path) => {
-          return Photo.create({
+        images.map((img_path) =>
+          Photo.create({
             board_id: board.id,
             img_path,
-          });
-        })
+          })
+        )
       );
     }
 
