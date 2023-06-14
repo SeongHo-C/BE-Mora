@@ -161,10 +161,23 @@ module.exports = {
         {
           model: User,
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path', 'generation', 'position'],
+            },
+          ],
         },
         {
           model: Photo,
           attributes: ['img_path'],
+        },
+        {
+          model: Hashtag,
+          attributes: ['title'],
+          through: {
+            attributes: [],
+          },
         },
       ],
       where: { id },
@@ -174,35 +187,21 @@ module.exports = {
       view_cnt: board.view_cnt + 1,
     });
 
-    const user_detail = await UserDetail.findOne({
-      where: { user_id: board.writer },
-      attributes: ['img_path', 'generation', 'position'],
-    });
-
     const comment_cnt = await Comment.count({ where: { board_id: id } });
     const like_cnt = await Like.count({ where: { board_id: id } });
 
-    const hashtags = await db.sequelize.models.board_hashtag.findAll({
-      attributes: ['hashtag_id'],
-      where: { board_id: id },
-    });
-    const hashtags_title = await Promise.all(
-      hashtags.map((hashtag) =>
-        Hashtag.findOne({
-          attributes: ['title'],
-          where: { id: hashtag.dataValues.hashtag_id },
-        })
-      )
-    );
-
     const additionalData = {
-      user_detail,
       comment_cnt,
       like_cnt,
-      hashtags: hashtags_title.map((tag) => tag.dataValues.title),
+      Hashtags: board.Hashtags.map((hashtag) => hashtag.dataValues.title),
+      User: {
+        name: board.User.name,
+        email: board.User.email,
+        ...board.User.UserDetail.dataValues,
+      },
     };
 
-    return Object.assign({}, board.dataValues, additionalData);
+    return { ...board.dataValues, ...additionalData };
   },
 
   async getComments(id) {
