@@ -237,11 +237,24 @@ module.exports = {
         {
           model: User,
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path', 'generation', 'position'],
+            },
+          ],
         },
         {
           model: Photo,
           attributes: ['img_path'],
           limit: 1,
+        },
+        {
+          model: Hashtag,
+          attributes: ['title'],
+          through: {
+            attributes: [],
+          },
         },
       ],
       order: [['view_cnt', 'DESC']],
@@ -255,23 +268,20 @@ module.exports = {
       boards.map((board) => Like.count({ where: { board_id: board.id } }))
     );
 
-    const userDetails = await Promise.all(
-      boards.map((board) =>
-        UserDetail.findOne({
-          where: { user_id: board.writer },
-          attributes: ['img_path', 'generation', 'position'],
-        })
-      )
-    );
-
     boards = boards.map((board, idx) => {
       const additionalData = {
         comment_cnt: comment_cnt[idx],
         like_cnt: like_cnt[idx],
-        user_detail: userDetails[idx],
+        Hashtags: board.Hashtags.map((hashtag) => hashtag.title),
+        User: {
+          name: board.User.name,
+          email: board.User.email,
+          ...board.User.UserDetail.dataValues,
+        },
+        Photos: board.Photos.length > 0 ? board.Photos[0].img_path : '',
       };
 
-      return Object.assign({}, board.dataValues, additionalData);
+      return { ...board.dataValues, ...additionalData };
     });
 
     return boards.sort((first, second) => {
