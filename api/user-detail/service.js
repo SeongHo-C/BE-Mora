@@ -110,8 +110,9 @@ module.exports = {
   async getOpenProfiles() {
     const userDetails = await UserDetail.findAll({
       where: { profile_public: 1 },
-      attributes: ['user_id'],
+      attributes: ['user_id', 'position', 'img_path'],
     });
+
     const careers = await Promise.all(
       userDetails.map((user) =>
         db.Career.findAll({
@@ -121,42 +122,6 @@ module.exports = {
       )
     );
 
-    // const careersFormatted = await Promise.all(
-    //   careers.map((careerArr) => {
-    //     return careerArr.map((career) => {
-    //       const hireDate = new Date(career.hire_date);
-    //       const resignDate = career.resign_date
-    //         ? new Date(career.resign_date)
-    //         : null;
-
-    //       const totalMonths = resignDate
-    //         ? (resignDate.getFullYear() - hireDate.getFullYear()) * 12 +
-    //           (resignDate.getMonth() - hireDate.getMonth())
-    //         : null;
-
-    //       const years = totalMonths ? Math.floor(totalMonths / 12) : null;
-    //       const remainingMonths = totalMonths ? totalMonths % 12 : null;
-
-    //       let totalWorkingYear = '';
-    //       if (years !== null) {
-    //         if (remainingMonths === 0) {
-    //           totalWorkingYear = `${years}년`;
-    //         } else {
-    //           totalWorkingYear = `${years + 1}년`;
-    //         }
-    //       } else {
-    //         totalWorkingYear = '현재';
-    //       }
-
-    //       return {
-    //         ...career.toJSON(),
-    //         work_year: totalWorkingYear,
-    //       };
-    //     });
-    //   })
-    // );
-
-    //=================================
     const careersFormatted = await Promise.all(
       careers.map((careerArr) => {
         const userCareers = careerArr.map((career) => {
@@ -205,8 +170,6 @@ module.exports = {
       })
     );
 
-    //=================================
-
     const names = await Promise.all(
       userDetails.map((user) =>
         db.User.findOne({
@@ -250,5 +213,19 @@ module.exports = {
 
       return Object.assign({}, board.dataValues, additionalData);
     });
+  },
+
+  /**
+   * 오픈 프로필 공개/비공개 수정(서비스)
+   */
+  async setOpenProfile(userId, public) {
+    const updateProfile = await UserDetail.update(
+      {
+        profile_public: public.open,
+      },
+      { where: { user_id: userId } }
+    );
+
+    return updateProfile;
   },
 };

@@ -1,4 +1,3 @@
-const { get } = require('../board/router');
 const userDetailService = require('./service');
 
 module.exports = {
@@ -58,5 +57,16 @@ module.exports = {
 
   async getOpenProfile(req, res) {
     return res.status(200).json(await userDetailService.getOpenProfiles());
+  },
+
+  /**
+   * 오픈 프로필 공개/비공개 수정
+   */
+  async setOpenProfile(req, res) {
+    const open = req.body;
+    const id = req.currentId;
+    return res
+      .status(200)
+      .json(await userDetailService.setOpenProfile(id, open));
   },
 };
