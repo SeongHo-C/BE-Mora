@@ -210,23 +210,25 @@ module.exports = {
         {
           model: User,
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path', 'generation', 'position'],
+            },
+          ],
         },
       ],
       where: { board_id: id },
     });
 
-    const user_detail = await Promise.all(
-      comments.map(({ commenter }) =>
-        UserDetail.findOne({
-          where: { user_id: commenter },
-          attributes: ['img_path', 'generation', 'position'],
-        })
-      )
-    );
-
-    return comments.map((comment, idx) =>
-      Object.assign({}, comment.dataValues, { user_detail: user_detail[idx] })
-    );
+    return comments.map((comment) => ({
+      ...comment.dataValues,
+      User: {
+        name: comment.User.name,
+        email: comment.User.email,
+        ...comment.User.UserDetail.dataValues,
+      },
+    }));
   },
 
   async getPopularBoard() {
