@@ -51,7 +51,7 @@ module.exports = {
    */
   async deleteEducation(req, res) {
     const { id } = req.body;
-    await educationService.deleteCareer(id);
+    await educationService.deleteEducation(id);
     res.status(200).json({ message: '삭제되었습니다.' });
   },
 };
