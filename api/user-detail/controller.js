@@ -1,4 +1,3 @@
-const { get } = require('../board/router');
 const userDetailService = require('./service');
 
 module.exports = {
@@ -65,7 +64,6 @@ module.exports = {
    */
   async setOpenProfile(req, res) {
     const open = req.body;
-
     const id = req.currentId;
     return res
       .status(200)
