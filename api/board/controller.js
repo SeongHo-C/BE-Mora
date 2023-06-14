@@ -31,8 +31,7 @@ module.exports = {
     const { board_id } = req.body;
     const loginId = req.currentId;
 
-    await boardService.deleteBoard(board_id, loginId);
-    res.status(200).json('게시글 삭제 완료');
+    res.status(200).json(await boardService.deleteBoard(board_id, loginId));
   },
 
   async updateBoard(req, res) {

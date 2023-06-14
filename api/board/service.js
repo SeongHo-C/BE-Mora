@@ -60,6 +60,8 @@ module.exports = {
     await Board.destroy({
       where: { id },
     });
+
+    return '게시글 삭제 완료';
   },
 
   async updateBoard(category, title, content, hashtags, images, id, loginId) {
