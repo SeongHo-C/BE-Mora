@@ -87,13 +87,13 @@ module.exports = {
       }
     );
 
-    if (hashtags.length >= 0) {
+    if (hashtags) {
       const result = await Promise.all(
-        hashtags.map((hashtag) => {
-          return Hashtag.findOrCreate({
+        hashtags.map((hashtag) =>
+          Hashtag.findOrCreate({
             where: { title: hashtag.toLowerCase() },
-          });
-        })
+          })
+        )
       );
       await board.setHashtags(result.map((r) => r[0]));
     }
@@ -102,14 +102,14 @@ module.exports = {
       where: { board_id: id },
     });
 
-    if (images.length > 0) {
+    if (images) {
       await Promise.all(
-        images.map((img_path) => {
-          return Photo.create({
+        images.map((img_path) =>
+          Photo.create({
             board_id: id,
             img_path,
-          });
-        })
+          })
+        )
       );
     }
 
