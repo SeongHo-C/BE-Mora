@@ -9,7 +9,7 @@ const {
 } = require('../../models');
 const db = require('../../models');
 const { Op } = require('sequelize');
-const { UnauthorizedException } = require('../../middlewares');
+const { ForbiddenException } = require('../../middlewares');
 
 module.exports = {
   async setBoard(category, title, content, hashtags, images, writer) {
@@ -22,23 +22,23 @@ module.exports = {
 
     if (hashtags.length > 0) {
       const result = await Promise.all(
-        hashtags.map((tag) => {
-          return Hashtag.findOrCreate({
-            where: { title: tag.toLowerCase() },
-          });
-        })
+        hashtags.map((hashtag) =>
+          Hashtag.findOrCreate({
+            where: { title: hashtag.toLowerCase() },
+          })
+        )
       );
       await board.addHashtags(result.map((r) => r[0]));
     }
 
     if (images.length > 0) {
       await Promise.all(
-        images.map((img_path) => {
-          return Photo.create({
+        images.map((img_path) =>
+          Photo.create({
             board_id: board.id,
             img_path,
-          });
-        })
+          })
+        )
       );
     }
 
@@ -52,7 +52,7 @@ module.exports = {
     });
 
     if (board.writer !== loginId) {
-      throw new UnauthorizedException(
+      throw new ForbiddenException(
         '게시판 작성자와 동일한 사용자만 삭제가 가능합니다.'
       );
     }
@@ -60,6 +60,8 @@ module.exports = {
     await Board.destroy({
       where: { id },
     });
+
+    return '게시글 삭제 완료';
   },
 
   async updateBoard(category, title, content, hashtags, images, id, loginId) {
@@ -68,7 +70,7 @@ module.exports = {
     });
 
     if (board.writer !== loginId) {
-      throw new UnauthorizedException(
+      throw new ForbiddenException(
         '게시판 작성자와 동일한 사용자만 수정이 가능합니다.'
       );
     }
@@ -85,13 +87,13 @@ module.exports = {
       }
     );
 
-    if (hashtags.length >= 0) {
+    if (hashtags) {
       const result = await Promise.all(
-        hashtags.map((hashtag) => {
-          return Hashtag.findOrCreate({
+        hashtags.map((hashtag) =>
+          Hashtag.findOrCreate({
             where: { title: hashtag.toLowerCase() },
-          });
-        })
+          })
+        )
       );
       await board.setHashtags(result.map((r) => r[0]));
     }
@@ -100,20 +102,31 @@ module.exports = {
       where: { board_id: id },
     });
 
-    if (images.length > 0) {
+    if (images) {
       await Promise.all(
-        images.map((img_path) => {
-          return Photo.create({
+        images.map((img_path) =>
+          Photo.create({
             board_id: id,
             img_path,
-          });
-        })
+          })
+        )
       );
     }
+
+    return id;
   },
 
   async getBoards(category, keyword) {
     const boards = await Board.findAll({
+      include: [
+        {
+          model: Hashtag,
+          attributes: ['title'],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
       where: {
         category,
         [Op.or]: [
@@ -131,36 +144,14 @@ module.exports = {
       boards.map((board) => Like.count({ where: { board_id: board.id } }))
     );
 
-    const hashtags = await Promise.all(
-      boards.map((board) =>
-        db.sequelize.models.board_hashtag.findAll({
-          attributes: ['hashtag_id'],
-          where: { board_id: board.id },
-        })
-      )
-    );
-
-    const hashtags_title = await Promise.all(
-      hashtags.map((hashtag) =>
-        Promise.all(
-          hashtag.map((tag) =>
-            Hashtag.findOne({
-              attributes: ['title'],
-              where: { id: tag.dataValues.hashtag_id },
-            })
-          )
-        )
-      )
-    );
-
     return boards.map((board, idx) => {
       const additionalData = {
         comment_cnt: comment_cnt[idx],
         like_cnt: like_cnt[idx],
-        hashtags: hashtags_title[idx],
+        Hashtags: board.Hashtags.map((hashtag) => hashtag.title),
       };
 
-      return Object.assign({}, board.dataValues, additionalData);
+      return { ...board.dataValues, ...additionalData };
     });
   },
 
@@ -170,10 +161,23 @@ module.exports = {
         {
           model: User,
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path', 'generation', 'position'],
+            },
+          ],
         },
         {
           model: Photo,
           attributes: ['img_path'],
+        },
+        {
+          model: Hashtag,
+          attributes: ['title'],
+          through: {
+            attributes: [],
+          },
         },
       ],
       where: { id },
@@ -183,35 +187,21 @@ module.exports = {
       view_cnt: board.view_cnt + 1,
     });
 
-    const user_detail = await UserDetail.findOne({
-      where: { user_id: board.writer },
-      attributes: ['img_path', 'generation', 'position'],
-    });
-
     const comment_cnt = await Comment.count({ where: { board_id: id } });
     const like_cnt = await Like.count({ where: { board_id: id } });
 
-    const hashtags = await db.sequelize.models.board_hashtag.findAll({
-      attributes: ['hashtag_id'],
-      where: { board_id: id },
-    });
-    const hashtags_title = await Promise.all(
-      hashtags.map((hashtag) =>
-        Hashtag.findOne({
-          attributes: ['title'],
-          where: { id: hashtag.dataValues.hashtag_id },
-        })
-      )
-    );
-
     const additionalData = {
-      user_detail,
       comment_cnt,
       like_cnt,
-      hashtags: hashtags_title.map((tag) => tag.dataValues.title),
+      Hashtags: board.Hashtags.map((hashtag) => hashtag.dataValues.title),
+      User: {
+        name: board.User.name,
+        email: board.User.email,
+        ...board.User.UserDetail.dataValues,
+      },
     };
 
-    return Object.assign({}, board.dataValues, additionalData);
+    return { ...board.dataValues, ...additionalData };
   },
 
   async getComments(id) {
@@ -220,23 +210,25 @@ module.exports = {
         {
           model: User,
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path', 'generation', 'position'],
+            },
+          ],
         },
       ],
       where: { board_id: id },
     });
 
-    const user_detail = await Promise.all(
-      comments.map(({ commenter }) =>
-        UserDetail.findOne({
-          where: { user_id: commenter },
-          attributes: ['img_path', 'generation', 'position'],
-        })
-      )
-    );
-
-    return comments.map((comment, idx) =>
-      Object.assign({}, comment.dataValues, { user_detail: user_detail[idx] })
-    );
+    return comments.map((comment) => ({
+      ...comment.dataValues,
+      User: {
+        name: comment.User.name,
+        email: comment.User.email,
+        ...comment.User.UserDetail.dataValues,
+      },
+    }));
   },
 
   async getPopularBoard() {
@@ -245,11 +237,24 @@ module.exports = {
         {
           model: User,
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path', 'generation', 'position'],
+            },
+          ],
         },
         {
           model: Photo,
           attributes: ['img_path'],
           limit: 1,
+        },
+        {
+          model: Hashtag,
+          attributes: ['title'],
+          through: {
+            attributes: [],
+          },
         },
       ],
       order: [['view_cnt', 'DESC']],
@@ -263,23 +268,20 @@ module.exports = {
       boards.map((board) => Like.count({ where: { board_id: board.id } }))
     );
 
-    const userDetails = await Promise.all(
-      boards.map((board) =>
-        UserDetail.findOne({
-          where: { user_id: board.writer },
-          attributes: ['img_path', 'generation', 'position'],
-        })
-      )
-    );
-
     boards = boards.map((board, idx) => {
       const additionalData = {
         comment_cnt: comment_cnt[idx],
         like_cnt: like_cnt[idx],
-        user_detail: userDetails[idx],
+        Hashtags: board.Hashtags.map((hashtag) => hashtag.title),
+        User: {
+          name: board.User.name,
+          email: board.User.email,
+          ...board.User.UserDetail.dataValues,
+        },
+        Photos: board.Photos.length > 0 ? board.Photos[0].img_path : '',
       };
 
-      return Object.assign({}, board.dataValues, additionalData);
+      return { ...board.dataValues, ...additionalData };
     });
 
     return boards.sort((first, second) => {

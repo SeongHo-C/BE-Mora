@@ -35,35 +35,28 @@ router.post(
   upload.single('img'),
   serviceHandler(boardController.afterUploadImage)
 );
-
 router.post('/boards', loginRequired, serviceHandler(boardController.setBoard));
-
 router.put(
   '/boards',
   loginRequired,
   serviceHandler(boardController.updateBoard)
 );
-
 router.delete(
   '/boards',
   loginRequired,
   serviceHandler(boardController.deleteBoard)
 );
-
 router.get('/boards/popular', serviceHandler(boardController.getPopularBoard));
-
 router.get(
   '/boards/:category',
   loginRequired,
   serviceHandler(boardController.getBoards)
 );
-
 router.get(
   '/boards/detail/:id',
   loginRequired,
   serviceHandler(boardController.getBoard)
 );
-
 router.get(
   '/boards/detail/:id/comments',
   loginRequired,
