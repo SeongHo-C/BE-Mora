@@ -63,11 +63,6 @@ class Board extends Sequelize.Model {
       onDelete: 'cascade',
       onUpdate: 'cascade',
     });
-    db.Board.hasMany(db.Report, {
-      foreignKey: 'target_id',
-      sourceKey: 'id',
-      onDelete: 'cascade',
-    });
     db.Board.belongsTo(db.User, {
       foreignKey: 'writer',
       targetKey: 'id',
