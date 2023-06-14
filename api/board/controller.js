@@ -62,8 +62,9 @@ module.exports = {
 
   async getBoard(req, res) {
     const { id } = req.params;
+    const loginId = req.currentId;
 
-    res.status(200).json(await boardService.getBoard(id));
+    res.status(200).json(await boardService.getBoard(id, loginId));
   },
 
   async getComments(req, res) {

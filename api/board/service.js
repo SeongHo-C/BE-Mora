@@ -155,7 +155,7 @@ module.exports = {
     });
   },
 
-  async getBoard(id) {
+  async getBoard(id, loginId) {
     const board = await Board.findOne({
       include: [
         {
@@ -190,6 +190,13 @@ module.exports = {
     const comment_cnt = await Comment.count({ where: { board_id: id } });
     const like_cnt = await Like.count({ where: { board_id: id } });
 
+    const user_like = await Like.findOne({
+      where: {
+        board_id: id,
+        user_id: loginId,
+      },
+    });
+
     const additionalData = {
       comment_cnt,
       like_cnt,
@@ -199,6 +206,7 @@ module.exports = {
         email: board.User.email,
         ...board.User.UserDetail.dataValues,
       },
+      user_like: !!user_like,
     };
 
     return { ...board.dataValues, ...additionalData };
