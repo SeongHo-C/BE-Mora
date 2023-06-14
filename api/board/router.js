@@ -36,18 +36,11 @@ router.post(
   serviceHandler(boardController.afterUploadImage)
 );
 
-const upload2 = multer();
-router.post(
-  '/boards',
-  loginRequired,
-  upload2.none(),
-  serviceHandler(boardController.setBoard)
-);
+router.post('/boards', loginRequired, serviceHandler(boardController.setBoard));
 
 router.put(
   '/boards',
   loginRequired,
-  upload2.none(),
   serviceHandler(boardController.updateBoard)
 );
 
