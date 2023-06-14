@@ -25,7 +25,7 @@ module.exports = {
     const type = 'COMMENT';
     const target_id = board_id;
 
-    await alertService.addAlert({ from_user_id, to_user_id, type, url });
+    await alertService.addAlert({ from_user_id, to_user_id, type, target_id });
 
     return '댓글 작성 완료';
   },
