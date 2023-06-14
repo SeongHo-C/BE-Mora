@@ -21,6 +21,7 @@ const Like = require('./api/like/model');
 const Alert = require('./api/alert/model');
 const Education = require('./api/education/model');
 const Coffeechat = require('./api/coffeechat/model');
+const Link = require('./api/link/model');
 
 const db = {};
 const sequelize = new Sequelize(
@@ -50,6 +51,7 @@ db.Career = Career;
 db.Alert = Alert;
 db.Education = Education;
 db.Coffeechat = Coffeechat;
+db.Link = Link;
 
 Board.initiate(sequelize);
 Hashtag.initiate(sequelize);
@@ -70,6 +72,7 @@ Career.initiate(sequelize);
 Alert.initiate(sequelize);
 Education.initiate(sequelize);
 Coffeechat.initiate(sequelize);
+Link.initiate(sequelize);
 
 Board.associate(db);
 User.associate(db);
@@ -88,5 +91,6 @@ Career.associate(db);
 Alert.associate(db);
 Education.associate(db);
 Coffeechat.associate(db);
+Link.associate(db);
 
 module.exports = db;
