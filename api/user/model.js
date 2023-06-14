@@ -110,6 +110,11 @@ class User extends Sequelize.Model {
       sourceKey: 'id',
       onDelete: 'cascade',
     });
+    db.User.hasMany(db.Link, {
+      foreignKey: 'user_id',
+      sourceKey: 'id',
+      onDelete: 'cascade',
+    });
   }
 }
 
