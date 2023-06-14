@@ -1,4 +1,4 @@
-const { Alert, Plan, User, Comment, Board } = require('../../models');
+const { Alert, User, Comment, Board } = require('../../models');
 const {
   BadRequestException,
   NotFoundException,
@@ -7,7 +7,7 @@ const {
 
 module.exports = {
   async addAlert(alertInfo) {
-    const { from_user_id, to_user_id, type } = alertInfo;
+    const { from_user_id, to_user_id, type, url } = alertInfo;
     let fromUser;
     let toUser;
     if (type === 'COMMENT') {
@@ -29,12 +29,6 @@ module.exports = {
         ],
         where: { writer: to_user_id },
       });
-    } else if (type === 'PLAN') {
-    } else if (type === 'COFFEECHAT') {
-      // fromUser = await Coffechat({});
-      toUser = await User.findOne({
-        where: { id: to_user_id },
-      });
     }
 
     if (!fromUser || !toUser) {
@@ -54,11 +48,24 @@ module.exports = {
           model: User,
           as: 'AlertFromUser',
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: Comment,
+              attributes: ['content'],
+              where: { board_id: url },
+            },
+          ],
         },
         {
           model: User,
           as: 'AlertToUser',
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: Board,
+              attributes: ['title', 'content'],
+            },
+          ],
         },
       ],
       where: {

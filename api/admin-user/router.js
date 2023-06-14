@@ -28,6 +28,12 @@ router.post(
                 message: '이미 존재하는 이메일입니다.'
             }
   } */
+  /*  #swagger.responses[500] = {
+            description: '사용자 등록 OR 사용자 기본 상세 정보 등록 처리에 실패한 경우',
+            schema: {
+                message: '사용자 등록 OR 사용자 기본 상세 정보 등록 처리에 실패했습니다.'
+            }
+  } */
 );
 
 router.get(

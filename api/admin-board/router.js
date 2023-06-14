@@ -28,12 +28,10 @@ router.get(
                   },
                   Photos : [
                       {
-                          path: 'uploads\\\\lovelycat1686417123854.jpg',
-                          origin_name: 'lovelycat.jpg'
+                          path: 'uploads\\\\lovelycat1686417123854.jpg'
                       },
                       {
-                          path: 'uploads\\\\lovelycat1686417123854.jpg',
-                          origin_name: 'lovelycat.jpg'
+                          path: 'uploads\\\\lovelycat1686417123854.jpg'
                       },
                   ],
                 }
@@ -66,12 +64,10 @@ router.get(
                     },
                     Photos : [
                         {
-                            path: 'uploads\\\\lovelycat1686417123854.jpg',
-                            origin_name: 'lovelycat.jpg'
+                            path: 'uploads\\\\lovelycat1686417123854.jpg'
                         },
                         {
-                            path: 'uploads\\\\lovelycat1686417123854.jpg',
-                            origin_name: 'lovelycat.jpg'
+                            path: 'uploads\\\\lovelycat1686417123854.jpg'
                         },
                     ],
                     Comments : [
@@ -139,12 +135,10 @@ router.delete(
                     },
                     Photos : [
                         {
-                            path: 'uploads\\\\lovelycat1686417123854.jpg',
-                            origin_name: 'lovelycat.jpg'
+                            path: 'uploads\\\\lovelycat1686417123854.jpg'
                         },
                         {
-                            path: 'uploads\\\\lovelycat1686417123854.jpg',
-                            origin_name: 'lovelycat.jpg'
+                            path: 'uploads\\\\lovelycat1686417123854.jpg'
                         },
                     ],
                     Comments : [

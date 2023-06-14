@@ -51,9 +51,9 @@ router.post(
 router.post(
   '/alerts/mail',
   (req, res) => {
-    const { emails, subject, text } = req.body;
+    const { emails, subject, text, content } = req.body;
     emails.forEach((emails) => {
-      mailer.sendGmail(emails.email, subject, text);
+      mailer.sendGmail(emails.email, subject, text, content);
     });
 
     res.status(200).send('이메일이 성공적으로 발송되었습니다.');

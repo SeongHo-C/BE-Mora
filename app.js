@@ -21,12 +21,13 @@ const adminBoardRouter = require('./api/admin-board/router');
 const adminUserRouter = require('./api/admin-user/router');
 const alertRouter = require('./api/alert/router');
 const educationRouter = require('./api/education/router');
+const coffeechatRouter = require('./api/coffeechat/router');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 
 const logger = require('./logger');
-// require('./utils/schedule');
+require('./utils/schedule');
 
 dotenv.config();
 const { sequelize } = require('./models');
@@ -85,6 +86,7 @@ app.use('/api', adminBoardRouter);
 app.use('/api', adminUserRouter);
 app.use('/api', alertRouter);
 app.use('/api', educationRouter);
+app.use('/api', coffeechatRouter);
 
 app.use((req, res, next) => {
   const error = new NotFoundException(
