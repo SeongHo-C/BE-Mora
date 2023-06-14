@@ -9,7 +9,10 @@ const {
 } = require('../../models');
 const db = require('../../models');
 const { Op } = require('sequelize');
-const { UnauthorizedException } = require('../../middlewares');
+const {
+  UnauthorizedException,
+  ForbiddenException,
+} = require('../../middlewares');
 
 module.exports = {
   async setBoard(category, title, content, hashtags, images, writer) {
@@ -52,7 +55,7 @@ module.exports = {
     });
 
     if (board.writer !== loginId) {
-      throw new UnauthorizedException(
+      throw new ForbiddenException(
         '게시판 작성자와 동일한 사용자만 삭제가 가능합니다.'
       );
     }
@@ -68,7 +71,7 @@ module.exports = {
     });
 
     if (board.writer !== loginId) {
-      throw new UnauthorizedException(
+      throw new ForbiddenException(
         '게시판 작성자와 동일한 사용자만 수정이 가능합니다.'
       );
     }
@@ -110,6 +113,8 @@ module.exports = {
         })
       );
     }
+
+    return id;
   },
 
   async getBoards(category, keyword) {

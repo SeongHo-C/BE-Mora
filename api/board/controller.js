@@ -11,7 +11,6 @@ module.exports = {
 
   async setBoard(req, res) {
     const { category, title, content, hashtags, images } = req.body;
-    logger.info([category, title, content, hashtags, images]);
     const writer = req.currentId;
 
     res
@@ -40,16 +39,19 @@ module.exports = {
     const { category, title, content, hashtags, images, board_id } = req.body;
     const loginId = req.currentId;
 
-    await boardService.updateBoard(
-      category,
-      title,
-      content,
-      hashtags,
-      images,
-      board_id,
-      loginId
-    );
-    res.status(200).json('게시글 수정 완료');
+    res
+      .status(200)
+      .json(
+        await boardService.updateBoard(
+          category,
+          title,
+          content,
+          hashtags,
+          images,
+          board_id,
+          loginId
+        )
+      );
   },
 
   async getBoards(req, res) {
