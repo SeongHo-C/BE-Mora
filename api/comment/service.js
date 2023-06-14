@@ -20,12 +20,19 @@ module.exports = {
       commenter,
     });
 
-    const from_user_id = commenter;
-    const to_user_id = board.writer;
-    const type = 'COMMENT';
-    const target_id = board_id;
+    if (commenter !== board.writer) {
+      const from_user_id = commenter;
+      const to_user_id = board.writer;
+      const type = 'COMMENT';
+      const target_id = board_id;
 
-    await alertService.addAlert({ from_user_id, to_user_id, type, target_id });
+      await alertService.addAlert({
+        from_user_id,
+        to_user_id,
+        type,
+        target_id,
+      });
+    }
 
     return '댓글 작성 완료';
   },

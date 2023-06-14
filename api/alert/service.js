@@ -5,7 +5,7 @@ const {
   InternalServerErrorException,
 } = require('../../middlewares');
 const dayjs = require('dayjs');
-const { Op, col } = require('sequelize');
+const { Op } = require('sequelize');
 
 module.exports = {
   async addAlert(alertInfo) {
