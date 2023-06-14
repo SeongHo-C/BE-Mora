@@ -18,7 +18,28 @@ module.exports = {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUserInfo = { name, email, password: hashedPassword };
-    return await User.create(newUserInfo);
+    const newUser = await User.create(newUserInfo);
+    if (!newUser) {
+      throw new InternalServerErrorException(
+        '사용자 등록 처리에 실패했습니다.'
+      );
+    }
+
+    //회원 정보 테이블 초기 값 설정
+    const detail = await UserDetail.create({
+      user_id: newUser.id,
+      position: '직책을 입력해주세요.',
+      generation: '트랙 및 기수를 입력해주세요.',
+      profile_public: false,
+      img_path: 'http://www.moyeora-racer.com:5000/default1686549448163.png',
+    });
+    if (!detail) {
+      throw new InternalServerErrorException(
+        '사용자 기본 상세 정보 등록 처리에 실패했습니다.'
+      );
+    }
+
+    return newUser;
   },
 
   async getUsers(page, size, keyword) {

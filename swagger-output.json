@@ -1267,37 +1267,7 @@
             }
           }
         ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "category": {
-                    "example": "any"
-                  },
-                  "title": {
-                    "example": "any"
-                  },
-                  "content": {
-                    "example": "any"
-                  },
-                  "hashtags": {
-                    "example": "any"
-                  },
-                  "images": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
-        }
+        "responses": {}
       },
       "put": {
         "description": "",
@@ -3803,10 +3773,6 @@
                               "path": {
                                 "type": "string",
                                 "example": "uploads\\\\lovelycat1686417123854.jpg"
-                              },
-                              "origin_name": {
-                                "type": "string",
-                                "example": "lovelycat.jpg"
                               }
                             }
                           }
@@ -3879,10 +3845,6 @@
                               "path": {
                                 "type": "string",
                                 "example": "uploads\\\\lovelycat1686417123854.jpg"
-                              },
-                              "origin_name": {
-                                "type": "string",
-                                "example": "lovelycat.jpg"
                               }
                             }
                           }
@@ -3990,10 +3952,6 @@
                                   "path": {
                                     "type": "string",
                                     "example": "uploads\\\\lovelycat1686417123854.jpg"
-                                  },
-                                  "origin_name": {
-                                    "type": "string",
-                                    "example": "lovelycat.jpg"
                                   }
                                 }
                               }
@@ -4112,10 +4070,6 @@
                                   "path": {
                                     "type": "string",
                                     "example": "uploads\\\\lovelycat1686417123854.jpg"
-                                  },
-                                  "origin_name": {
-                                    "type": "string",
-                                    "example": "lovelycat.jpg"
                                   }
                                 }
                               }
@@ -4297,10 +4251,6 @@
                                   "path": {
                                     "type": "string",
                                     "example": "uploads\\\\lovelycat1686417123854.jpg"
-                                  },
-                                  "origin_name": {
-                                    "type": "string",
-                                    "example": "lovelycat.jpg"
                                   }
                                 }
                               }
@@ -4419,10 +4369,6 @@
                                   "path": {
                                     "type": "string",
                                     "example": "uploads\\\\lovelycat1686417123854.jpg"
-                                  },
-                                  "origin_name": {
-                                    "type": "string",
-                                    "example": "lovelycat.jpg"
                                   }
                                 }
                               }
@@ -4866,6 +4812,39 @@
                     "message": {
                       "type": "string",
                       "example": "이미 존재하는 이메일입니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "사용자 등록 OR 사용자 기본 상세 정보 등록 처리에 실패한 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 등록 OR 사용자 기본 상세 정보 등록 처리에 실패했습니다."
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 등록 OR 사용자 기본 상세 정보 등록 처리에 실패했습니다."
                     }
                   },
                   "xml": {
