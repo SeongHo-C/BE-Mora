@@ -41,5 +41,6 @@ const endpointsFiles = [
   './api/admin-board/router.js',
   './api/admin-user/router.js',
   './api/alert/router.js',
+  './api/coffeechat/router.js',
 ];
 swaggerAutogen(outputFile, endpointsFiles, options);
