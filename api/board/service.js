@@ -118,6 +118,15 @@ module.exports = {
 
   async getBoards(category, keyword) {
     const boards = await Board.findAll({
+      include: [
+        {
+          model: Hashtag,
+          attributes: ['title'],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
       where: {
         category,
         [Op.or]: [
@@ -135,36 +144,14 @@ module.exports = {
       boards.map((board) => Like.count({ where: { board_id: board.id } }))
     );
 
-    const hashtags = await Promise.all(
-      boards.map((board) =>
-        db.sequelize.models.board_hashtag.findAll({
-          attributes: ['hashtag_id'],
-          where: { board_id: board.id },
-        })
-      )
-    );
-
-    const hashtags_title = await Promise.all(
-      hashtags.map((hashtag) =>
-        Promise.all(
-          hashtag.map((tag) =>
-            Hashtag.findOne({
-              attributes: ['title'],
-              where: { id: tag.dataValues.hashtag_id },
-            })
-          )
-        )
-      )
-    );
-
     return boards.map((board, idx) => {
       const additionalData = {
         comment_cnt: comment_cnt[idx],
         like_cnt: like_cnt[idx],
-        hashtags: hashtags_title[idx],
+        Hashtags: board.Hashtags.map((hashtag) => hashtag.title),
       };
 
-      return Object.assign({}, board.dataValues, additionalData);
+      return { ...board.dataValues, ...additionalData };
     });
   },
 
