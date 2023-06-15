@@ -265,6 +265,9 @@ module.exports = {
       }
     }
 
-    return { alertComments, alertPlans };
+    const alerts = [...alertComments, ...alertPlans];
+    alerts.sort((a, b) => b.createdAt - a.createdAt);
+
+    return alerts;
   },
 };
