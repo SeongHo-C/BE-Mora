@@ -43,12 +43,18 @@ module.exports = {
     return boards;
   },
 
-  async getDetail(id) {
+  async getDetail(id, loginId) {
     const board = await Board.findOne({
       include: [
         {
           model: User,
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path', 'generation', 'position'],
+            },
+          ],
         },
         {
           model: Photo,
@@ -78,8 +84,29 @@ module.exports = {
       throw new NotFoundException('존재하지 않는 게시글입니다.');
     }
 
-    const likeCnt = await Like.count({ where: { board_id: id } });
-    return { board, likeCnt };
+    const comment_cnt = await Comment.count({ where: { board_id: id } });
+    const like_cnt = await Like.count({ where: { board_id: id } });
+
+    const user_like = await Like.findOne({
+      where: {
+        board_id: id,
+        user_id: loginId,
+      },
+    });
+
+    const additionalData = {
+      comment_cnt,
+      like_cnt,
+      Hashtags: board.Hashtags.map((hashtag) => hashtag.dataValues.title),
+      User: {
+        name: board.User.name,
+        email: board.User.email,
+        ...board.User.UserDetail.dataValues,
+      },
+      user_like: !!user_like,
+    };
+
+    return { ...board.dataValues, ...additionalData };
   },
 
   async deleteBoard(id) {
