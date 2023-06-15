@@ -1,4 +1,11 @@
-const { Alert, User, Comment, Board, Plan } = require('../../models');
+const {
+  Alert,
+  User,
+  Comment,
+  Board,
+  Plan,
+  UserDetail,
+} = require('../../models');
 const {
   BadRequestException,
   NotFoundException,
@@ -148,6 +155,12 @@ module.exports = {
           model: User,
           as: 'AlertFromUser',
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path'],
+            },
+          ],
         },
         {
           model: User,
