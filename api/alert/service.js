@@ -243,7 +243,7 @@ module.exports = {
 
     // 알림에 있는 target_id가 일정의 id와 같으면 입력 처리
     for (let i = 0; i < planId.length; i++) {
-      for (let j = i; j < alertPlans.length; j++) {
+      for (let j = 0; j < alertPlans.length; j++) {
         if (alertPlans[j].target_id === planId[i]) {
           alertPlans[j].planTitle = planTitle[i];
           alertPlans[j].planContent = planContent[i];
