@@ -22,6 +22,6 @@ module.exports = {
   },
 
   async getAlerts(req, res) {
-    res.status(200).json(await alertService.getAlerts());
+    res.status(200).json(await alertService.getAlerts(req.currentId));
   },
 };

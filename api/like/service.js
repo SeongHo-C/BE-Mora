@@ -1,19 +1,7 @@
 const { Like, Board } = require('../../models');
-const { NotFoundException } = require('../../middlewares');
+const { NotFoundException, BadRequestException } = require('../../middlewares');
 
 module.exports = {
-  async selectLike(boardId, userId) {
-    const like = await Like.findOne({
-      where: {
-        board_id: boardId,
-        user_id: userId,
-      },
-    });
-
-    if (like) return true;
-    else return false;
-  },
-
   async setLike(boardId, userId) {
     const board = await Board.findOne({
       where: { id: boardId },
@@ -25,10 +13,25 @@ module.exports = {
       );
     }
 
+    const like = await Like.findOne({
+      where: {
+        board_id: boardId,
+        user_id: userId,
+      },
+    });
+
+    if (like) {
+      throw new BadRequestException(
+        '게시글에 좋아요는 한 번만 가능해야 합니다.'
+      );
+    }
+
     await Like.create({
       board_id: boardId,
       user_id: userId,
     });
+
+    return '좋아요 등록 완료';
   },
 
   async deleteLike(boardId, userId) {
@@ -50,7 +53,9 @@ module.exports = {
     });
 
     if (!like) {
-      throw new NotFoundException('등록되지 않은 좋아요를 삭제할 수 없습니다.');
+      throw new BadRequestException(
+        '등록되지 않은 좋아요를 삭제할 수 없습니다.'
+      );
     }
 
     await Like.destroy({
@@ -59,5 +64,7 @@ module.exports = {
         user_id: userId,
       },
     });
+
+    return '좋아요 삭제 완료';
   },
 };
