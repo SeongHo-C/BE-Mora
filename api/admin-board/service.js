@@ -22,12 +22,6 @@ module.exports = {
         {
           model: User,
           attributes: ['name', 'email'],
-          where: {
-            [Op.or]: [
-              { name: { [Op.like]: `%${keyword}%` } },
-              { email: { [Op.like]: `%${keyword}%` } },
-            ],
-          },
         },
         {
           model: Photo,
@@ -38,8 +32,6 @@ module.exports = {
         [Op.or]: [
           { title: { [Op.like]: `%${keyword}%` } },
           { content: { [Op.like]: `%${keyword}%` } },
-          { '$User.name$': { [Op.like]: `%${keyword}%` } },
-          { '$User.email$': { [Op.like]: `%${keyword}%` } },
         ],
       },
       order: [['created_at', 'DESC']],
