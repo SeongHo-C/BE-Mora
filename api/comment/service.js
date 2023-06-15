@@ -14,7 +14,7 @@ module.exports = {
       );
     }
 
-    await Comment.create({
+    const comment = await Comment.create({
       content,
       board_id,
       commenter,
@@ -24,7 +24,7 @@ module.exports = {
       const from_user_id = commenter;
       const to_user_id = board.writer;
       const type = 'COMMENT';
-      const target_id = board_id;
+      const target_id = comment.id;
 
       await alertService.addAlert({
         from_user_id,
