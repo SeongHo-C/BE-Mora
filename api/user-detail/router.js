@@ -55,5 +55,9 @@ userDetailRouter.get(
   '/users/open-profile',
   serviceHandler(userDetalController.getOpenProfile)
 );
+userDetailRouter.get(
+  '/users/open-profile/search',
+  serviceHandler(userDetalController.getOpenProfileByKeyword)
+);
 
 module.exports = userDetailRouter;
