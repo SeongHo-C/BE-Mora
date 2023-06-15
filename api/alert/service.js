@@ -124,13 +124,13 @@ module.exports = {
     });
   },
 
-  async getAlerts() {
+  async getAlerts(id) {
     const currentTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
     const fiveDaysAgo = dayjs()
       .subtract(5, 'day')
       .format('YYYY-MM-DD HH:mm:ss');
 
-    // 최근 5일 이내 알림에 있는 댓글 정보 조회
+    // 로그인 한 유저의 최근 5일 이내 알림에 있는 댓글 정보 조회
     const alertComments = await Alert.findAll({
       attributes: [
         'id',
@@ -158,6 +158,7 @@ module.exports = {
       where: {
         created_at: { [Op.between]: [fiveDaysAgo, currentTime] },
         type: 'COMMENT',
+        to_user_id: id,
       },
       order: [['created_at', 'DESC']],
     });
@@ -201,11 +202,12 @@ module.exports = {
       }
     }
 
-    // 최근 5일 이내 알림에 있는 plan정보 조회
+    // 로그인 한 유저의 최근 5일 이내 알림에 있는 plan정보 조회
     const alertPlans = await Alert.findAll({
       where: {
         created_at: { [Op.between]: [fiveDaysAgo, currentTime] },
         type: 'PLAN',
+        to_user_id: id,
       },
       raw: true,
       include: [
