@@ -75,9 +75,9 @@ module.exports = {
     const { open } = req.body;
     const id = req.currentId;
 
-    return res
-      .status(200)
-      .json(await userDetailService.setOpenProfile(id, open));
+    await userDetailService.setOpenProfile(id, open);
+
+    return res.status(200).json({ open });
     // if (open === 0) {
     //   await userDetailService.setOpenProfile(id, open);
     //   return res.status(200).json({ open: 0 });
