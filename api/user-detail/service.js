@@ -2,6 +2,7 @@ const UserDetail = require('./model');
 const Board = require('../board/model');
 const db = require('../../models');
 const User = require('../user/model');
+const Sequelize = require('sequelize');
 const { NotFoundException } = require('../../middlewares');
 
 module.exports = {
@@ -107,112 +108,196 @@ module.exports = {
   /**
    * 오픈 프로필 조회
    */
-  async getOpenProfiles() {
-    const userDetails = await UserDetail.findAll({
-      where: { profile_public: 1 },
-      attributes: ['user_id', 'position', 'img_path'],
-    });
+  async getOpenProfiles(userId) {
+    console.log(userId);
+    if (!userId) {
+      const userDetails = await UserDetail.findAll({
+        where: { profile_public: 1 },
+        attributes: ['user_id', 'position', 'img_path'],
+        include: [
+          {
+            model: db.User,
+            attributes: ['name'],
+            include: [
+              {
+                model: db.Skill,
+                attributes: ['name'],
+                through: {
+                  model: db.sequelize.models.user_skills,
+                  attributes: [],
+                },
+              },
+            ],
+          },
+        ],
+      });
 
-    const careers = await Promise.all(
-      userDetails.map((user) =>
-        db.Career.findAll({
-          where: { user_id: user.user_id },
-          attributes: ['company_name', 'position', 'hire_date', 'resign_date'],
-        })
-      )
-    );
+      const careers = await Promise.all(
+        userDetails.map((user) =>
+          db.Career.findAll({
+            where: { user_id: user.user_id },
+            attributes: [
+              'company_name',
+              'position',
+              'hire_date',
+              'resign_date',
+            ],
+          })
+        )
+      );
 
-    const careersFormatted = await Promise.all(
-      careers.map((careerArr) => {
-        const userCareers = careerArr.map((career) => {
-          const hireDate = new Date(career.hire_date);
-          const resignDate = career.resign_date
-            ? new Date(career.resign_date)
-            : null;
+      const careersFormatted = await Promise.all(
+        careers.map((careerArr) => {
+          const userCareers = careerArr.map((career) => {
+            const hireDate = new Date(career.hire_date);
+            const resignDate = career.resign_date
+              ? new Date(career.resign_date)
+              : null;
 
-          const totalMonths = resignDate
-            ? (resignDate.getFullYear() - hireDate.getFullYear()) * 12 +
-              (resignDate.getMonth() - hireDate.getMonth())
-            : null;
+            const totalMonths = resignDate
+              ? (resignDate.getFullYear() - hireDate.getFullYear()) * 12 +
+                (resignDate.getMonth() - hireDate.getMonth())
+              : null;
 
-          const years = totalMonths ? Math.floor(totalMonths / 12) : null;
-          const remainingMonths = totalMonths ? totalMonths % 12 : null;
+            const years = totalMonths ? Math.floor(totalMonths / 12) : null;
+            const remainingMonths = totalMonths ? totalMonths % 12 : null;
 
-          let totalWorkingYear = '';
-          if (years !== null) {
-            if (remainingMonths === 0) {
-              totalWorkingYear = `${years}년`;
+            let totalWorkingYear = '';
+            if (years !== null) {
+              if (remainingMonths === 0) {
+                totalWorkingYear = `${years}년`;
+              } else {
+                totalWorkingYear = `${years + 1}년`;
+              }
             } else {
-              totalWorkingYear = `${years + 1}년`;
+              totalWorkingYear = '현재';
             }
-          } else {
-            totalWorkingYear = '현재';
-          }
+
+            return {
+              ...career.toJSON(),
+              work_year: totalWorkingYear,
+            };
+          });
+
+          const total_year = userCareers.reduce((total, career) => {
+            if (career.work_year !== '현재') {
+              const year = parseInt(career.work_year, 10);
+              total += year;
+            }
+            return total;
+          }, 0);
 
           return {
-            ...career.toJSON(),
-            work_year: totalWorkingYear,
+            career_list: userCareers,
+            total_year: `${total_year}년차`,
           };
-        });
+        })
+      );
 
-        const total_year = userCareers.reduce((total, career) => {
-          if (career.work_year !== '현재') {
-            const year = parseInt(career.work_year, 10);
-            total += year;
-          }
-          return total;
-        }, 0);
-
-        return {
-          career_list: userCareers,
-          total_year: `${total_year}년차`,
+      return userDetails.map((profile, idx) => {
+        const additionalData = {
+          user_careers: careersFormatted[idx],
         };
-      })
-    );
 
-    const names = await Promise.all(
-      userDetails.map((user) =>
-        db.User.findOne({
-          where: { id: user.user_id },
-          attributes: ['name'],
-        })
-      )
-    );
-    const skills = await Promise.all(
-      userDetails.map((user) =>
-        db.sequelize.models.user_skills.findAll({
-          where: { user_id: user.user_id },
-          attributes: ['SkillId'],
-        })
-      )
-    );
+        return Object.assign({}, profile.dataValues, additionalData);
+      });
+    } else {
+      const userDetails = await UserDetail.findAll({
+        where: { profile_public: 1 },
+        attributes: ['user_id', 'position', 'img_path'],
+        include: [
+          {
+            model: db.User,
+            attributes: ['name'],
+            include: [
+              {
+                model: db.Skill,
+                attributes: ['name'],
+                through: {
+                  model: db.sequelize.models.user_skills,
+                  attributes: [],
+                },
+              },
+              {
+                model: db.Coffeechat,
+                as: 'User',
+                where: { user_id: userId },
+              },
+            ],
+          },
+        ],
+      });
 
-    const skills_name = await Promise.all(
-      skills.map((skills) =>
-        Promise.all(
-          skills.map((skill) =>
-            db.Skill.findOne({
-              where: { id: skill.dataValues.SkillId },
-              attributes: ['name'],
-            })
-          )
+      const careers = await Promise.all(
+        userDetails.map((user) =>
+          db.Career.findAll({
+            where: { user_id: user.user_id },
+            attributes: [
+              'company_name',
+              'position',
+              'hire_date',
+              'resign_date',
+            ],
+          })
         )
-      )
-    );
+      );
 
-    const user_skills_name = skills_name.map((skills) =>
-      skills.map((skill) => skill.name)
-    );
+      const careersFormatted = await Promise.all(
+        careers.map((careerArr) => {
+          const userCareers = careerArr.map((career) => {
+            const hireDate = new Date(career.hire_date);
+            const resignDate = career.resign_date
+              ? new Date(career.resign_date)
+              : null;
 
-    return userDetails.map((board, idx) => {
-      const additionalData = {
-        user_careers: careersFormatted[idx],
-        user: names[idx],
-        user_skills: user_skills_name[idx],
-      };
+            const totalMonths = resignDate
+              ? (resignDate.getFullYear() - hireDate.getFullYear()) * 12 +
+                (resignDate.getMonth() - hireDate.getMonth())
+              : null;
 
-      return Object.assign({}, board.dataValues, additionalData);
-    });
+            const years = totalMonths ? Math.floor(totalMonths / 12) : null;
+            const remainingMonths = totalMonths ? totalMonths % 12 : null;
+
+            let totalWorkingYear = '';
+            if (years !== null) {
+              if (remainingMonths === 0) {
+                totalWorkingYear = `${years}년`;
+              } else {
+                totalWorkingYear = `${years + 1}년`;
+              }
+            } else {
+              totalWorkingYear = '현재';
+            }
+
+            return {
+              ...career.toJSON(),
+              work_year: totalWorkingYear,
+            };
+          });
+
+          const total_year = userCareers.reduce((total, career) => {
+            if (career.work_year !== '현재') {
+              const year = parseInt(career.work_year, 10);
+              total += year;
+            }
+            return total;
+          }, 0);
+
+          return {
+            career_list: userCareers,
+            total_year: `${total_year}년차`,
+          };
+        })
+      );
+
+      return userDetails.map((profile, idx) => {
+        const additionalData = {
+          user_careers: careersFormatted[idx],
+        };
+
+        return Object.assign({}, profile.dataValues, additionalData);
+      });
+    }
   },
 
   /**
