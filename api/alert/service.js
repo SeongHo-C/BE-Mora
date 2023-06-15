@@ -1,4 +1,11 @@
-const { Alert, User, Comment, Board, Plan } = require('../../models');
+const {
+  Alert,
+  User,
+  Comment,
+  Board,
+  Plan,
+  UserDetail,
+} = require('../../models');
 const {
   BadRequestException,
   NotFoundException,
@@ -148,6 +155,12 @@ module.exports = {
           model: User,
           as: 'AlertFromUser',
           attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path'],
+            },
+          ],
         },
         {
           model: User,
@@ -243,7 +256,7 @@ module.exports = {
 
     // 알림에 있는 target_id가 일정의 id와 같으면 입력 처리
     for (let i = 0; i < planId.length; i++) {
-      for (let j = i; j < alertPlans.length; j++) {
+      for (let j = 0; j < alertPlans.length; j++) {
         if (alertPlans[j].target_id === planId[i]) {
           alertPlans[j].planTitle = planTitle[i];
           alertPlans[j].planContent = planContent[i];
@@ -252,6 +265,9 @@ module.exports = {
       }
     }
 
-    return { alertComments, alertPlans };
+    const alerts = [...alertComments, ...alertPlans];
+    alerts.sort((a, b) => b.createdAt - a.createdAt);
+
+    return alerts;
   },
 };

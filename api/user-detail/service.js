@@ -2,7 +2,7 @@ const UserDetail = require('./model');
 const Board = require('../board/model');
 const db = require('../../models');
 const User = require('../user/model');
-const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const { NotFoundException } = require('../../middlewares');
 
 module.exports = {
@@ -106,7 +106,7 @@ module.exports = {
   },
 
   /**
-   * 오픈 프로필 조회
+   * 오픈 프로필 전체 조회
    */
   async getOpenProfiles(userId) {
     console.log(userId);
@@ -218,11 +218,6 @@ module.exports = {
                   attributes: [],
                 },
               },
-              {
-                model: db.Coffeechat,
-                as: 'User',
-                where: { user_id: userId },
-              },
             ],
           },
         ],
@@ -290,9 +285,15 @@ module.exports = {
         })
       );
 
+      const user_coffeeChat = await db.Coffeechat.findAll({
+        where: { user_id: userId },
+        attributes: ['id'],
+      });
+
       return userDetails.map((profile, idx) => {
         const additionalData = {
           user_careers: careersFormatted[idx],
+          chat_status: user_coffeeChat[idx] ? true : false,
         };
 
         return Object.assign({}, profile.dataValues, additionalData);
@@ -306,11 +307,108 @@ module.exports = {
   async setOpenProfile(userId, public) {
     const updateProfile = await UserDetail.update(
       {
-        profile_public: public.open,
+        profile_public: public,
       },
       { where: { user_id: userId } }
     );
 
     return updateProfile;
+  },
+
+  /**
+   * 오픈 프로필 검색어 조회
+   */
+  async getOpenProfileByKeyword(keyword) {
+    const userDetails = await UserDetail.findAll({
+      where: {
+        profile_public: 1,
+        [Op.or]: [
+          { position: { [Op.like]: `%${keyword}%` } },
+          { '$User.name$': { [Op.like]: `%${keyword}%` } },
+        ],
+      },
+      attributes: ['user_id', 'position', 'img_path'],
+      include: [
+        {
+          model: db.User,
+          attributes: ['name'],
+          include: [
+            {
+              model: db.Skill,
+              attributes: ['name'],
+              through: {
+                model: db.sequelize.models.user_skills,
+                attributes: [],
+              },
+            },
+          ],
+        },
+      ],
+    });
+    console.log(userDetails);
+    const careers = await Promise.all(
+      userDetails.map((user) =>
+        db.Career.findAll({
+          where: { user_id: user.user_id },
+          attributes: ['company_name', 'position', 'hire_date', 'resign_date'],
+        })
+      )
+    );
+
+    const careersFormatted = await Promise.all(
+      careers.map((careerArr) => {
+        const userCareers = careerArr.map((career) => {
+          const hireDate = new Date(career.hire_date);
+          const resignDate = career.resign_date
+            ? new Date(career.resign_date)
+            : null;
+
+          const totalMonths = resignDate
+            ? (resignDate.getFullYear() - hireDate.getFullYear()) * 12 +
+              (resignDate.getMonth() - hireDate.getMonth())
+            : null;
+
+          const years = totalMonths ? Math.floor(totalMonths / 12) : null;
+          const remainingMonths = totalMonths ? totalMonths % 12 : null;
+
+          let totalWorkingYear = '';
+          if (years !== null) {
+            if (remainingMonths === 0) {
+              totalWorkingYear = `${years}년`;
+            } else {
+              totalWorkingYear = `${years + 1}년`;
+            }
+          } else {
+            totalWorkingYear = '현재';
+          }
+
+          return {
+            ...career.toJSON(),
+            work_year: totalWorkingYear,
+          };
+        });
+
+        const total_year = userCareers.reduce((total, career) => {
+          if (career.work_year !== '현재') {
+            const year = parseInt(career.work_year, 10);
+            total += year;
+          }
+          return total;
+        }, 0);
+
+        return {
+          career_list: userCareers,
+          total_year: `${total_year}년차`,
+        };
+      })
+    );
+
+    return userDetails.map((profile, idx) => {
+      const additionalData = {
+        user_careers: careersFormatted[idx],
+      };
+
+      return Object.assign({}, profile.dataValues, additionalData);
+    });
   },
 };
