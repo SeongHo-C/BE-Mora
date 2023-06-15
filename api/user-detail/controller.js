@@ -82,4 +82,15 @@ module.exports = {
       return res.status(200).json({ open: 1 });
     }
   },
+
+  /**
+   * 오픈 프로필 검색어 조회
+   */
+  async getOpenProfileByKeyword(req, res) {
+    const { keyword } = req.query;
+    console.log(keyword);
+    return res
+      .status(200)
+      .json(await userDetailService.getOpenProfileByKeyword(keyword));
+  },
 };
