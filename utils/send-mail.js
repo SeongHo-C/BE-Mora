@@ -22,9 +22,7 @@ const mailSender = {
         <mj-body>
           <mj-section>
             <mj-column background-color="#EEEAFE">
-              <mj-text padding="29px 25px">
-                <mj-image padding="0px 25px"width="100px" src="" alt="logo"></mj-image>
-              </mj-text>
+              <mj-image align="left" padding="15px 15px" width="100px" src="https://ziuss-bucket.s3.ap-northeast-2.amazonaws.com/logo.png"></mj-image>
               <mj-spacer padding="5px 0px"></mj-spacer>
               <mj-text padding="35px 25px">
                 <div style="text-align: center;"><span style="background-color: rgba(0, 0, 0, 0);"><font size="6" face="Comic Sans MS" color="#423F81">${text}</font></span></div>
@@ -35,14 +33,14 @@ const mailSender = {
               <mj-spacer padding="17px 0px"></mj-spacer>
               <mj-image padding="0px 25px" width="400px"src="http://www.moyeora-racer.com/static/media/main-banner-img.7e2e8f1a08b48ce93fe0.png"></mj-image>
               <mj-spacer padding="17px 0px"></mj-spacer>
-              <mj-text padding="1px 25px">
+              <mj-text padding="1px 20px">
                 <div style="text-align: center;"><span>&nbsp;</span><span style="background-color: rgba(0, 0, 0, 0); font-size: 12px; white-space: pre;">Copyright ⓒ 2023 - 2023 Moyeora Elice Inc. All Rights Reserved.</span></div>
               </mj-text>
                 <mj-spacer padding="10px 0px"></mj-spacer>
             </mj-column>
           </mj-section>
         </mj-body>
-  </mjml>
+      </mjml>
       `
     );
 

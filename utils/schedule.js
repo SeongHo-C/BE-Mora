@@ -22,12 +22,12 @@ cron.schedule(
     if (plan.length > 0) {
       logger.info('1시간 내 일정이 있습니다.');
 
-      let subject = '';
       let text = '';
+      let content = '';
       let planId = '';
       plan.forEach((p) => {
-        subject += p.title;
-        text += p.content;
+        text += p.title;
+        content += p.content;
         planId += p.id;
       });
 
@@ -62,7 +62,12 @@ cron.schedule(
        * 일정 1시간 전 메일 전송
        */
       users.forEach((emails) => {
-        mailer.sendGmail(emails.email, subject, text);
+        mailer.sendGmail(
+          emails.email,
+          '모여라 레이서에서 1시간 뒤에 있을 일정을 알려드립니다.',
+          text,
+          content
+        );
       });
     }
   })
