@@ -7,7 +7,10 @@ module.exports = {
     database: process.env.D_DB_NAME,
     host: process.env.D_DB_HOST,
     dialect: 'mysql',
-    timezone: 'Asia/Seoul',
+    timezone: '+09:00',
+    dialectOptions: {
+      timezone: '+09:00',
+    },
   },
   production: {
     username: process.env.P_USER_NAME,
@@ -16,6 +19,9 @@ module.exports = {
     host: process.env.P_DB_HOST,
     dialect: 'mysql',
     logging: false,
-    timezone: 'Asia/Seoul',
+    timezone: '+09:00',
+    dialectOptions: {
+      timezone: '+09:00',
+    },
   },
 };
