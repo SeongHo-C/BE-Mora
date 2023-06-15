@@ -130,30 +130,85 @@ module.exports = {
       .subtract(5, 'day')
       .format('YYYY-MM-DD HH:mm:ss');
 
-    const comments = await Alert.findAll({
-      where: {
-        created_at: { [Op.between]: [fiveDaysAgo, currentTime] },
-        type: 'COMMENT',
-      },
+    // 최근 5일 이내 알림에 있는 댓글 정보 조회
+    const alertComments = await Alert.findAll({
+      attributes: [
+        'id',
+        'type',
+        'target_id',
+        'checked',
+        'createdAt',
+        'from_user_id',
+        'to_user_id',
+      ],
       raw: true,
+      subQuery: true,
       include: [
         {
           model: User,
           as: 'AlertFromUser',
           attributes: ['name', 'email'],
-          include: [
-            {
-              model: Board,
-              attributes: ['title', 'content'],
-              include: [
-                {
-                  model: Comment,
-                  attributes: ['content'],
-                },
-              ],
-            },
-          ],
         },
+        {
+          model: User,
+          as: 'AlertToUser',
+          attributes: ['name', 'email'],
+        },
+      ],
+      where: {
+        created_at: { [Op.between]: [fiveDaysAgo, currentTime] },
+        type: 'COMMENT',
+      },
+      order: [['created_at', 'DESC']],
+    });
+
+    // 최근 5일 이내의 댓글 정보 조회
+    const comment = await Comment.findAll({
+      where: {
+        created_at: { [Op.between]: [fiveDaysAgo, currentTime] },
+      },
+      include: [
+        {
+          model: Board,
+          attributes: ['title', 'content'],
+        },
+      ],
+      raw: true,
+      order: [['created_at', 'DESC']],
+    });
+
+    let boardId = [];
+    let boardTitle = [];
+    let boardContent = [];
+    let commentId = [];
+    let commentContent = [];
+    comment.forEach((c) => {
+      boardId.push(c.board_id);
+      boardTitle.push(c['Board.title']);
+      boardContent.push(c['Board.content']);
+      commentId.push(c.id);
+      commentContent.push(c.content);
+    });
+
+    // 알림에 있는 target_id가 댓글의 id와 같으면 입력 처리
+    for (let i = 0; i < alertComments.length; i++) {
+      if (alertComments[i].target_id === commentId[i]) {
+        alertComments[i].boardId = boardId[i];
+        alertComments[i].boardTitle = boardTitle[i];
+        alertComments[i].boardContent = boardContent[i];
+        alertComments[i].commentId = commentId[i];
+        alertComments[i].commentContent = commentContent[i];
+      }
+    }
+
+    // 최근 5일 이내 알림에 있는 plan정보 조회
+    const alertPlans = await Alert.findAll({
+      where: {
+        created_at: { [Op.between]: [fiveDaysAgo, currentTime] },
+        type: 'PLAN',
+      },
+      raw: true,
+      include: [
         {
           model: User,
           as: 'AlertToUser',
@@ -184,32 +239,17 @@ module.exports = {
       planStartDate.push(p.start_date);
     });
 
-    // 알림에 있는 plan정보 조회
-    const plans = await Alert.findAll({
-      where: {
-        created_at: { [Op.between]: [fiveDaysAgo, currentTime] },
-        type: 'PLAN',
-      },
-      raw: true,
-      include: [
-        {
-          model: User,
-          as: 'AlertToUser',
-          attributes: ['name', 'email'],
-        },
-      ],
-      order: [['created_at', 'DESC']],
-    });
-
     // 알림에 있는 target_id가 일정의 id와 같으면 입력 처리
-    for (let i = 0; i < plans.length; i++) {
-      if (plans[i].target_id === planId[i]) {
-        plans[i].planTitle = planTitle[i];
-        plans[i].planContent = planContent[i];
-        plans[i].planStartDate = planStartDate[i];
+    for (let i = 0; i < planId.length; i++) {
+      for (let j = i; j < alertPlans.length; j++) {
+        if (alertPlans[j].target_id === planId[i]) {
+          alertPlans[j].planTitle = planTitle[i];
+          alertPlans[j].planContent = planContent[i];
+          alertPlans[j].planStartDate = planStartDate[i];
+        }
       }
     }
 
-    return { comments, plans };
+    return { alertComments, alertPlans };
   },
 };
