@@ -74,13 +74,17 @@ module.exports = {
   async setOpenProfile(req, res) {
     const { open } = req.body;
     const id = req.currentId;
-    if (open === 0) {
-      await userDetailService.setOpenProfile(id, open);
-      return res.status(200).json({ open: 0 });
-    } else if (open === 1) {
-      await userDetailService.setOpenProfile(id, open);
-      return res.status(200).json({ open: 1 });
-    }
+
+    await userDetailService.setOpenProfile(id, open);
+
+    return res.status(200).json({ open });
+    // if (open === 0) {
+    //   await userDetailService.setOpenProfile(id, open);
+    //   return res.status(200).json({ open: 0 });
+    // } else if (open === 1) {
+    //   await userDetailService.setOpenProfile(id, open);
+    //   return res.status(200).json({ open: 1 });
+    // }
   },
 
   /**
