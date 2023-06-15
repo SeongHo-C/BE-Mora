@@ -74,12 +74,27 @@ module.exports = {
   async setOpenProfile(req, res) {
     const { open } = req.body;
     const id = req.currentId;
-    if (open === 0) {
-      await userDetailService.setOpenProfile(id, open);
-      return res.status(200).json({ open: 0 });
-    } else if (open === 1) {
-      await userDetailService.setOpenProfile(id, open);
-      return res.status(200).json({ open: 1 });
-    }
+
+    await userDetailService.setOpenProfile(id, open);
+
+    return res.status(200).json({ open });
+    // if (open === 0) {
+    //   await userDetailService.setOpenProfile(id, open);
+    //   return res.status(200).json({ open: 0 });
+    // } else if (open === 1) {
+    //   await userDetailService.setOpenProfile(id, open);
+    //   return res.status(200).json({ open: 1 });
+    // }
+  },
+
+  /**
+   * 오픈 프로필 검색어 조회
+   */
+  async getOpenProfileByKeyword(req, res) {
+    const { keyword } = req.query;
+    console.log(keyword);
+    return res
+      .status(200)
+      .json(await userDetailService.getOpenProfileByKeyword(keyword));
   },
 };
