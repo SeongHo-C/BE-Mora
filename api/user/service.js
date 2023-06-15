@@ -54,7 +54,7 @@ module.exports = {
       include: [
         {
           model: UserDetail,
-          attributes: ['img_path'],
+          attributes: ['img_path', 'profile_public'],
         },
       ],
     });
@@ -67,10 +67,15 @@ module.exports = {
     if (!passwordMatch) {
       return;
     }
-
+    console.log(user.UserDetail.profile_public);
     const secretKey = process.env.JWT_SECRET_KEY;
     const accessToken = jwt.sign(
-      { id: user.id, role: 'user', img_path: user.UserDetail.img_path },
+      {
+        id: user.id,
+        role: 'user',
+        profile_public: user.UserDetail.profile_public,
+        img_path: user.UserDetail.img_path,
+      },
       secretKey,
       {
         expiresIn: '1d',
