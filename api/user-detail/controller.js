@@ -1,5 +1,5 @@
 const userDetailService = require('./service');
-
+const jwt = require('jsonwebtoken');
 module.exports = {
   /**
    * 내 프로필 조회
@@ -56,14 +56,23 @@ module.exports = {
    */
 
   async getOpenProfile(req, res) {
-    return res.status(200).json(await userDetailService.getOpenProfiles());
+    const userToken = req.headers['authorization']?.split(' ')[1] ?? 'null';
+    if (userToken === 'null') {
+      const id = 'null';
+      return res.status(200).json(await userDetailService.getOpenProfiles(id));
+    }
+    const secretKey = process.env.JWT_SECRET_KEY;
+    const jwtDecoded = jwt.verify(userToken, secretKey);
+    const { id } = jwtDecoded || null;
+
+    return res.status(200).json(await userDetailService.getOpenProfiles(id));
   },
 
   /**
    * 오픈 프로필 공개/비공개 수정
    */
   async setOpenProfile(req, res) {
-    const open = req.body;
+    const { open } = req.body;
     const id = req.currentId;
     if (open === 0) {
       await userDetailService.setOpenProfile(id, open);

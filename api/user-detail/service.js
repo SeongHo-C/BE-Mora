@@ -218,11 +218,6 @@ module.exports = {
                   attributes: [],
                 },
               },
-              {
-                model: db.Coffeechat,
-                as: 'User',
-                where: { user_id: userId },
-              },
             ],
           },
         ],
@@ -290,9 +285,15 @@ module.exports = {
         })
       );
 
+      const user_coffeeChat = await db.Coffeechat.findAll({
+        where: { user_id: userId },
+        attributes: ['id'],
+      });
+      console.log(userDetails);
       return userDetails.map((profile, idx) => {
         const additionalData = {
           user_careers: careersFormatted[idx],
+          chat_status: user_coffeeChat[idx] ? true : false,
         };
 
         return Object.assign({}, profile.dataValues, additionalData);
