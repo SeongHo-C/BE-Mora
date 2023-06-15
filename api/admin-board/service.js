@@ -70,7 +70,7 @@ module.exports = {
         },
         {
           model: Comment,
-          attributes: ['content'],
+          attributes: ['id', 'content', 'created_at', 'commenter'],
           include: [
             {
               model: User,
