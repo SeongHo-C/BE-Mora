@@ -118,6 +118,23 @@ module.exports = {
 
   async getBoards(category, keyword) {
     const boards = await Board.findAll({
+      subQuery: false,
+      attributes: {
+        include: [
+          [
+            sequelize.literal(`(
+        SELECT COUNT(*) FROM comments WHERE comments.board_id = board.id
+      )`),
+            'comment_cnt',
+          ],
+          [
+            sequelize.literal(`(
+        SELECT COUNT(*) FROM likes WHERE likes.board_id = board.id
+      )`),
+            'like_cnt',
+          ],
+        ],
+      },
       include: [
         {
           model: Hashtag,
@@ -137,22 +154,26 @@ module.exports = {
       order: [['createdAt', 'DESC']],
     });
 
-    const comment_cnt = await Promise.all(
-      boards.map((board) => Comment.count({ where: { board_id: board.id } }))
-    );
-    const like_cnt = await Promise.all(
-      boards.map((board) => Like.count({ where: { board_id: board.id } }))
-    );
+    // const comment_cnt = await Promise.all(
+    //   boards.map((board) => Comment.count({ where: { board_id: board.id } }))
+    // );
+    // const like_cnt = await Promise.all(
+    //   boards.map((board) => Like.count({ where: { board_id: board.id } }))
+    // );
 
-    return boards.map((board, idx) => {
-      const additionalData = {
-        comment_cnt: comment_cnt[idx],
-        like_cnt: like_cnt[idx],
-        Hashtags: board.Hashtags.map((hashtag) => hashtag.title),
-      };
+    // return boards.map((board, idx) => {
+    //   const additionalData = {
+    //     comment_cnt: comment_cnt[idx],
+    //     like_cnt: like_cnt[idx],
+    //     Hashtags: board.Hashtags.map((hashtag) => hashtag.title),
+    //   };
 
-      return { ...board.dataValues, ...additionalData };
-    });
+    //   return { ...board.dataValues, ...additionalData };
+    // });
+    return boards.map((board) => ({
+      ...board.dataValues,
+      Hashtags: board.Hashtags.map((hashtag) => hashtag.title),
+    }));
   },
 
   async getBoard(id, loginId) {
