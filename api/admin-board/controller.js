@@ -10,8 +10,7 @@ module.exports = {
 
   async getDetail(req, res) {
     const { id } = req.params;
-    const loginId = req.currentId;
-    res.status(200).json(await adminBoardService.getDetail(id, loginId));
+    res.status(200).json(await adminBoardService.getDetail(id));
   },
 
   async deleteBoard(req, res) {

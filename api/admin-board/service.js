@@ -1,4 +1,12 @@
-const { User, Board, Photo, Comment, Like, Hashtag } = require('../../models');
+const {
+  User,
+  Board,
+  Photo,
+  Comment,
+  Like,
+  Hashtag,
+  UserDetail,
+} = require('../../models');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils');
 const {
@@ -43,7 +51,7 @@ module.exports = {
     return boards;
   },
 
-  async getDetail(id, loginId) {
+  async getDetail(id) {
     const board = await Board.findOne({
       include: [
         {
@@ -90,7 +98,6 @@ module.exports = {
     const user_like = await Like.findOne({
       where: {
         board_id: id,
-        user_id: loginId,
       },
     });
 
