@@ -48,7 +48,16 @@ module.exports = {
    */
   async getUserToken({ email, password }) {
     // 사용자 조회
-    const user = await User.findOne({ where: { email: email } });
+
+    const user = await User.findOne({
+      where: { email: email },
+      include: [
+        {
+          model: UserDetail,
+          attributes: ['img_path'],
+        },
+      ],
+    });
     if (!user) {
       return;
     }
@@ -60,9 +69,13 @@ module.exports = {
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    const accessToken = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
-      expiresIn: '1d',
-    });
+    const accessToken = jwt.sign(
+      { id: user.id, role: 'user', img_path: user.UserDetail.img_path },
+      secretKey,
+      {
+        expiresIn: '1d',
+      }
+    );
     // const refreshToken = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
     //   expiresIn: '7d',
     // });
