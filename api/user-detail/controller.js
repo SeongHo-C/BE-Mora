@@ -56,15 +56,7 @@ module.exports = {
    */
 
   async getOpenProfile(req, res) {
-    const userToken = req.headers['authorization']?.split(' ')[1] ?? 'null';
-    if (userToken === 'null') {
-      const id = 'null';
-      return res.status(200).json(await userDetailService.getOpenProfiles(id));
-    }
-    const secretKey = process.env.JWT_SECRET_KEY;
-    const jwtDecoded = jwt.verify(userToken, secretKey);
-    const { id } = jwtDecoded || null;
-
+    const id = req.currentId;
     return res.status(200).json(await userDetailService.getOpenProfiles(id));
   },
 
