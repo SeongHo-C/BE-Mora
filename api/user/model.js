@@ -62,18 +62,6 @@ class User extends Sequelize.Model {
       sourceKey: 'id',
       onDelete: 'cascade',
     });
-    db.User.hasMany(db.Coffeechat, {
-      foreignKey: 'profile_id',
-      sourceKey: 'id',
-      as: 'ProfileId',
-      onDelete: 'cascade',
-    });
-    db.User.hasMany(db.Coffeechat, {
-      foreignKey: 'user_id',
-      sourceKey: 'id',
-      as: 'UserId',
-      onDelete: 'cascade',
-    });
     db.User.hasMany(db.Comment, {
       foreignKey: 'commenter',
       sourceKey: 'id',

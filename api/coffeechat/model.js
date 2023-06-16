@@ -24,20 +24,7 @@ class Coffeechat extends Sequelize.Model {
     );
   }
 
-  static associate(db) {
-    db.Coffeechat.belongsTo(db.User, {
-      foreignKey: 'profile_id',
-      targetKey: 'id',
-      as: 'ProfileId',
-      onDelete: 'cascade',
-    });
-    db.Coffeechat.belongsTo(db.User, {
-      foreignKey: 'user_id',
-      targetKey: 'id',
-      as: 'UserId',
-      onDelete: 'cascade',
-    });
-  }
+  static associate(db) {}
 }
 
 module.exports = Coffeechat;
