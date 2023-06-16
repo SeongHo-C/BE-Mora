@@ -10,6 +10,14 @@ class Coffeechat extends Sequelize.Model {
           defaultValue: Sequelize.UUIDV4,
           allowNull: false,
         },
+        profile_id: {
+          type: Sequelize.STRING(36),
+          allowNull: false,
+        },
+        user_id: {
+          type: Sequelize.STRING(36),
+          allowNull: false,
+        },
       },
       {
         sequelize,
