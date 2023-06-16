@@ -222,6 +222,7 @@ module.exports = {
             ],
           },
         ],
+        order: [['updated_at', 'DESC']],
       });
 
       const careers = await Promise.all(
