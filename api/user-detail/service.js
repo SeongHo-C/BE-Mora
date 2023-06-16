@@ -287,10 +287,13 @@ module.exports = {
         })
       );
 
-      const user_coffeeChat = await db.Coffeechat.findAll({
-        where: { user_id: userId },
-        attributes: ['id'],
-      });
+      const profile_ids = userDetails.map((userDetail) => userDetail.user_id);
+
+      const user_coffeeChat = await Promise.all(
+        profile_ids.map((id) =>
+          db.Coffeechat.findOne({ where: { user_id: userId, profile_id: id } })
+        )
+      );
 
       return userDetails.map((profile, idx) => {
         const additionalData = {
