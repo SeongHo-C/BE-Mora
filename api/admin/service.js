@@ -36,9 +36,13 @@ module.exports = {
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    return jwt.sign({ id: admin.id, role: 'admin' }, secretKey, {
-      expiresIn: '1d',
-    });
+    return jwt.sign(
+      { id: admin.id, role: 'admin', name: admin.name },
+      secretKey,
+      {
+        expiresIn: '1d',
+      }
+    );
   },
 
   async getAdmins(page, size, keyword) {
