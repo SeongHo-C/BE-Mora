@@ -268,6 +268,12 @@ module.exports = {
     const alerts = [...alertComments, ...alertPlans];
     alerts.sort((a, b) => b.createdAt - a.createdAt);
 
+    let unchecked = false;
+    alerts.forEach((a) => {
+      if (a.checked === 0) unchecked = true;
+    });
+    alerts.push({ unchecked });
+
     return alerts;
   },
 };
