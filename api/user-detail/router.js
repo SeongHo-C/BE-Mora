@@ -53,6 +53,7 @@ userDetailRouter.get(
 
 userDetailRouter.get(
   '/users/open-profile',
+  loginRequired,
   serviceHandler(userDetalController.getOpenProfile)
 );
 userDetailRouter.get(
