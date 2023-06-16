@@ -105,9 +105,15 @@ module.exports = {
         },
       ],
       where: {
-        [Op.and]: [
-          { start_date: { [Op.lte]: yearMonthDay } },
-          { end_date: { [Op.gte]: yearMonthDay } },
+        [Op.or]: [
+          {
+            [Op.and]: [
+              { start_date: { [Op.lte]: yearMonthDay } },
+              { end_date: { [Op.gte]: yearMonthDay } },
+            ],
+          },
+          { start_date: { [Op.like]: `%${yearMonthDay}%` } },
+          { end_date: { [Op.like]: `%${yearMonthDay}%` } },
         ],
       },
       order: [

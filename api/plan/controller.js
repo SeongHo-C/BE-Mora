@@ -4,26 +4,18 @@ const dayjs = require('dayjs');
 module.exports = {
   async addPlan(req, res) {
     const { title, content, start_date, end_date, links } = req.body;
-    const startDate = dayjs(start_date)
-      .subtract(9, 'hour')
-      .format('YYYY-MM-DD HH:mm:ss');
-    const endDate = dayjs(end_date)
-      .subtract(9, 'hour')
-      .format('YYYY-MM-DD HH:mm:ss');
-    res
-      .status(201)
-      .json(
-        await planService.addPlan(
-          {
-            admin_id: req.currentId,
-            title,
-            content,
-            start_date: startDate,
-            end_date: endDate,
-          },
-          links
-        )
-      );
+    res.status(201).json(
+      await planService.addPlan(
+        {
+          admin_id: req.currentId,
+          title,
+          content,
+          start_date,
+          end_date,
+        },
+        links
+      )
+    );
   },
 
   async getYearMonth(req, res) {

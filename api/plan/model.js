@@ -22,11 +22,11 @@ class Plan extends Sequelize.Model {
           allowNull: true,
         },
         start_date: {
-          type: Sequelize.DATE,
+          type: Sequelize.STRING(20),
           allowNull: false,
         },
         end_date: {
-          type: Sequelize.DATE,
+          type: Sequelize.STRING(20),
           allowNull: false,
         },
       },
