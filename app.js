@@ -28,7 +28,10 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 
 const logger = require('./logger');
-require('./utils/schedule');
+const pm2Config = require('./ecosystem.config.js');
+if (process.env.NODE_APP_INSTANCE === '0') {
+  require('./utils/schedule');
+}
 
 dotenv.config();
 const { sequelize } = require('./models');
