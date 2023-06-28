@@ -6,10 +6,10 @@ const {
   Comment,
   Like,
   Hashtag,
-  sequelize,
 } = require('../../models');
 const { Op } = require('sequelize');
 const { ForbiddenException } = require('../../middlewares');
+const { getPagination, getPagingData } = require('../../utils');
 
 module.exports = {
   async setBoard(category, title, content, hashtags, images, writer) {
@@ -116,8 +116,10 @@ module.exports = {
     return id;
   },
 
-  async getBoards(category, keyword) {
-    const boards = await Board.findAll({
+  async getBoards(category, keyword, page, size) {
+    const { limit, offset } = getPagination(page, size);
+
+    let boards = await Board.findAndCountAll({
       include: [
         {
           model: Hashtag,
@@ -135,16 +137,25 @@ module.exports = {
         ],
       },
       order: [['createdAt', 'DESC']],
+      offset,
+      limit,
+      distinct: true,
     });
 
+    boards = getPagingData(boards, page, limit);
+
     const comment_cnt = await Promise.all(
-      boards.map((board) => Comment.count({ where: { board_id: board.id } }))
+      boards.objArr.map((board) =>
+        Comment.count({ where: { board_id: board.id } })
+      )
     );
     const like_cnt = await Promise.all(
-      boards.map((board) => Like.count({ where: { board_id: board.id } }))
+      boards.objArr.map((board) =>
+        Like.count({ where: { board_id: board.id } })
+      )
     );
 
-    return boards.map((board, idx) => {
+    const items = boards.objArr.map((board, idx) => {
       const additionalData = {
         comment_cnt: comment_cnt[idx],
         like_cnt: like_cnt[idx],
@@ -153,6 +164,8 @@ module.exports = {
 
       return { ...board.dataValues, ...additionalData };
     });
+
+    return { ...boards, objArr: [...items] };
   },
 
   async getBoard(id, loginId) {
