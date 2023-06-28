@@ -237,7 +237,16 @@ module.exports = {
     let plan = await Plan.findAll({
       attributes: ['id', 'title', 'content', 'start_date'],
       where: {
-        created_at: { [Op.between]: [fiveDaysAgo, currentTime] },
+        start_date: {
+          [Op.or]: [
+            {
+              [Op.between]: [fiveDaysAgo, currentTime],
+            },
+            {
+              [Op.in]: [currentTime, fiveDaysAgo],
+            },
+          ],
+        },
       },
       raw: true,
       order: [['start_date', 'DESC']],
