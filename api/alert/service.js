@@ -233,19 +233,19 @@ module.exports = {
       order: [['created_at', 'DESC']],
     });
 
-    // 최근 5일 이내의 일정 정보 조회
+    const sixDaysAgo = dayjs(fiveDaysAgo)
+      .subtract(1, 'day')
+      .format('YYYY-MM-DD HH:mm:ss');
+    const oneDaysAfter = dayjs(currentTime)
+      .add(1, 'day')
+      .format('YYYY-MM-DD HH:mm:ss');
+
+    // 과거 6일 ~ 내일의 일정 정보 조회
     let plan = await Plan.findAll({
       attributes: ['id', 'title', 'content', 'start_date'],
       where: {
         start_date: {
-          [Op.or]: [
-            {
-              [Op.between]: [fiveDaysAgo, currentTime],
-            },
-            {
-              [Op.in]: [currentTime, fiveDaysAgo],
-            },
-          ],
+          [Op.between]: [sixDaysAgo, oneDaysAfter],
         },
       },
       raw: true,

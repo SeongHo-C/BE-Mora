@@ -24,11 +24,9 @@ cron.schedule(
 
       let text = '';
       let content = '';
-      let planId = '';
       plan.forEach((p) => {
         text += p.title;
         content += p.content;
-        planId += p.id;
       });
 
       const users = await User.findAll({
@@ -41,17 +39,20 @@ cron.schedule(
        */
       let plans = [];
       users.forEach((u) => {
-        plans.push({
-          from_user_id: u.id,
-          to_user_id: u.id,
-          type: 'PLAN',
-          target_id: planId,
+        plan.forEach((p) => {
+          plans.push({
+            from_user_id: u.id,
+            to_user_id: u.id,
+            type: 'PLAN',
+            target_id: p.id,
+          });
         });
       });
 
       const alerts = await Alert.bulkCreate(plans).then(() => {
         return Alert.findAll();
       });
+
       if (!alerts) {
         throw new InternalServerErrorException(
           '스케줄링에서 일정 알림 등록 처리에 실패하였습니다.'
