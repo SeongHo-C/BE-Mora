@@ -56,8 +56,11 @@ module.exports = {
    */
 
   async getOpenProfile(req, res) {
+    const { page, size } = req.query;
     const id = req.currentId;
-    return res.status(200).json(await userDetailService.getOpenProfiles(id));
+    return res
+      .status(200)
+      .json(await userDetailService.getOpenProfiles(id, page, size));
   },
 
   /**

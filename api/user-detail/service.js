@@ -4,6 +4,7 @@ const db = require('../../models');
 const User = require('../user/model');
 const { Op } = require('sequelize');
 const { NotFoundException } = require('../../middlewares');
+const { getPagination, getPagingData } = require('../../utils');
 
 module.exports = {
   /**
@@ -108,10 +109,11 @@ module.exports = {
   /**
    * 오픈 프로필 전체 조회
    */
-  async getOpenProfiles(userId) {
-    const userDetails = await UserDetail.findAll({
+  async getOpenProfiles(userId, page, size) {
+    const { limit, offset } = getPagination(page, size);
+    const { count, rows: userDetails } = await UserDetail.findAndCountAll({
       where: { profile_public: 1 },
-      attributes: ['user_id', 'position', 'img_path'],
+      attributes: ['user_id', 'position', 'img_path', 'updated_at'],
       include: [
         {
           model: db.User,
@@ -129,6 +131,8 @@ module.exports = {
         },
       ],
       order: [['updated_at', 'DESC']],
+      offset,
+      limit,
     });
 
     const careers = await Promise.all(
@@ -196,14 +200,18 @@ module.exports = {
       )
     );
 
-    return userDetails.map((profile, idx) => {
+    const profiles = userDetails.map((profile, idx) => {
       const additionalData = {
         user_careers: careersFormatted[idx],
         chat_status: user_coffeeChat[idx] ? true : false,
       };
-
-      return Object.assign({}, profile.dataValues, additionalData);
+      let result = Object.assign({}, profile.dataValues, additionalData);
+      return result;
     });
+
+    return {
+      ...getPagingData({ count, rows: profiles }, page, limit),
+    };
   },
 
   /**
