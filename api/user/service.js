@@ -67,7 +67,7 @@ module.exports = {
     if (!passwordMatch) {
       return;
     }
-    console.log(user.UserDetail.profile_public);
+
     const secretKey = process.env.JWT_SECRET_KEY;
     const accessToken = jwt.sign(
       {
@@ -78,13 +78,13 @@ module.exports = {
       },
       secretKey,
       {
-        expiresIn: '1d',
+        expiresIn: '1h',
       }
     );
-    // const refreshToken = jwt.sign({ id: user.id, role: 'user' }, secretKey, {
-    //   expiresIn: '7d',
-    // });
-    return accessToken;
+    const refreshToken = jwt.sign({ id: user.id }, secretKey, {
+      expiresIn: '7d',
+    });
+    return accessToken, refreshToken;
   },
 
   /**

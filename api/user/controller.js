@@ -20,7 +20,10 @@ module.exports = {
   async getUserToken(req, res) {
     const { email, password } = req.body;
 
-    const token = await userService.getUserToken({ email, password });
+    const { accessToken, refreshToken } = await userService.getUserToken({
+      email,
+      password,
+    });
     if (!token) {
       return res
         .status(400)
@@ -28,7 +31,11 @@ module.exports = {
     }
     return res
       .status(201)
-      .json({ token: token, message: '로그인에 성공하셨습니다!' });
+      .json({
+        token: accessToken,
+        refreshToken: refreshToken,
+        message: '로그인에 성공하셨습니다!',
+      });
   },
 
   /**
