@@ -87,7 +87,6 @@ module.exports = {
    */
   async getOpenProfileByKeyword(req, res) {
     const { keyword } = req.query;
-    console.log(keyword);
     return res
       .status(200)
       .json(await userDetailService.getOpenProfileByKeyword(keyword));

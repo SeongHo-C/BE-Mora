@@ -64,7 +64,6 @@ module.exports = {
     resign_date,
     content
   ) {
-    console.log(position);
     const result = await Career.create({
       user_id: userId,
       company_name: company_name,

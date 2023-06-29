@@ -31,7 +31,6 @@ module.exports = {
     if (!user) {
       throw new NotFoundException('존재하지 않는 유저입니다.');
     }
-    console.log(user);
     return user;
   },
 
@@ -91,7 +90,6 @@ module.exports = {
         db.Comment.count({ where: { board_id: board.id } })
       )
     );
-    console.log(comment_cnt);
     const like_cnt = await Promise.all(
       myBoard.map((board) => db.Like.count({ where: { board_id: board.id } }))
     );
@@ -258,7 +256,6 @@ module.exports = {
         },
       ],
     });
-    console.log(userDetails);
     const careers = await Promise.all(
       userDetails.map((user) =>
         db.Career.findAll({

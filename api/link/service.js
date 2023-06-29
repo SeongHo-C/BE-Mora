@@ -14,7 +14,6 @@ module.exports = {
   },
 
   async updateLink(id, linkId, url, name) {
-    console.log(url);
     return await Link.update(
       { url: url, name: name },
       { where: { id: linkId, user_id: id } }
