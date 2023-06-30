@@ -8,6 +8,7 @@ const {
 } = require('./error-format');
 const loginRequired = require('./login-required');
 const adminRequired = require('./admin-required');
+const refreshAccessToken = require('./refresh-token');
 
 module.exports = {
   errorHandler,
@@ -18,4 +19,5 @@ module.exports = {
   InternalServerErrorException,
   loginRequired,
   adminRequired,
+  refreshAccessToken,
 };
