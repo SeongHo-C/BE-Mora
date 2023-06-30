@@ -29,7 +29,7 @@ const swaggerFile = require('./swagger-output.json');
 
 const logger = require('./logger');
 const pm2Config = require('./ecosystem.config.js');
-if (process.env.NODE_APP_INSTANCE === '0') {
+if (process.env.INSTANCE_ID === '0') {
   require('./utils/schedule');
 }
 
