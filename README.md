@@ -87,7 +87,7 @@ https://documenter.getpostman.com/view/27753347/2s93z9a1sW
 <br />
 
 ### Git Flow
-![깃경로](https://github.com/SeongHo-C/FE-TicketWantIt/assets/87592697/920dd7e7-985e-46b4-90cc-0b292ec82599)
+<img width="2542" alt="깃 플로우" src="https://github.com/SeongHo-C/BE-Mora/assets/83394485/ad58e0e4-e414-40f3-929b-0121b82025bc">
 
 <br />
 
@@ -95,7 +95,8 @@ https://documenter.getpostman.com/view/27753347/2s93z9a1sW
 ### Front-end
 <div>
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/React.png?raw=true" width="80">
-<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/TypeScript.png?raw=true" width="80">
+<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/ReactQuery.png?raw=true" width="80">
+<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/StyledComponents.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/JWT.png?raw=true" width="80">
 </div>
 
@@ -104,8 +105,11 @@ https://documenter.getpostman.com/view/27753347/2s93z9a1sW
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/NodeJS.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/ExpressJS.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/Mysql.png?raw=true" width="80">
+<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/Sequelize.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/AWSEC2.png?raw=true" width="80">
+<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/AWSRDS.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/Nginx.png?raw=true" width="80">
+<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/PM2.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/JWT.png?raw=true" width="80">
 </div>
 
