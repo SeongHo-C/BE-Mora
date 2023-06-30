@@ -24,18 +24,16 @@ module.exports = {
       email,
       password,
     });
-    if (!token) {
+    if (!accessToken) {
       return res
         .status(400)
         .json({ message: '아이디 또는 비밀번호를 확인해주세요.' });
     }
-    return res
-      .status(201)
-      .json({
-        token: accessToken,
-        refreshToken: refreshToken,
-        message: '로그인에 성공하셨습니다!',
-      });
+    return res.status(201).json({
+      token: accessToken,
+      refreshToken: refreshToken,
+      message: '로그인에 성공하셨습니다!',
+    });
   },
 
   /**

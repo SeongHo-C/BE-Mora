@@ -84,7 +84,7 @@ module.exports = {
     const refreshToken = jwt.sign({ id: user.id }, secretKey, {
       expiresIn: '7d',
     });
-    return accessToken, refreshToken;
+    return { accessToken, refreshToken };
   },
 
   /**
