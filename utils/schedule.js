@@ -1,4 +1,4 @@
-const cron = require('node-cron');
+const schedule = require('node-schedule');
 const dayjs = require('dayjs');
 const { Op } = require('sequelize');
 const mailer = require('./send-mail');
@@ -7,10 +7,10 @@ const { Plan, User, Alert } = require('../models');
 const logger = require('../logger');
 const { InternalServerErrorException } = require('../middlewares');
 
-cron.schedule(
+const scheduleJob = schedule.scheduleJob(
   '0 * * * *',
   serviceHandler(async () => {
-    logger.info('node-cron 스케줄링은 1시간마다 실행됩니다.');
+    logger.info('node-schedule 스케줄링은 1시간마다 실행됩니다.');
     const currentTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
     const nextHour = dayjs().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
 
@@ -73,3 +73,9 @@ cron.schedule(
     }
   })
 );
+
+// 스케줄 작업 중지 시, 프로세스 종료 시 예외 처리
+process.on('SIGTERM', () => {
+  scheduleJob.cancel();
+  process.exit(0);
+});
