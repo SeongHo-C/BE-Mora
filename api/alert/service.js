@@ -36,7 +36,13 @@ module.exports = {
               {
                 model: Comment,
                 attributes: ['content'],
-                where: { board_id: target_id },
+                where: { id: target_id },
+                include: [
+                  {
+                    model: Board,
+                    attributes: ['id', 'title', 'content'],
+                  },
+                ],
               },
             ],
           },
@@ -44,12 +50,6 @@ module.exports = {
             model: User,
             as: 'AlertToUser',
             attributes: ['name', 'email'],
-            include: [
-              {
-                model: Board,
-                attributes: ['title', 'content'],
-              },
-            ],
           },
         ],
         where: {
@@ -57,27 +57,26 @@ module.exports = {
         },
       });
     } else if (type === 'PLAN') {
+      const plan = await Plan.findOne({
+        where: { id: target_id },
+        attributes: ['title', 'content', 'start_date', 'end_date', 'admin_id'],
+        raw: true,
+      });
+
       alert = await Alert.findOne({
         include: [
-          {
-            model: User,
-            as: 'AlertFromUser',
-            attributes: ['name', 'email'],
-          },
           {
             model: User,
             as: 'AlertToUser',
             attributes: ['name', 'email'],
           },
-          {
-            model: Plan,
-            attributes: ['title', 'content', 'start_date'],
-          },
         ],
         where: {
           id: alert.id,
         },
+        raw: true,
       });
+      alert.plan = plan;
     }
 
     return alert;
