@@ -28,6 +28,11 @@ module.exports = {
           })
         )
       );
+
+      result.forEach(([hashtag, created]) => {
+        if (!created) hashtag.increment('usage_cnt', { by: 1 });
+      });
+
       await board.addHashtags(result.map((r) => r[0]));
     }
 
