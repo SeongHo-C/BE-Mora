@@ -14,6 +14,11 @@ class Hashtag extends Sequelize.Model {
           type: Sequelize.STRING(20),
           allowNull: false,
         },
+        usage_cnt: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          defaultValue: 1,
+        },
       },
       {
         sequelize,
