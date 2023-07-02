@@ -23,6 +23,7 @@ const alertRouter = require('./api/alert/router');
 const educationRouter = require('./api/education/router');
 const coffeechatRouter = require('./api/coffeechat/router');
 const linkRouter = require('./api/link/router');
+const hashtagRouter = require('./api/hashtag/router');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
@@ -89,6 +90,7 @@ app.use('/api', alertRouter);
 app.use('/api', educationRouter);
 app.use('/api', coffeechatRouter);
 app.use('/api', linkRouter);
+app.use('/api', hashtagRouter);
 
 app.use((req, res, next) => {
   const error = new NotFoundException(
