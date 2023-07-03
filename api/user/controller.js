@@ -20,15 +20,19 @@ module.exports = {
   async getUserToken(req, res) {
     const { email, password } = req.body;
 
-    const { accessToken, refreshToken } = await userService.getUserToken({
+    const result = await userService.getUserToken({
       email,
       password,
     });
-    if (!accessToken) {
+
+    if (!result) {
       return res
         .status(400)
         .json({ message: '아이디 또는 비밀번호를 확인해주세요.' });
     }
+
+    const { accessToken, refreshToken } = result;
+
     return res.status(201).json({
       token: accessToken,
       refreshToken: refreshToken,
