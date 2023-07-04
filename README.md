@@ -5,9 +5,13 @@
 
 
 ### 모여라레이서 (Moyeora-Racer)  
-[<img src="https://img.shields.io/badge/프로젝트 기간-2023.05.29~2023.06.16-D6C9FF?style=flat&logoColor=white" />]()
+[<img src="https://img.shields.io/badge/프로젝트 기간-2023.05.29~리팩토링중-D6C9FF?style=flat&logoColor=white" />]()
 <br />
-[🧑🏻‍💻 사이트 바로가기](http://www.moyeora-racer.com/) 
+[🧑🏻‍💻 사이트 바로가기](http://www.moyeora-racer.com/) <br />
+
+|아이디|비밀번호|
+|:----:|:----:|
+|test@gmail.com|test1234|
 </div> 
 
 ## 소개
@@ -74,6 +78,11 @@ https://documenter.getpostman.com/view/27753347/2s93z9a1sW
 
 <br />
 
+## ERD
+![image](https://github.com/SeongHo-C/BE-Mora/assets/83394485/47ea4194-6ef0-405e-9cf8-abf4599a3db6)
+
+<br />
+
 ## 🔗 프로젝트 구조
 
 ### Service Architecture
@@ -122,10 +131,6 @@ https://documenter.getpostman.com/view/27753347/2s93z9a1sW
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/Figma.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/Postman.png?raw=true" width="80">
 </div>
-
-<br />
-
-## 💜 프로젝트 회고
 
 <br />
 
