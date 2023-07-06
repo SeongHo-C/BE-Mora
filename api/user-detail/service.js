@@ -138,6 +138,7 @@ module.exports = {
         db.Career.findAll({
           where: { user_id: user.user_id },
           attributes: ['company_name', 'position', 'hire_date', 'resign_date'],
+          order: [['updated_at', 'DESC']],
         })
       )
     );
