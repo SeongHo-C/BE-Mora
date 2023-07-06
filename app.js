@@ -53,7 +53,7 @@ app.use(
   cors({
     origin: true,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'refresh'],
     credentials: true,
     maxAge: 86400,
     optionsSuccessStatus: 200,
