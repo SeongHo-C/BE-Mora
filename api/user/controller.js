@@ -20,16 +20,20 @@ module.exports = {
   async getUserToken(req, res) {
     const { email, password } = req.body;
 
-    const { accessToken, refreshToken } = await userService.getUserToken({
+    const result = await userService.getUserToken({
       email,
       password,
     });
-    if (!accessToken) {
+
+    if (!result) {
       return res
         .status(400)
         .json({ message: '아이디 또는 비밀번호를 확인해주세요.' });
     }
-    return res.status(201).json({
+
+    const { accessToken, refreshToken } = result;
+
+    return res.status(200).json({
       token: accessToken,
       refreshToken: refreshToken,
       message: '로그인에 성공하셨습니다!',
@@ -46,6 +50,6 @@ module.exports = {
     if (!deleteResult) {
       res.status(400).json({ message: '비밀번호가 일치하지않습니다.' });
     }
-    return res.status(201).json({ message: '탈퇴가 완료되었습니다.' });
+    return res.status(200).json({ message: '탈퇴가 완료되었습니다.' });
   },
 };
