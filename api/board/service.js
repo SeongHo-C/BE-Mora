@@ -121,8 +121,14 @@ module.exports = {
     return id;
   },
 
-  async getBoards(category, keyword, page, size) {
+  async getBoards(category, keyword, page, size, sort) {
     const { limit, offset } = getPagination(page, size);
+
+    let order = [['createdAt', 'DESC']];
+
+    if (sort === 'view') {
+      order = [['view_cnt', 'DESC']];
+    }
 
     let boards = await Board.findAndCountAll({
       include: [
@@ -141,7 +147,7 @@ module.exports = {
           { content: { [Op.like]: `%${keyword}%` } },
         ],
       },
-      order: [['createdAt', 'DESC']],
+      order,
       offset,
       limit,
       distinct: true,

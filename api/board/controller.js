@@ -55,11 +55,11 @@ module.exports = {
 
   async getBoards(req, res) {
     const { category } = req.params;
-    const { keyword = '', page, size } = req.query;
+    const { keyword = '', page, size, sort } = req.query;
 
     res
       .status(200)
-      .json(await boardService.getBoards(category, keyword, page, size));
+      .json(await boardService.getBoards(category, keyword, page, size, sort));
   },
 
   async getBoard(req, res) {
