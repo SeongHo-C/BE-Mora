@@ -53,6 +53,10 @@ router.get(
   serviceHandler(boardController.getBoards)
 );
 router.get(
+  '/boards/:category/recommend',
+  serviceHandler(boardController.getRecommendBoard)
+);
+router.get(
   '/boards/detail/:id',
   loginRequired,
   serviceHandler(boardController.getBoard)

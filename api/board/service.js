@@ -121,8 +121,14 @@ module.exports = {
     return id;
   },
 
-  async getBoards(category, keyword, page, size) {
+  async getBoards(category, keyword, page, size, sort) {
     const { limit, offset } = getPagination(page, size);
+
+    let order = [['createdAt', 'DESC']];
+
+    if (sort === 'view') {
+      order = [['view_cnt', 'DESC']];
+    }
 
     let boards = await Board.findAndCountAll({
       include: [
@@ -141,7 +147,7 @@ module.exports = {
           { content: { [Op.like]: `%${keyword}%` } },
         ],
       },
-      order: [['createdAt', 'DESC']],
+      order,
       offset,
       limit,
       distinct: true,
@@ -306,6 +312,55 @@ module.exports = {
           ...board.User.UserDetail.dataValues,
         },
         Photos: board.Photos.length > 0 ? board.Photos[0].img_path : '',
+      };
+
+      return { ...board.dataValues, ...additionalData };
+    });
+
+    return boards.sort((first, second) => {
+      const firstSum = first.view_cnt + first.like_cnt;
+      const secondSum = second.view_cnt + second.like_cnt;
+
+      return firstSum === secondSum
+        ? second.view_cnt - first.view_cnt
+        : secondSum - firstSum;
+    });
+  },
+
+  async getRecommendBoard() {
+    let boards = await Board.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email'],
+          include: [
+            {
+              model: UserDetail,
+              attributes: ['img_path', 'generation', 'position'],
+            },
+          ],
+        },
+      ],
+      order: [['view_cnt', 'DESC']],
+      limit: 2,
+    });
+
+    const comment_cnt = await Promise.all(
+      boards.map((board) => Comment.count({ where: { board_id: board.id } }))
+    );
+    const like_cnt = await Promise.all(
+      boards.map((board) => Like.count({ where: { board_id: board.id } }))
+    );
+
+    boards = boards.map((board, idx) => {
+      const additionalData = {
+        comment_cnt: comment_cnt[idx],
+        like_cnt: like_cnt[idx],
+        User: {
+          name: board.User.name,
+          email: board.User.email,
+          ...board.User.UserDetail.dataValues,
+        },
       };
 
       return { ...board.dataValues, ...additionalData };
