@@ -78,4 +78,10 @@ module.exports = {
   async getPopularBoard(req, res) {
     res.status(200).json(await boardService.getPopularBoard());
   },
+
+  async getRecommendBoard(req, res) {
+    const { category } = req.params;
+
+    res.status(200).json(await boardService.getRecommendBoard(category));
+  },
 };
