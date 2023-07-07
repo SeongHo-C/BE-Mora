@@ -327,7 +327,7 @@ module.exports = {
     });
   },
 
-  async getRecommendBoard() {
+  async getRecommendBoard(category) {
     let boards = await Board.findAll({
       include: [
         {
@@ -341,6 +341,9 @@ module.exports = {
           ],
         },
       ],
+      where: {
+        category,
+      },
       order: [['view_cnt', 'DESC']],
       limit: 2,
     });
