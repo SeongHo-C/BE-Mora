@@ -5,7 +5,7 @@
 
 
 ### 모여라레이서 (Moyeora-Racer)  
-[<img src="https://img.shields.io/badge/프로젝트 기간-2023.05.29~리팩토링중-D6C9FF?style=flat&logoColor=white" />]()
+[<img src="https://img.shields.io/badge/프로젝트 기간-2023.05.29~2023.07.08-D6C9FF?style=flat&logoColor=white" />]()
 <br />
 [🧑🏻‍💻 사이트 바로가기](http://www.moyeora-racer.com/) <br />
 
